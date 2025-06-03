@@ -96,7 +96,6 @@
  End of DSL Documentation */
 
 bigtop {
-/** Base Configuration of the mirror and archives */
   version = "3.4.0"
   base_version = version.takeWhile { it != '-' }
   stack {
@@ -107,25 +106,12 @@ bigtop {
     APACHE_MIRROR = "https://apache.osuosl.org"
     APACHE_ARCHIVE = "https://archive.apache.org/dist"
   }
-/** End of Base Configuration */
-
-  /** Dependencies section defines the order in which packages should be built.
-      The syntax is as follows:
-           dependsOn := [list of dependents]
-      So, below phoenix ought to be build after the hbase has been built
-
-      To build a component with its dependencies, run build with -Dbuildwithdeps=true
-  */
   dependencies = [
-    'bigtop-utils':['bigtop-groovy', 'bigtop-jsvc',
-                    'flink', 'zookeeper'],
+    'bigtop-utils':['bigtop-groovy', 'bigtop-jsvc', 'flink', 'zookeeper'],
     'bigtop-groovy':['hadoop'],
     'bigtop-jsvc':['hadoop'],
     zookeeper:['hadoop', 'hbase', 'kafka'],
-    hadoop:['hbase', 'hive', 'tez',
-      'solr', 'spark', 'ranger',
-      'phoenix', 'alluxio', 'zeppelin'
-    ],
+    hadoop:['hbase', 'hive', 'tez', 'solr', 'spark', 'ranger', 'phoenix', 'alluxio', 'zeppelin'],
     hbase:['phoenix', 'hive'],
     hive:['zeppelin'],
     spark:['livy', 'zeppelin'],
@@ -156,24 +142,40 @@ bigtop {
       name    = 'hadoop'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Hadoop'
-      version { base = '3.3.6'; pkg = base; release = 1 }
-      tarball { destination = "${name}-${version.base}.tar.gz"
-                source      = "${name}-${version.base}-src.tar.gz" }
-      url     { download_path = "/$name/common/$name-${version.base}"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '3.3.6'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "${name}-${version.base}.tar.gz"
+        source      = "${name}-${version.base}-src.tar.gz"
+      }
+      url     {
+        download_path = "/$name/common/$name-${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'hbase' {
       name    = 'hbase'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache HBase'
-      version { base = '2.6.1'; pkg = base; release = 1 }
-      tarball { destination = "${name}-${version.base}.tar.gz"
-                source      = "${name}-${version.base}-src.tar.gz" }
-      url     { download_path = "/$name/${version.base}/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '2.6.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "${name}-${version.base}.tar.gz"
+        source      = "${name}-${version.base}-src.tar.gz"
+      }
+      url     {
+        download_path = "/$name/${version.base}/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
 
@@ -181,65 +183,100 @@ bigtop {
       name    = 'hive'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Hive'
-      version { base = '4.0.1'; pkg = base; release = 1 }
-      tarball { destination = "apache-${name}-${version.base}-src.tar.gz"
-                source      = destination }
-      url     { download_path = "/$name/$name-${version.base}/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '4.0.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "apache-${name}-${version.base}-src.tar.gz"
+        source      = destination
+      }
+      url     {
+        download_path = "/$name/$name-${version.base}/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'tez' {
       name    = 'tez'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache TEZ'
-      version { base = '0.10.4'; pkg = base; release = 1 }
-      tarball { destination = "apache-${name}-${version.base}-src.tar.gz"
-                source      = destination }
-      url     { download_path = "/$name/${version.base}/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '0.10.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "apache-${name}-${version.base}-src.tar.gz"
+        source      = destination
+      }
+      url     {
+        download_path = "/$name/${version.base}/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'solr' {
       name    = 'solr'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Solr'
-      version { base = '8.11.4'; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}-src.tgz"
-                source      = destination }
-      url     { download_path = "lucene/$name/${version.base}"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '8.11.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}-src.tgz"
+        source      = destination
+      }
+      url     {
+        download_path = "lucene/$name/${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
     }
     'spark' {
       name    = 'spark'
       pkg     = 'spark'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Spark'
-      /*
-       * Remember to fetch the new LICENSE-binary and licenses-binary files
-       * when upgrading spark version.
-       * See comments in [bigtop-packages/src/common/spark/install_spark.sh] for details.
-       */
-      version { base = '3.5.3'; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}.tar.gz"
-                source      = "$name-${version.base}.tgz" }
-      url     { download_path = "/$name/$name-${version.base}"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '3.5.3'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}.tar.gz"
+        source      = "$name-${version.base}.tgz"
+      }
+      url     {
+        download_path = "/$name/$name-${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
     }
 
     'flink' {
       name    = 'flink'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Flink'
-      version { base = '1.20.0'; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}.tar.gz"
-                source      = "$name-${version.base}-src.tgz" }
-      url     { download_path = "/$name/$name-${version.base}"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '1.20.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}.tar.gz"
+        source      = "$name-${version.base}-src.tgz"
+      }
+      url     {
+        download_path = "/$name/$name-${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
 
@@ -247,103 +284,175 @@ bigtop {
     'phoenix' {
       name    = 'phoenix'
       relNotes = 'Apache Phoenix: A SQL skin over HBase'
-      version { base = "5.2.1"; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}-src.tar.gz"
-                source      = destination }
-      url     { download_path = "/$name/$name-${version.base}"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = "5.2.1"
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}-src.tar.gz"
+        source      = destination
+      }
+      url     {
+        download_path = "/$name/$name-${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'bigtop-groovy' {
       name    = 'bigtop-groovy'
       relNotes = "Groovy: a dynamic language for the Java platform"
-      version { base = '2.5.4'; pkg = '2.5.4'; release = 1 }
-      tarball { destination = "$name-${version.base}.tar.gz";
-                source      = "apache-groovy-binary-${version.base}.zip" }
-      url     { download_path = "/groovy/${version.base}/distribution/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '2.5.4'
+        pkg = '2.5.4'
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}.tar.gz";
+        source      = "apache-groovy-binary-${version.base}.zip" }
+      url     {
+        download_path = "/groovy/${version.base}/distribution/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
     }
     'bigtop-utils' {
       name    = "bigtop-utils"
       relNotes = "Service package for Apache Bigtop runtime"
-      version { base = bigtop.version; pkg = base-"-SNAPSHOT"; release = 1 }
-      tarball { destination = "bigtop-utils-${version.base}.tar.gz" }
+      version {
+        base = bigtop.version
+        pkg = base-"-SNAPSHOT"
+        release = 1
+      }
+      tarball {
+        destination = "bigtop-utils-${version.base}.tar.gz"
+      }
     }
     'bigtop-select' {
       name    = "bigtop-select"
       relNotes = "Service package for Apache Bigtop information to use Ambari"
-      version { base = bigtop.version; pkg = base-"-SNAPSHOT"; release = 1 }
-      tarball { destination = "bigtop-select-${version.base}.tar.gz" }
+      version {
+        base = bigtop.version
+        pkg = base-"-SNAPSHOT"
+        release = 1
+      }
+      tarball {
+        destination = "bigtop-select-${version.base}.tar.gz"
+      }
       packaging = 'rpm'
     }
     'bigtop-jsvc' {
       name    = "bigtop-jsvc"
       relNotes = "Apache Common Daemon (jsvc) service package"
-      version { base = '1.4.0'; pkg = base; release = 1 }
-      tarball { source      = "commons-daemon-${version.base}-native-src.tar.gz"
-                destination = "commons-daemon-${version.base}.tar.gz" }
-      url     { download_path = "/commons/daemon/source"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '1.4.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "commons-daemon-${version.base}-native-src.tar.gz"
+        destination = "commons-daemon-${version.base}.tar.gz"
+      }
+      url     {
+        download_path = "/commons/daemon/source"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
     }
     'alluxio' {
       name    = "alluxio"
       pkg     = "alluxio"
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = "Alluxio: a memory-centric distributed file system"
-      version { base = '2.9.6'; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}.tar.gz"
-                source      = "v${version.base}.tar.gz" }
-      url     { site = "https://github.com/Alluxio/alluxio/archive"
-                archive = site }
+      version {
+        base = '2.9.6'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}.tar.gz"
+        source      = "v${version.base}.tar.gz"
+      }
+      url     {
+        site    = "https://github.com/Alluxio/alluxio/archive"
+        archive = site
+      }
       maven_parallel_build = true
     }
     'kafka' {
       name    = 'kafka'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Kafka'
-      version { base = '3.4.1'; pkg = base; release = 1 }
-      tarball { destination = "$name-${version.base}.tar.gz"
-                source      = "$name-${version.base}-src.tgz" }
-      url     { download_path = "/$name/${version.base}/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '3.4.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "$name-${version.base}.tar.gz"
+        source      = "$name-${version.base}-src.tgz" }
+      url     {
+        download_path = "/$name/${version.base}/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
     }
     'zeppelin' {
       name    = 'zeppelin'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Zeppelin'
-      version { base = '0.11.2'; pkg = base; release = 1 }
-      tarball { source      = "$name-${version.base}.tgz"
-                destination = "$name-${version.base}.tar.gz" }
-      url     { download_path = "/$name/$name-${version.base}/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '0.11.2'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tgz"
+        destination = "$name-${version.base}.tar.gz" }
+      url     {
+        download_path = "/$name/$name-${version.base}/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'livy' {
       name    = 'livy'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Livy'
-      version { base = '0.8.0'; pkg = base; release = 1 }
-      tarball { destination = "${name}-${version.base}.zip"
-                source      = "apache-livy-${version.base}-incubating-src.zip" }
-      url     { download_path = "incubator/livy/${version.base}-incubating/"
-                site = "${apache.APACHE_MIRROR}/${download_path}"
-                archive = "${apache.APACHE_ARCHIVE}/${download_path}" }
+      version {
+        base = '0.8.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "${name}-${version.base}.zip"
+        source      = "apache-livy-${version.base}-incubating-src.zip" }
+      url     {
+        download_path = "incubator/livy/${version.base}-incubating/"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
       maven_parallel_build = true
     }
     'ranger' {
       name    = 'ranger'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Ranger'
-      version { base = '2.6.0'; pkg = base; release = 1 }
-      tarball { destination = "release-$name-${version.base}.tar.gz"
-                source      = destination }
-      url     { site = "https://github.com/apache/ranger/archive/refs/tags"
-                archive = site }
+      version {
+        base = '2.6.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        destination = "release-$name-${version.base}.tar.gz"
+        source      = destination
+      }
+      url     {
+        site = "https://github.com/apache/ranger/archive/refs/tags"
+        archive = site
+      }
       maven_parallel_build = true
     }
   }
