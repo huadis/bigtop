@@ -104,7 +104,7 @@ bigtop {
   }
   apache {
     APACHE_MIRROR = "https://apache.osuosl.org"
-    APACHE_ARCHIVE = "https://archive.apache.org/dist"
+    APACHE_ARCHIVE = "http://nginx:8080/dist/"
   }
   dependencies = [
     'bigtop-utils':['bigtop-groovy', 'bigtop-jsvc', 'flink', 'zookeeper'],
@@ -132,9 +132,9 @@ bigtop {
         destination = source
       }
       url {
-        download_path = "/zookeeper/zookeeper-${version.base}"
+        download_path = "zookeeper-${version.base}"
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -152,9 +152,9 @@ bigtop {
         source      = "${name}-${version.base}-src.tar.gz"
       }
       url     {
-        download_path = "/$name/common/$name-${version.base}"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -172,9 +172,9 @@ bigtop {
         source      = "${name}-${version.base}-src.tar.gz"
       }
       url     {
-        download_path = "/$name/${version.base}/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -193,9 +193,9 @@ bigtop {
         source      = destination
       }
       url     {
-        download_path = "/$name/$name-${version.base}/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -213,9 +213,9 @@ bigtop {
         source      = destination
       }
       url     {
-        download_path = "/$name/${version.base}/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -233,9 +233,9 @@ bigtop {
         source      = destination
       }
       url     {
-        download_path = "lucene/$name/${version.base}"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
     'spark' {
@@ -253,9 +253,9 @@ bigtop {
         source      = "$name-${version.base}.tgz"
       }
       url     {
-        download_path = "/$name/$name-${version.base}"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
 
@@ -273,9 +273,9 @@ bigtop {
         source      = "$name-${version.base}-src.tgz"
       }
       url     {
-        download_path = "/$name/$name-${version.base}"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -294,9 +294,9 @@ bigtop {
         source      = destination
       }
       url     {
-        download_path = "/$name/$name-${version.base}"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -312,9 +312,9 @@ bigtop {
         destination = "$name-${version.base}.tar.gz";
         source      = "apache-groovy-binary-${version.base}.zip" }
       url     {
-        download_path = "/groovy/${version.base}/distribution/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
     'bigtop-utils' {
@@ -355,9 +355,9 @@ bigtop {
         destination = "commons-daemon-${version.base}.tar.gz"
       }
       url     {
-        download_path = "/commons/daemon/source"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
     'alluxio' {
@@ -372,11 +372,11 @@ bigtop {
       }
       tarball {
         destination = "$name-${version.base}.tar.gz"
-        source      = "v${version.base}.tar.gz"
+        source      = "$name-${version.base}.tar.gz"
       }
       url     {
         site    = "https://github.com/Alluxio/alluxio/archive"
-        archive = site
+        archive = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -393,9 +393,9 @@ bigtop {
         destination = "$name-${version.base}.tar.gz"
         source      = "$name-${version.base}-src.tgz" }
       url     {
-        download_path = "/$name/${version.base}/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
     'zeppelin' {
@@ -411,9 +411,9 @@ bigtop {
         source      = "$name-${version.base}.tgz"
         destination = "$name-${version.base}.tar.gz" }
       url     {
-        download_path = "/$name/$name-${version.base}/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -428,11 +428,11 @@ bigtop {
       }
       tarball {
         destination = "${name}-${version.base}.zip"
-        source      = "apache-livy-${version.base}-incubating-src.zip" }
+        source      = "${name}-${version.base}.zip" }
       url     {
-        download_path = "incubator/livy/${version.base}-incubating/"
+        download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
-        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
@@ -450,8 +450,8 @@ bigtop {
         source      = destination
       }
       url     {
-        site = "https://github.com/apache/ranger/archive/refs/tags"
-        archive = site
+        site          = "https://github.com/apache/ranger/archive/refs/tags"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
     }
