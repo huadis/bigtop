@@ -148,8 +148,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "${name}-${version.base}.tar.gz"
-        source      = "${name}-${version.base}-src.tar.gz"
+        source      = "${name}-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -168,8 +168,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "${name}-${version.base}.tar.gz"
-        source      = "${name}-${version.base}-src.tar.gz"
+        source      = "${name}-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -189,8 +189,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "apache-${name}-${version.base}-src.tar.gz"
-        source      = destination
+        source      = "apache-${name}-${version.base}-src.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -209,8 +209,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "apache-${name}-${version.base}-src.tar.gz"
-        source      = destination
+        source      = "apache-${name}-${version.base}-src.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -229,8 +229,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}-src.tgz"
-        source      = destination
+        source      = "$name-${version.base}-src.tgz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -249,8 +249,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}.tar.gz"
-        source      = "$name-${version.base}.tgz"
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -269,8 +269,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}.tar.gz"
-        source      = "$name-${version.base}-src.tgz"
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -290,8 +290,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}-src.tar.gz"
-        source      = destination
+        source      = "$name-${version.base}-src.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -309,8 +309,9 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}.tar.gz";
-        source      = "apache-groovy-binary-${version.base}.zip" }
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
       url     {
         download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
@@ -326,7 +327,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "bigtop-utils-${version.base}.tar.gz"
+        source      = "bigtop-utils-${version.base}.tar.gz"
+        destination = source
       }
     }
     'bigtop-select' {
@@ -338,7 +340,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "bigtop-select-${version.base}.tar.gz"
+        source      = "bigtop-select-${version.base}.tar.gz"
+        destination = source
       }
       packaging = 'rpm'
     }
@@ -351,8 +354,8 @@ bigtop {
         release = 1
       }
       tarball {
-        source      = "commons-daemon-${version.base}-native-src.tar.gz"
-        destination = "commons-daemon-${version.base}.tar.gz"
+        source      = "commons-daemon-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         download_path = ""
@@ -371,8 +374,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}.tar.gz"
         source      = "$name-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         site    = "https://github.com/Alluxio/alluxio/archive"
@@ -390,8 +393,9 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "$name-${version.base}.tar.gz"
-        source      = "$name-${version.base}-src.tgz" }
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
       url     {
         download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
@@ -408,8 +412,9 @@ bigtop {
         release = 1
       }
       tarball {
-        source      = "$name-${version.base}.tgz"
-        destination = "$name-${version.base}.tar.gz" }
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
       url     {
         download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
@@ -427,8 +432,9 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "${name}-${version.base}.zip"
-        source      = "${name}-${version.base}.zip" }
+        source      = "${name}-${version.base}.zip"
+        destination = source
+      }
       url     {
         download_path = ""
         site          = "${apache.APACHE_MIRROR}/${download_path}"
@@ -446,8 +452,8 @@ bigtop {
         release = 1
       }
       tarball {
-        destination = "release-$name-${version.base}.tar.gz"
-        source      = destination
+        source      = "release-$name-${version.base}.tar.gz"
+        destination = source
       }
       url     {
         site          = "https://github.com/apache/ranger/archive/refs/tags"
