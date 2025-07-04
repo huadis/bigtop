@@ -45,6 +45,9 @@ OPTS=$(getopt \
   -l 'bin-dir:' \
   -l 'examples-dir:' \
   -l 'conf-dir:' \
+  -l 'etc-dir:' \
+  -l 'etc-dist-dir:' \
+  -l 'man-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
