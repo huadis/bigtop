@@ -20,15 +20,15 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_hbase %{parent_dir}/usr/lib/%{hbase_name}
-%define var_lib_hbase %{parent_dir}/var/lib/%{hbase_name}
-%define etc_hbase %{parent_dir}/etc/%{hbase_name}
+%define usr_lib_hbase %{parent_dir}/%{hbase_name}
+%define var_lib_hbase %{parent_dir}/%{hbase_name}
+%define etc_hbase %{parent_dir}/%{hbase_name}/etc
 
-%define usr_lib_hadoop %{parent_dir}/usr/lib/hadoop
-%define usr_lib_hadoop_hdfs %{parent_dir}/usr/lib/hadoop-hdfs
-%define usr_lib_hadoop_mapreduce %{parent_dir}/usr/lib/hadoop-mapreduce
-%define usr_lib_hadoop_yarn %{parent_dir}/usr/lib/hadoop-yarn
-%define usr_lib_zookeeper %{parent_dir}/usr/lib/zookeeper
+%define usr_lib_hadoop %{parent_dir}/hadoop
+%define usr_lib_hadoop_hdfs %{parent_dir}/hadoop-hdfs
+%define usr_lib_hadoop_mapreduce %{parent_dir}/hadoop-mapreduce
+%define usr_lib_hadoop_yarn %{parent_dir}/hadoop-yarn
+%define usr_lib_zookeeper %{parent_dir}/zookeeper
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
@@ -96,7 +96,7 @@
 Name: %{hbase_pkg_name}
 Version: %{hbase_version}
 Release: %{hbase_release}
-Summary: HBase is the Hadoop database. Use it when you need random, realtime read/write access to your Big Data. This project's goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware. 
+Summary: HBase is the Hadoop database. Use it when you need random, realtime read/write access to your Big Data. This project's goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware.
 URL: http://hbase.apache.org/
 Group: Development/Libraries
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
@@ -122,7 +122,7 @@ Requires: coreutils
 AutoReq: no
 %endif
 
-%description 
+%description
 HBase is an open-source, distributed, column-oriented store modeled after Google' Bigtable: A Distributed Storage System for Structured Data by Chang et al. Just as Bigtable leverages the distributed data storage provided by the Google File System, HBase provides Bigtable-like capabilities on top of Hadoop. HBase includes:
 
     * Convenient base classes for backing Hadoop MapReduce jobs with HBase tables
@@ -184,7 +184,7 @@ Requires: /lib/lsb/init-functions
 %endif
 
 
-%description regionserver 
+%description regionserver
 HRegionServer makes a set of HRegions available to clients. It checks in with the HMaster. There are many HRegionServers in a single HBase deployment.
 
 %package thrift
@@ -370,7 +370,7 @@ fi
 #######################
 #### FILES SECTION ####
 #######################
-%files 
+%files
 %defattr(-,hbase,hbase)
 %{usr_lib_hbase}/logs
 %{usr_lib_hbase}/pids

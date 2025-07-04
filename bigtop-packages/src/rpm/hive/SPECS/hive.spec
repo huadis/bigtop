@@ -22,14 +22,14 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_hive %{parent_dir}/usr/lib/%{hive_name}
-%define usr_lib_hcatalog %{parent_dir}/usr/lib/%{hive_name}-hcatalog
+%define usr_lib_hive %{parent_dir}/%{hive_name}
+%define usr_lib_hcatalog %{parent_dir}/%{hive_name}-hcatalog
 %define var_lib_hive %{parent_dir}/var/lib/%{hive_name}
 %define var_lib_hcatalog %{parent_dir}/var/lib/%{hive_name}-hcatalog
 %define etc_hive %{parent_dir}/etc/%{hive_name}
 
-%define usr_lib_zookeeper %{parent_dir}/usr/lib/zookeeper
-%define usr_lib_hbase %{parent_dir}/usr/lib/hbase
+%define usr_lib_zookeeper %{parent_dir}/zookeeper
+%define usr_lib_hbase %{parent_dir}/hbase
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
@@ -104,7 +104,7 @@ Requires: %{hadoop_pkg_name}-client, bigtop-utils >= 0.7, %{zookeeper_pkg_name},
 Conflicts: %{hadoop_pkg_name}-hive
 Obsoletes: %{name}-webinterface
 
-%description 
+%description
 Hive is a data warehouse infrastructure built on top of Hadoop that provides tools to enable easy data summarization, adhoc querying and analysis of large datasets data stored in Hadoop files. It provides a mechanism to put structure on this data and it also provides a simple query language called Hive QL which is based on SQL and which enables users familiar with SQL to query this data. At the same time, this language also allows traditional map/reduce programmers to be able to plug in their custom mappers and reducers to do more sophisticated analysis which may not be supported by the built-in capabilities of the language.
 
 %if  %{?suse_version:1}0

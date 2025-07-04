@@ -17,14 +17,14 @@
 %define tez_pkg_name tez%{pkg_name_suffix}
 %define hadoop_pkg_name hadoop%{pkg_name_suffix}
 
-%define usr_lib_tez %{parent_dir}/usr/lib/%{tez_name}
-%define etc_tez %{parent_dir}/etc/%{tez_name}
+%define usr_lib_tez %{parent_dir}/%{tez_name}
+%define etc_tez %{parent_dir}/%{tez_name}/etc
 
-%define usr_lib_hadoop %{parent_dir}/usr/lib/hadoop
+%define usr_lib_hadoop %{parent_dir}/hadoop
 
-%define bin_dir %{parent_dir}/%{_bindir}
-%define man_dir %{parent_dir}/%{_mandir}
-%define doc_dir %{parent_dir}/%{_docdir}
+%define bin_dir %{parent_dir}/%{tez_name}/bin
+%define man_dir %{parent_dir}/%{tez_name}/man
+%define doc_dir %{parent_dir}/%{tez_name}/doc
 
 # No prefix directory
 %define np_var_log_tez /var/log/%{tez_name}

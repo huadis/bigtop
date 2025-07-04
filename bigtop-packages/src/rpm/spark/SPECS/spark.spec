@@ -19,13 +19,13 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_spark %{parent_dir}/usr/lib/%{spark_name}
-%define var_lib_spark %{parent_dir}/var/lib/%{spark_name}
-%define etc_spark %{parent_dir}/etc/%{spark_name}
+%define usr_lib_spark %{parent_dir}/%{spark_name}
+%define var_lib_spark %{parent_dir}/%{spark_name}
+%define etc_spark %{parent_dir}/%{spark_name}/etc
 
-%define bin_dir %{parent_dir}/%{_bindir}
-%define man_dir %{parent_dir}/%{_mandir}
-%define doc_dir %{parent_dir}/%{_docdir}
+%define bin_dir %{parent_dir}/%{spark_name}/bin
+%define man_dir %{parent_dir}/%{spark_name}/man
+%define doc_dir %{parent_dir}/%{spark_name}/doc
 
 # No prefix directory
 %define np_var_log_spark /var/log/%{spark_name}
@@ -82,7 +82,7 @@ Requires: /lib/lsb/init-functions
 
 %endif
 
-%description 
+%description
 Spark is a MapReduce-like cluster computing framework designed to support
 low-latency iterative jobs and interactive use from an interpreter. It is
 written in Scala, a high-level language for the JVM, and exposes a clean

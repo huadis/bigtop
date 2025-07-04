@@ -12,21 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-%define phoenix_home /usr/lib/%{name}
+%define phoenix_name phoenix
+%define phoenix_home %{parent_dir}/%{phoenix_name}
 %define bin_phoenix %{phoenix_home}/bin
 %define lib_phoenix %{phoenix_home}/lib
 %define examples_phoenix %{phoenix_home}/examples
-%define etc_phoenix_conf %{_sysconfdir}/%{name}/conf
+%define etc_phoenix_conf %{phoenix_home}/conf
 %define etc_phoenix_conf_dist %{etc_phoenix_conf}.dist
-%define var_lib_phoenix /var/lib/%{name}
-%define var_log_phoenix /var/log/%{name}
-%define man_dir %{_mandir}
-%define zookeeper_home /usr/lib/zookeeper
-%define hadoop_home /usr/lib/hadoop
-%define hadoop_mapreduce_home /usr/lib/hadoop-mapreduce
-%define hadoop_yarn_home /usr/lib/hadoop-yarn
-%define hadoop_hdfs_home /usr/lib/hadoop-hdfs
-%define hbase_home /usr/lib/hbase
+%define var_lib_phoenix %{parent_dir}/%{phoenix_name}
+%define var_log_phoenix /var/log/%{phoenix_name}
+%define man_dir %{phoenix_home}/man
+
+%define hadoop_name hadoop
+%define hbase_name hbase
+%define zookeeper_home %{parent_dir}/zookeeper
+%define hadoop_home %{parent_dir}/%{hadoop_name}
+%define hadoop_mapreduce_home %{parent_dir}/%{hadoop_name}-mapreduce
+%define hadoop_yarn_home %{parent_dir}/%{hadoop_name}-yarn
+%define hadoop_hdfs_home %{parent_dir}/%{hadoop_name}-hdfs
+%define hbase_home %{parent_dir}/%{hbase_name}
 #BIGTOP_PATCH_FILES
 
 %if  %{?suse_version:1}0
@@ -134,7 +138,7 @@ fi
 #######################
 #### FILES SECTION ####
 #######################
-%files 
+%files
 %defattr(-,root,root,755)
 %doc %{doc_phoenix}
 %{phoenix_home}/phoenix-*.jar

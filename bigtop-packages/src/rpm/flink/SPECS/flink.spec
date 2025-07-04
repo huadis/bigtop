@@ -19,11 +19,11 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_flink %{parent_dir}/usr/lib/%{flink_name}
-%define var_lib_flink %{parent_dir}/var/lib/%{flink_name}
+%define usr_lib_flink %{parent_dir}/%{flink_name}
+%define var_lib_flink %{parent_dir}/%{flink_name}
 %define etc_flink %{parent_dir}/etc/%{flink_name}
 
-%define usr_lib_hadoop %{parent_dir}/usr/lib/hadoop
+%define usr_lib_hadoop %{parent_dir}/hadoop
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
@@ -189,5 +189,5 @@ fi \
 if [ "$?" -ge 1 ]; then \
    service %{flink_name}-%1 condrestart > /dev/null 2>&1 || : \
 fi
-%service_macro jobmanager 
+%service_macro jobmanager
 %service_macro taskmanager

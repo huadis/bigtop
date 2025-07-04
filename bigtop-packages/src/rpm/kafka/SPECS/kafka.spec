@@ -19,11 +19,11 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_kafka %{parent_dir}/usr/lib/%{kafka_name}
+%define usr_lib_kafka %{parent_dir}/%{kafka_name}
 %define var_lib_kafka %{parent_dir}/var/lib/%{kafka_name}
 %define etc_kafka_conf_dist %{parent_dir}/etc/%{kafka_name}/conf.dist
 
-%define usr_lib_zookeeper %{parent_dir}/usr/lib/zookeeper
+%define usr_lib_zookeeper %{parent_dir}/zookeeper
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}

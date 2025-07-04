@@ -20,9 +20,9 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_zeppelin %{parent_dir}/usr/lib/%{zeppelin_name}
-%define var_lib_zeppelin %{parent_dir}/var/lib/%{zeppelin_name}
-%define etc_zeppelin_conf_dist %{parent_dir}/etc/%{zeppelin_name}/conf.dist
+%define usr_lib_zeppelin %{parent_dir}/%{zeppelin_name}
+%define var_lib_zeppelin %{parent_dir}/%{zeppelin_name}
+%define etc_zeppelin_conf_dist %{parent_dir}/%{zeppelin_name}/conf.dist
 
 %define man_dir %{parent_dir}/%{_mandir}
 %define doc_dir %{parent_dir}/%{_docdir}
@@ -81,7 +81,7 @@ Requires: /lib/lsb/init-functions
 
 %endif
 
-%description 
+%description
 Zeppelin is a web-based notebook that enables interactive data analytics with Apache Spark.
 You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala and more.
 

@@ -17,9 +17,9 @@
 %define zookeeper_name zookeeper
 %define zookeeper_pkg_name zookeeper%{pkg_name_suffix}
 
-%define usr_lib_zookeeper %{parent_dir}/usr/lib/%{zookeeper_name}
-%define var_lib_zookeeper %{parent_dir}/var/lib/%{zookeeper_name}
-%define etc_zookeeper_conf_dist %{parent_dir}/etc/zookeeper/conf.dist
+%define usr_lib_zookeeper %{parent_dir}/%{zookeeper_name}
+%define var_lib_zookeeper %{parent_dir}/%{zookeeper_name}
+%define etc_zookeeper_conf_dist %{parent_dir}/zookeeper/conf.dist
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
@@ -64,7 +64,7 @@
 
 %define doc_zookeeper %{doc_dir}/%{zookeeper_name}-%{zookeeper_version}
 %define alternatives_cmd alternatives
-%define alternatives_dep chkconfig 
+%define alternatives_dep chkconfig
 %define chkconfig_dep    chkconfig
 %define service_dep      initscripts
 %global initd_dir %{_sysconfdir}/rc.d/init.d
@@ -98,15 +98,15 @@ Requires(post): %{alternatives_dep}
 Requires(preun): %{alternatives_dep}
 Requires: bigtop-utils >= 0.7
 
-%description 
-ZooKeeper is a centralized service for maintaining configuration information, 
-naming, providing distributed synchronization, and providing group services. 
-All of these kinds of services are used in some form or another by distributed 
-applications. Each time they are implemented there is a lot of work that goes 
-into fixing the bugs and race conditions that are inevitable. Because of the 
-difficulty of implementing these kinds of services, applications initially 
-usually skimp on them ,which make them brittle in the presence of change and 
-difficult to manage. Even when done correctly, different implementations of these services lead to management complexity when the applications are deployed.  
+%description
+ZooKeeper is a centralized service for maintaining configuration information,
+naming, providing distributed synchronization, and providing group services.
+All of these kinds of services are used in some form or another by distributed
+applications. Each time they are implemented there is a lot of work that goes
+into fixing the bugs and race conditions that are inevitable. Because of the
+difficulty of implementing these kinds of services, applications initially
+usually skimp on them ,which make them brittle in the presence of change and
+difficult to manage. Even when done correctly, different implementations of these services lead to management complexity when the applications are deployed.
 
 %package server
 Summary: The Hadoop Zookeeper server

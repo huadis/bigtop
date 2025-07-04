@@ -18,9 +18,9 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_solr %{parent_dir}/usr/lib/%{solr_name}
+%define usr_lib_solr %{parent_dir}/%{solr_name}
 %define var_lib_solr %{parent_dir}/var/lib/%{solr_name}
-%define etc_solr %{parent_dir}/etc/%{solr_name}
+%define etc_solr %{parent_dir}/%{solr_name}/
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
@@ -61,7 +61,7 @@ BuildArch: noarch
 Buildroot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 License: ASL 2.0
 Source0: solr-%{solr_base_version}-src.tgz
-Source1: do-component-build 
+Source1: do-component-build
 Source2: install_%{solr_name}.sh
 Source3: solr.default
 Source4: solr-server.init
@@ -77,7 +77,7 @@ Requires: bigtop-utils >= 0.7
 Requires: /lib/lsb/init-functions
 %endif
 
-%description 
+%description
 Solr is the popular, blazing fast open source enterprise search platform from
 the Apache Lucene project. Its major features include powerful full-text
 search, hit highlighting, faceted search, dynamic clustering, database
@@ -170,10 +170,10 @@ fi
 #######################
 #### FILES SECTION ####
 #######################
-%files 
+%files
 %defattr(-,root,root,755)
 %config(noreplace) %{etc_solr}/conf.dist
-%config(noreplace) %{etc_default}/solr 
+%config(noreplace) %{etc_default}/solr
 %config(noreplace) %{etc_default}/solr.in.sh
 %dir %{np_etc_solr}
 %{usr_lib_solr}

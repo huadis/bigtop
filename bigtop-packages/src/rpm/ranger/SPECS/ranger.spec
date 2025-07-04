@@ -15,25 +15,25 @@
 
 %define ranger_name ranger
 %define ranger_pkg_name ranger%{pkg_name_suffix}
-%define usr_lib_ranger %{parent_dir}/usr/lib/%{ranger_name}
-%define var_lib_ranger %{parent_dir}/var/lib/%{ranger_name}
-%define etc_ranger %{parent_dir}/etc/%{ranger_name}
+%define usr_lib_ranger %{parent_dir}/%{ranger_name}
+%define var_lib_ranger %{parent_dir}/%{ranger_name}
+%define etc_ranger %{parent_dir}/%{ranger_name}/etc
 %define np_etc_ranger /etc/%{ranger_name}
 
-%define usr_lib_hadoop %{parent_dir}/usr/lib/hadoop
-%define usr_lib_hive %{parent_dir}/usr/lib/hive
-%define usr_lib_knox %{parent_dir}/usr/lib/knox
-%define usr_lib_storm %{parent_dir}/usr/lib/storm
-%define usr_lib_hbase %{parent_dir}/usr/lib/hbase
-%define usr_lib_kafka %{parent_dir}/usr/lib/kafka
-%define usr_lib_atlas %{parent_dir}/usr/lib/atlas
-%define usr_lib_solr %{parent_dir}/usr/lib/solr
-%define usr_lib_sqoop %{parent_dir}/usr/lib/sqoop
-%define usr_lib_kylin %{parent_dir}/usr/lib/kylin
-%define usr_lib_elasticsearch %{parent_dir}/usr/lib/elasticsearch
-%define usr_lib_presto %{parent_dir}/usr/lib/presto
+%define usr_lib_hadoop %{parent_dir}/hadoop
+%define usr_lib_hive %{parent_dir}/hive
+%define usr_lib_knox %{parent_dir}/knox
+%define usr_lib_storm %{parent_dir}/storm
+%define usr_lib_hbase %{parent_dir}/hbase
+%define usr_lib_kafka %{parent_dir}/kafka
+%define usr_lib_atlas %{parent_dir}/atlas
+%define usr_lib_solr %{parent_dir}/solr
+%define usr_lib_sqoop %{parent_dir}/sqoop
+%define usr_lib_kylin %{parent_dir}/kylin
+%define usr_lib_elasticsearch %{parent_dir}/elasticsearch
+%define usr_lib_presto %{parent_dir}/presto
 
-%define doc_dir %{parent_dir}/%{_docdir}
+%define doc_dir %{parent_dir}/%{ranger_name}/doc
 
 # No prefix directory
 %define np_var_run_ranger /var/run/%{ranger_name}
@@ -132,8 +132,8 @@ Requires: coreutils, redhat-lsb
 Requires: chkconfig, xinetd-simple-services, zlib, initscripts
 %endif
 
-%description 
-Ranger is a framework to secure hadoop data 
+%description
+Ranger is a framework to secure hadoop data
 
 %package admin
 Summary: Web Interface for Ranger

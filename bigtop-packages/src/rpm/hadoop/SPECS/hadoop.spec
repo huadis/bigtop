@@ -28,18 +28,18 @@
 
 %define etc_default %{parent_dir}/etc/default
 
-%define usr_lib_hadoop %{parent_dir}/usr/lib/%{hadoop_name}
-%define usr_lib_hdfs %{parent_dir}/usr/lib/%{hadoop_name}-hdfs
-%define usr_lib_yarn %{parent_dir}/usr/lib/%{hadoop_name}-yarn
-%define usr_lib_mapreduce %{parent_dir}/usr/lib/%{hadoop_name}-mapreduce
-%define var_lib_yarn %{parent_dir}/var/lib/%{hadoop_name}-yarn
-%define var_lib_hdfs %{parent_dir}/var/lib/%{hadoop_name}-hdfs
-%define var_lib_mapreduce %{parent_dir}/var/lib/%{hadoop_name}-mapreduce
-%define var_lib_httpfs %{parent_dir}/var/lib/%{hadoop_name}-httpfs
-%define var_lib_kms %{parent_dir}/var/lib/%{hadoop_name}-kms
-%define etc_hadoop %{parent_dir}/etc/%{hadoop_name}
+%define usr_lib_hadoop %{parent_dir}/%{hadoop_name}
+%define usr_lib_hdfs %{parent_dir}/%{hadoop_name}-hdfs
+%define usr_lib_yarn %{parent_dir}/%{hadoop_name}-yarn
+%define usr_lib_mapreduce %{parent_dir}/%{hadoop_name}-mapreduce
+%define var_lib_yarn %{parent_dir}/%{hadoop_name}-yarn
+%define var_lib_hdfs %{parent_dir}/%{hadoop_name}-hdfs
+%define var_lib_mapreduce %{parent_dir}/%{hadoop_name}-mapreduce
+%define var_lib_httpfs %{parent_dir}/%{hadoop_name}-httpfs
+%define var_lib_kms %{parent_dir}/%{hadoop_name}-kms
+%define etc_hadoop %{parent_dir}/%{hadoop_name}/etc
 
-%define usr_lib_zookeeper %{parent_dir}/usr/lib/zookeeper
+%define usr_lib_zookeeper %{parent_dir}/zookeeper
 
 %define bin_dir %{parent_dir}/%{_bindir}
 %define man_dir %{parent_dir}/%{_mandir}
