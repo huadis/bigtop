@@ -30,7 +30,7 @@ fi
 
 BUILD_TEZ_OPTS="clean package \
 -Dtar -Dhadoop.version=${HADOOP_VERSION} \
--Phadoop28 \
+-Phadoop28,allowRootBuild \
 -DskipTests"
 
 mvn ${BUILD_TEZ_OPTS} "$@"
