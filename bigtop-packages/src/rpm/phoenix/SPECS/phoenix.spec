@@ -119,6 +119,12 @@ bash %{SOURCE1}
 bash %{SOURCE2} \
   --build-dir=build \
   --doc-dir=%{doc_phoenix} \
+  --lib-dir=%{phoenix_home} \
+  --bin-dir=%{bin_phoenix} \
+  --etc-dir=%{etc_phoenix_conf} \
+  --etc-dist-dir=%{etc_phoenix_conf_dist} \
+  --man-dir=%{man_dir} \
+  --examples-dir=%{examples_phoenix} \
   --prefix=$RPM_BUILD_ROOT
 
 %pre
