@@ -81,6 +81,15 @@ while true ; do
         --conf-dir)
         CONF_DIR=$2 ; shift 2
         ;;
+        --etc-dir)
+        ETC_DIR=$2 ; shift 2
+        ;;
+        --etc-dist-dir)
+        ETC_DIST_DIR=$2 ; shift 2
+        ;;
+        --man-dir)
+        MAN_DIR=$2 ; shift 2
+        ;;
         --)
         shift ; break
         ;;
@@ -104,7 +113,7 @@ DOC_DIR=${DOC_DIR:-/usr/share/doc/phoenix}
 LIB_DIR=${LIB_DIR:-/usr/lib/phoenix}
 BIN_DIR=${BIN_DIR:-/usr/lib/phoenix/bin}
 ETC_DIR=${ETC_DIR:-/etc/phoenix}
-CONF_DIR=${CONF_DIR:-${ETC_DIR}/conf.dist}
+CONF_DIR=${ETC_DIST_DIR:-${LIB_DIR}/conf.dist}
 
 install -d -m 0755 $PREFIX/$BIN_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR
@@ -118,7 +127,6 @@ install -d -m 0755 $PREFIX/var/log/phoenix
 
 cp $BUILD_DIR/*.jar $PREFIX/$LIB_DIR/
 cp -r $BUILD_DIR/bin $PREFIX/$LIB_DIR/
-cp -r $BUILD_DIR/lib $PREFIX/$LIB_DIR/
 chmod 755 $PREFIX/$BIN_DIR/*.py
 
 cp -a $BUILD_DIR/{LICENSE,NOTICE} $PREFIX/$DOC_DIR/
