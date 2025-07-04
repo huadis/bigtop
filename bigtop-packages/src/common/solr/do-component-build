@@ -24,7 +24,7 @@ BUILD_OPTS="-Dversion=${FULL_VERSION} -Dhadoop.version=${HADOOP_VERSION} \
             -Divy.home=${HOME}/.ivy2 -Drepo.maven.org=$IVY_MIRROR_PROP \
             -Divy_bootstrap_url1=$IVY_MIRROR_PROP \
             -Divy_install_path=${HOME}/.ant/lib -lib ${HOME}/.ant/lib  \
-            -Dreactor.repo=file://${HOME}/.m2/repository"
+            -Dreactor.repo=file://${MAVEN_HOME}/repo"
 
 # FIXME: this needs to be fixed at the product level
 ant $BUILD_OPTS ivy-bootstrap
