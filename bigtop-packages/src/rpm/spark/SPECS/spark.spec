@@ -254,7 +254,6 @@ done
 
 %files -n %{spark_pkg_name}-core
 %defattr(-,root,root,755)
-%{usr_lib_spark}/README.md
 
 %files -n %{spark_pkg_name}-python
 %defattr(-,root,root,755)

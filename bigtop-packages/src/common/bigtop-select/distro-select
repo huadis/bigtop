@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -109,32 +109,32 @@ locked_contexts = {
 }
 
 command_symlinks = {
-  "hadoop" : "hadoop-client/../../bin/hadoop",
-  "hdfs" : "hadoop-hdfs-client/../../bin/hdfs",
-  "yarn" : "hadoop-yarn-client/../../bin/yarn",
-  "mapred" : "hadoop-mapreduce-client/../../bin/mapred",
-  "hbase" : "hbase-client/../../bin/hbase",
-  "beeline" : "hive-client/../../bin/beeline",
-  "hive" : "hive-client/../../bin/hive",
-  "hiveserver2" : "hive-server2/../../bin/hiveserver2",
-  "hcat" : "hive-webhcat/../../bin/hcat",
-  "zookeeper-client" : "zookeeper-client/../../bin/zookeeper-client",
-  "zookeeper-server" : "zookeeper-server/../../bin/zookeeper-server",
-  "zookeeper-server-cleanup" : "zookeeper-server/../../bin/zookeeper-server-cleanup",
-  "zookeeper-server-initialize" : "zookeeper-server/../../bin/zookeeper-server-initialize",
-  "kafka-console-consumer.sh" : "kafka-broker/../../bin/kafka-console-consumer.sh",
-  "kafka-console-producer.sh" : "kafka-broker/../../bin/kafka-console-producer.sh",
-  "kafka-run-class.sh" : "kafka-broker/../../bin/kafka-run-class.sh",
-  "kafka-topics.sh" : "kafka-broker/../../bin/kafka-topics.sh",
-  "solrctl" : "solr-server/../../bin/solrctl",
-  "flink" : "flink-client/../../bin/flink",
-  "find-spark-home" : "spark-client/../../bin/find-spark-home",
-  "spark-example" : "spark-client/../../bin/spark-example",
-  "spark-class" : "spark-client/../../bin/spark-class",
-  "spark-shell" : "spark-client/../../bin/spark-shell",
-  "spark-sql" : "spark-client/../../bin/spark-sql",
-  "spark-submit" : "spark-client/../../bin/spark-submit",
-  "pyspark" : "spark-client/../../bin/pyspark",
+  "hadoop" : "hadoop-client/bin/hadoop",
+  "hdfs" : "hadoop-hdfs-client/bin/hdfs",
+  "yarn" : "hadoop-yarn-client/bin/yarn",
+  "mapred" : "hadoop-mapreduce-client/bin/mapred",
+  "hbase" : "hbase-client/bin/hbase",
+  "beeline" : "hive-client/bin/beeline",
+  "hive" : "hive-client/bin/hive",
+  "hiveserver2" : "hive-server2/bin/hiveserver2",
+  "hcat" : "hive-webhcat/bin/hcat",
+  "zookeeper-client" : "zookeeper-client/bin/zookeeper-client",
+  "zookeeper-server" : "zookeeper-server/bin/zookeeper-server",
+  "zookeeper-server-cleanup" : "zookeeper-server/bin/zookeeper-server-cleanup",
+  "zookeeper-server-initialize" : "zookeeper-server/bin/zookeeper-server-initialize",
+  "kafka-console-consumer.sh" : "kafka-broker/bin/kafka-console-consumer.sh",
+  "kafka-console-producer.sh" : "kafka-broker/bin/kafka-console-producer.sh",
+  "kafka-run-class.sh" : "kafka-broker/bin/kafka-run-class.sh",
+  "kafka-topics.sh" : "kafka-broker/bin/kafka-topics.sh",
+  "solrctl" : "solr-server/bin/solrctl",
+  "flink" : "flink-client/bin/flink",
+  "find-spark-home" : "spark-client/bin/find-spark-home",
+  "spark-example" : "spark-client/bin/spark-example",
+  "spark-class" : "spark-client/bin/spark-class",
+  "spark-shell" : "spark-client/bin/spark-shell",
+  "spark-sql" : "spark-client/bin/spark-sql",
+  "spark-submit" : "spark-client/bin/spark-submit",
+  "pyspark" : "spark-client/bin/pyspark",
   "alluxio" : "alluxio/bin/alluxio"
 }
 
@@ -158,7 +158,7 @@ def listPackages( packages ):
   if packages == None:
     packages = leaves
 
-  packages.sort()
+  packages = sorted(packages)
   for pkg in packages:
     linkname = current + "/" + pkg
     if os.path.isdir(linkname):
@@ -169,13 +169,11 @@ def listPackages( packages ):
 
 # Print the avaialable package names
 def printPackages():
-  packages = leaves.keys()
-  packages.sort()
+  packages = sorted(leaves.keys())
   print("Packages:")
   for pkg in packages:
      print(" " + pkg)
-  groups = aliases.keys()
-  groups.sort()
+  groups = sorted(aliases.keys())
   print("Aliases:")
   for pkg in groups:
     print(" " + pkg)
@@ -200,8 +198,7 @@ def printVersions():
         print("ERROR: Unexpected file/directory found in %s: %s" % (root, f))
         sys.exit(1)
 
-  keys = result.keys()
-  keys.sort()
+  keys = sorted(result.keys())
   for k in keys:
      print(result[k])
 
@@ -213,7 +210,7 @@ def setPackages(packages, version, rpm_mode):
     printHelp()
     sys.exit(1)
 
-  target = root + "/" + version + lib_root
+  target = root + "/" + version
   if not os.path.isdir(target):
     print("ERROR: Invalid version " + version)
     print('')
@@ -222,9 +219,9 @@ def setPackages(packages, version, rpm_mode):
     sys.exit(1)
 
   if not os.path.isdir(current):
-    os.mkdir(current, 0755)
+    os.mkdir(current, 0o755)
 
-  packages.sort()
+  packages = sorted(packages)
   for pkg in packages:
     linkname = current + "/" + pkg
     if os.path.islink(linkname) and rpm_mode:
