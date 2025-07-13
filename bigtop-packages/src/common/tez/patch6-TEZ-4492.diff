@@ -7,7 +7,7 @@ Date:   Thu May 4 13:26:14 2023 +0530
 diff --git a/tez-ui/src/main/webapp/.bowerrc b/tez-ui/src/main/webapp/.bowerrc
 --- a/tez-ui/src/main/webapp/.bowerrc
 +++ b/tez-ui/src/main/webapp/.bowerrc
-@@ -1,7 +1,11 @@
+@@ -1,7 +1,10 @@
  {
    "directory": "bower_components",
 +  "registry": {
@@ -16,7 +16,6 @@ diff --git a/tez-ui/src/main/webapp/.bowerrc b/tez-ui/src/main/webapp/.bowerrc
    "analytics": false,
    "resolvers": [
 -    "bower-shrinkwrap-resolver-ext"
-+    "bower-shrinkwrap-resolver-ext",
 +    "bower-nexus3-resolver"
    ]
  }
