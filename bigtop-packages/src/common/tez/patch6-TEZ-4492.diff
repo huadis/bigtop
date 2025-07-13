@@ -8,10 +8,16 @@ diff --git a/tez-ui/src/main/webapp/.bowerrc b/tez-ui/src/main/webapp/.bowerrc
 index 5b0b07d75..b798d4977 100644
 --- a/tez-ui/src/main/webapp/.bowerrc
 +++ b/tez-ui/src/main/webapp/.bowerrc
-@@ -1,5 +1,6 @@
+@@ -1,7 +1,11 @@
  {
    "directory": "bower_components",
-+  "registry": "https://bower.herokuapp.com",
++  "registry": {
++    "search" : [ "http://nexus:8081/repository/bower-proxy/" ]
++  },
    "analytics": false,
    "resolvers": [
-     "bower-shrinkwrap-resolver-ext"
+-    "bower-shrinkwrap-resolver-ext"
++    "bower-shrinkwrap-resolver-ext",
++    "bower-nexus3-resolver"
+   ]
+ }
