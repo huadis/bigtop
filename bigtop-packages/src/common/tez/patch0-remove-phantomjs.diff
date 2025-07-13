@@ -1,5 +1,4 @@
 diff --git a/tez-ui/src/main/webapp/package.json b/tez-ui/src/main/webapp/package.json
-index 3500b8aaf..bafe7bf61 100644
 --- a/tez-ui/src/main/webapp/package.json
 +++ b/tez-ui/src/main/webapp/package.json
 @@ -26,6 +26,7 @@
