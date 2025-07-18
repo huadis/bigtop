@@ -218,6 +218,7 @@ cp ${BUILD_DIR}/share/hadoop/common/lib/hadoop-annotations*.jar $PREFIX/$HADOOP_
 install -d -m 0755 $PREFIX/$HADOOP_DIR/tools
 install -d -m 0755 $PREFIX/$MAPREDUCE_DIR
 cp ${BUILD_DIR}/share/hadoop/mapreduce/hadoop-mapreduce*.jar $PREFIX/$MAPREDUCE_DIR
+cp ${BUILD_DIR}/share/hadoop/tools/lib/*.jar $PREFIX/$MAPREDUCE_DIR
 install -d -m 0755 $PREFIX/$HDFS_DIR
 cp ${BUILD_DIR}/share/hadoop/hdfs/*.jar $PREFIX/$HDFS_DIR/
 install -d -m 0755 $PREFIX/$YARN_DIR
@@ -245,13 +246,19 @@ cp -ra ${BUILD_DIR}/share/hadoop/yarn/webapps $PREFIX/$YARN_DIR/
 
 # bin
 install -d -m 0755 $PREFIX/$HADOOP_DIR/bin
-cp -a ${BUILD_DIR}/bin/{hadoop,fuse_dfs} $PREFIX/$HADOOP_DIR/bin
+cp -a ${BUILD_DIR}/bin/hadoop $PREFIX/$HADOOP_DIR/bin/hadoop.distro
+cp -a $PREFIX/${BIN_DIR}/hadoop $PREFIX/$HADOOP_DIR/bin
+cp -a ${BUILD_DIR}/bin/fuse_dfs $PREFIX/$HADOOP_DIR/bin
 install -d -m 0755 $PREFIX/$HDFS_DIR/bin
-cp -a ${BUILD_DIR}/bin/hdfs $PREFIX/$HDFS_DIR/bin
+cp -a ${BUILD_DIR}/bin/hdfs $PREFIX/$HDFS_DIR/bin/hdfs.distro
+cp -a $PREFIX/${BIN_DIR}/hdfs $PREFIX/$HDFS_DIR/bin
 install -d -m 0755 $PREFIX/$YARN_DIR/bin
-cp -a ${BUILD_DIR}/bin/{yarn,container-executor} $PREFIX/$YARN_DIR/bin
+cp -a ${BUILD_DIR}/bin/container-executor $PREFIX/$YARN_DIR/bin
+cp -a ${BUILD_DIR}/bin/yarn $PREFIX/$YARN_DIR/bin/yarn.distro
+cp -a $PREFIX/${BIN_DIR}/yarn $PREFIX/$YARN_DIR/bin
 install -d -m 0755 $PREFIX/$MAPREDUCE_DIR/bin
-cp -a ${BUILD_DIR}/bin/mapred $PREFIX/$MAPREDUCE_DIR/bin
+cp -a ${BUILD_DIR}/bin/mapred $PREFIX/$MAPREDUCE_DIR/bin/mapred.distro
+cp -a $PREFIX/${BIN_DIR}/mapred $PREFIX/$MAPREDUCE_DIR/bin
 # FIXME: MAPREDUCE-3980
 cp -a ${BUILD_DIR}/bin/mapred $PREFIX/$YARN_DIR/bin
 
