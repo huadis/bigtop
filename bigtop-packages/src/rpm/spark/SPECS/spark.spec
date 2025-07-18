@@ -248,12 +248,20 @@ done
 %attr(0755,spark,spark) %{np_var_log_spark}
 %{bin_dir}/spark-*
 %{bin_dir}/find-spark-home
+%exclude %{usr_lib_spark}/README.md
 %exclude %{usr_lib_spark}/R
 %exclude %{usr_lib_spark}/bin/sparkR
 %exclude %{bin_dir}/sparkR
+# exclude python
+%exclude %{usr_lib_spark}/python
+# exclude yarn
+%exclude %{usr_lib_spark}/yarn
+# exclude aux
+%exclude %{usr_lib_spark}/aux
 
 %files -n %{spark_pkg_name}-core
 %defattr(-,root,root,755)
+%{usr_lib_spark}/README.md
 
 %files -n %{spark_pkg_name}-python
 %defattr(-,root,root,755)
