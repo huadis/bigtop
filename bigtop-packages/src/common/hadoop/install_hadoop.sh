@@ -188,10 +188,15 @@ for component in $PREFIX/$HADOOP_DIR/bin/hadoop $PREFIX/$HDFS_DIR/bin/hdfs $PREF
 
 # Autodetect JAVA_HOME if not defined
 . /usr/lib/bigtop-utils/bigtop-detect-javahome
+export HADOOP_HOME=\${HADOOP_HOME:-$HADOOP_DIR}
+export HADOOP_MAPRED_HOME=\${HADOOP_MAPRED_HOME:-$MAPREDUCE_DIR}
+export HADOOP_YARN_HOME=\${HADOOP_YARN_HOME:-$YARN_DIR}
+export HADOOP_LIBEXEC_DIR=\${HADOOP_HOME}/libexec
+export HDP_VERSION="3.3.0"
+export HADOOP_OPTS="\${HADOOP_OPTS} -Dhdp.version=\${HDP_VERSION}"
+export YARN_OPTS="\${YARN_OPTS} -Dhdp.version=\${HDP_VERSION}"
 
-export HADOOP_LIBEXEC_DIR=/$HADOOP_DIR/libexec
-
-exec ${component#${PREFIX}} "\$@"
+exec ${component#${PREFIX}}.distro "\$@"
 EOF
   chmod 755 $wrapper
 done
@@ -226,7 +231,7 @@ install -d -m 0755 $PREFIX/$HADOOP_DIR/lib
 cp ${BUILD_DIR}/share/hadoop/common/lib/*.jar $PREFIX/$HADOOP_DIR/lib
 install -d -m 0755 $PREFIX/$HADOOP_DIR/tools/lib
 cp ${BUILD_DIR}/share/hadoop/tools/lib/*.jar $PREFIX/$HADOOP_DIR/tools/lib
-install -d -m 0755 $PREFIX/$HDFS_DIR/lib 
+install -d -m 0755 $PREFIX/$HDFS_DIR/lib
 cp ${BUILD_DIR}/share/hadoop/hdfs/lib/*.jar $PREFIX/$HDFS_DIR/lib
 install -d -m 0755 $PREFIX/$YARN_DIR/lib
 cp ${BUILD_DIR}/share/hadoop/yarn/lib/*.jar $PREFIX/$YARN_DIR/lib
@@ -392,8 +397,8 @@ for conf in conf.pseudo ; do
   (cd $DISTRO_DIR/$conf && tar -cf - .) | (cd $PREFIX/$ETC_HADOOP/$conf && tar -xf -)
   find $PREFIX/$ETC_HADOOP/$conf/ -type f -print -exec chmod 0644 {} \;
   find $PREFIX/$ETC_HADOOP/$conf/ -type d -print -exec chmod 0755 {} \;
-  # When building straight out of svn we have to account for pesky .svn subdirs 
-  rm -rf `find $PREFIX/$ETC_HADOOP/$conf -name .svn -type d` 
+  # When building straight out of svn we have to account for pesky .svn subdirs
+  rm -rf `find $PREFIX/$ETC_HADOOP/$conf -name .svn -type d`
 done
 cp ${BUILD_DIR}/etc/hadoop/log4j.properties $PREFIX/$ETC_HADOOP/conf.pseudo
 
