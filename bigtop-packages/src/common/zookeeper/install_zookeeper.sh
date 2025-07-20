@@ -114,7 +114,7 @@ done
 
 MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/zookeeper}
-LIB_DIR=${LIB_DIR:-/usr/lib/zookeeper}
+LIB_DIR=${LIB_DIR:-/zookeeper}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
 SYSTEM_INCLUDE_DIR=${SYSTEM_INCLUDE_DIR:-/usr/include}

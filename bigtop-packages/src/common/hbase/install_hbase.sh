@@ -104,7 +104,7 @@ done
 
 MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/hbase}
-LIB_DIR=${LIB_DIR:-/usr/lib/hbase}
+LIB_DIR=${LIB_DIR:-/hbase}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
 LIB_ZOOKEEPER_DIR=${LIB_ZOOKEEPER_DIR:-/usr/lib/zookeeper}
@@ -212,10 +212,10 @@ export HBASE_IDENT_STRING=hbase
 # REGIONSERVER_OFFSETS="1 2 3"
 
 #
-# Set the starting port to be assigned for HBASE RS JMX monitoring when  
+# Set the starting port to be assigned for HBASE RS JMX monitoring when
 # running multiple region servers on a node. Each RS will be assigned a JMX port
 # which will be equal to starting JMX port + offset
-# 
+#
 # export JMXPORT=10103
 
 #

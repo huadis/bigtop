@@ -103,7 +103,7 @@ fi
 
 MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/zeppelin}
-LIB_DIR=${LIB_DIR:-/usr/lib/zeppelin}
+LIB_DIR=${LIB_DIR:-/zeppelin}
 VAR_DIR=${VAR_DIR:-/var/lib/zeppelin}
 
 CONF_DIR=/etc/zeppelin/conf

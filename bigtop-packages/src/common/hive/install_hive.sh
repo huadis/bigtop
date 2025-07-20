@@ -127,7 +127,7 @@ MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/hive}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
-HIVE_DIR=${HIVE_DIR:-/usr/lib/hive}
+HIVE_DIR=${HIVE_DIR:-/hive}
 VAR_HIVE_DIR=${VAR_HIVE_DIR:-/var/lib/hive}
 HCATALOG_DIR=${HCATALOG_DIR:-/usr/lib/hive-hcatalog}
 VAR_HCATALOG_DIR=${VAR_HCATALOG_DIR:-/var/lib/hive-hcatalog}
@@ -156,6 +156,7 @@ done
 install -d -m 0755 $PREFIX/$BIN_DIR
 for file in hive beeline hiveserver2
 do
+  mv $PREFIX/$BIN_DIR/$file $PREFIX/$BIN_DIR/$file.distro
   wrapper=$PREFIX/$BIN_DIR/$file
   cat >>$wrapper <<EOF
 #!/bin/bash
@@ -169,7 +170,7 @@ BIGTOP_DEFAULTS_DIR=\${BIGTOP_DEFAULTS_DIR-$ETC_DEFAULT}
 [ -n "\${BIGTOP_DEFAULTS_DIR}" -a -r \${BIGTOP_DEFAULTS_DIR}/hbase ] && . \${BIGTOP_DEFAULTS_DIR}/hbase
 
 export HIVE_HOME=$HIVE_DIR
-exec $HIVE_DIR/bin/$file "\$@"
+exec $HIVE_DIR/bin/$file.distro "\$@"
 EOF
   chmod 755 $wrapper
 done
@@ -251,9 +252,11 @@ export HIVE_CONF_DIR=$NP_ETC_HIVE/conf
 export HCAT_HOME=$HCATALOG_DIR
 
 export HCATALOG_HOME=$HCATALOG_DIR
-exec $HCATALOG_DIR/bin/hcat "\$@"
+exec $HCATALOG_DIR/bin/hcat.distro "\$@"
 EOF
 chmod 755 $wrapper
+cp $PREFIX/${BIN_DIR}/hcat $PREFIX/${HCATALOG_DIR}/bin/hcat
+cp $PREFIX/${BIN_DIR}/hcat $PREFIX/${HIVE_DIR}/bin/hcat
 
 # Install the docs
 install -d -m 0755 $PREFIX/$DOC_DIR

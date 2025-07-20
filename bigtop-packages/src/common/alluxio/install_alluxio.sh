@@ -92,7 +92,7 @@ done
 . /etc/os-release
 OS="$ID"
 
-LIB_DIR=${LIB_DIR:-/usr/lib/alluxio}
+LIB_DIR=${LIB_DIR:-/alluxio}
 LIBEXEC_DIR=${INSTALLED_LIB_DIR:-/usr/libexec}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_ALLUXIO=${ETC_ALLUXIO:-/etc/alluxio}

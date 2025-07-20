@@ -50,6 +50,7 @@ OPTS=$(getopt \
   -l 'etc-default:' \
   -l 'etc-spark:' \
   -l 'source-dir:' \
+  -l 'wrapper-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -79,6 +80,9 @@ while true ; do
         ;;
         --bin-dir)
         BIN_DIR=$2 ; shift 2
+        ;;
+        --wrapper-dir)
+        WRAPPER_DIR=$2 ; shift 2
         ;;
         --man-dir)
         MAN_DIR=$2 ; shift 2
@@ -118,6 +122,7 @@ DOC_DIR=${DOC_DIR:-/usr/share/doc/spark}
 LIB_DIR=${LIB_DIR:-/usr/lib/spark}
 VAR_DIR=${VAR_DIR:-/var/lib/spark}
 BIN_DIR=${BIN_DIR:-/usr/bin}
+WRAPPER_DIR=${WRAPPER_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
 
 ETC_SPARK=${ETC_SPARK:-/etc/spark}
@@ -161,8 +166,9 @@ ln -s $NP_ETC_SPARK/conf $PREFIX/$LIB_DIR/conf
 
 # Copy in the wrappers
 install -d -m 0755 $PREFIX/$BIN_DIR
+install -d -m 0755 $PREFIX/$WRAPPER_DIR
 for wrap in bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/find-spark-home bin/sparkR; do
-  cat > $PREFIX/$BIN_DIR/$(basename $wrap) <<EOF
+  cat > $PREFIX/$WRAPPER_DIR/$(basename $wrap) <<EOF
 #!/bin/bash
 
 # Autodetect JAVA_HOME if not defined
@@ -170,13 +176,13 @@ for wrap in bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/f
 
 exec $LIB_DIR/$wrap "\$@"
 EOF
-  chmod 755 $PREFIX/$BIN_DIR/$(basename $wrap)
+  chmod 755 $PREFIX/$WRAPPER_DIR/$(basename $wrap)
 done
 
 ln -s /var/run/spark/work $PREFIX/$LIB_DIR/work
 
 rm -f $PREFIX/$LIB_DIR/python/.gitignore
-cat > $PREFIX/$BIN_DIR/pyspark <<EOF
+cat > $PREFIX/$WRAPPER_DIR/pyspark <<EOF
 #!/bin/bash
 
 # Autodetect JAVA_HOME if not defined
@@ -184,9 +190,9 @@ cat > $PREFIX/$BIN_DIR/pyspark <<EOF
 
 exec $LIB_DIR/bin/pyspark "\$@"
 EOF
-chmod 755 $PREFIX/$BIN_DIR/pyspark
+chmod 755 $PREFIX/$WRAPPER_DIR/pyspark
 
-cat > $PREFIX/$BIN_DIR/spark-example <<EOF
+cat > $PREFIX/$WRAPPER_DIR/spark-example <<EOF
 #!/bin/bash
 
 # Autodetect JAVA_HOME if not defined
@@ -194,7 +200,7 @@ cat > $PREFIX/$BIN_DIR/spark-example <<EOF
 
 exec $LIB_DIR/bin/run-example "\$@"
 EOF
-chmod 755 $PREFIX/$BIN_DIR/spark-example
+chmod 755 $PREFIX/$WRAPPER_DIR/spark-example
 
 touch $PREFIX/$LIB_DIR/RELEASE
 cp ${BUILD_DIR}/NOTICE ${PREFIX}/${LIB_DIR}/
@@ -217,6 +223,12 @@ ln -s ../spark-*-yarn-shuffle.jar spark-yarn-shuffle.jar
 ln -s ../../jars/datanucleus-api-jdo*.jar datanucleus-api-jdo.jar
 ln -s ../../jars/datanucleus-core*.jar datanucleus-core.jar
 ln -s ../../jars/datanucleus-rdbms*.jar datanucleus-rdbms.jar
+
+# add aux
+mkdir -p ${PREFIX}/${LIB_DIR}/aux/config
+cp $PREFIX/$LIB_DIR/yarn/spark-*-yarn-shuffle.jar ${PREFIX}/${LIB_DIR}/aux
+cp $SOURCE_DIR/spark-shuffle-site.xml ${PREFIX}/${LIB_DIR}/aux/config/
+
 popd
 pushd $PREFIX/$LIB_DIR/external/lib
 for j in $(ls *.jar); do

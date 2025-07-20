@@ -82,7 +82,7 @@ for var in PREFIX BUILD_DIR ; do
   fi
 done
 
-LIB_DIR=${LIB_DIR:-/usr/lib/livy}
+LIB_DIR=${LIB_DIR:-/livy}
 INSTALLED_LIB_DIR=${INSTALLED_LIB_DIR:-/usr/lib/livy}
 CONF_DIR=${CONF_DIR:-/etc/livy/conf.dist}
 

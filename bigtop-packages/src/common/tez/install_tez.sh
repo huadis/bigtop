@@ -89,7 +89,7 @@ done
 
 MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/tez}
-LIB_DIR=${LIB_DIR:-/usr/lib/tez}
+LIB_DIR=${LIB_DIR:-/tez}
 
 ETC_TEZ=${ETC_TEZ:-/etc/tez}
 # No prefix

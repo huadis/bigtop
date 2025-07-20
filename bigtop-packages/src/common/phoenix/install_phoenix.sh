@@ -110,8 +110,8 @@ done
 
 MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
 DOC_DIR=${DOC_DIR:-/usr/share/doc/phoenix}
-LIB_DIR=${LIB_DIR:-/usr/lib/phoenix}
-BIN_DIR=${BIN_DIR:-/usr/lib/phoenix/bin}
+LIB_DIR=${LIB_DIR:-/phoenix}
+BIN_DIR=${BIN_DIR:-/phoenix/bin}
 ETC_DIR=${ETC_DIR:-/etc/phoenix}
 CONF_DIR=${ETC_DIST_DIR:-${LIB_DIR}/conf.dist}
 

@@ -111,8 +111,8 @@ MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/solr}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
-LIB_DIR=${LIB_DIR:-/usr/lib/solr}
-VAR_DIR=${VAR_DIR:-/var/lib/solr}
+LIB_DIR=${LIB_DIR:-/solr}
+VAR_DIR=${VAR_DIR:-/solr}
 
 ETC_SOLR=${ETC_SOLR:-/etc/solr}
 # No prefix

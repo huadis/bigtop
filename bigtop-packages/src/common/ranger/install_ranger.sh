@@ -89,7 +89,7 @@ for var in PREFIX BUILD_DIR COMPONENT; do
   fi
 done
 
-COMP_DIR=${COMP_DIR:-/usr/lib/ranger-${COMPONENT}}
+COMP_DIR=${COMP_DIR:-/ranger-${COMPONENT}}
 VAR_RANGER=${VAR_RANGER:-/var/lib/ranger}
 ETC_RANGER=${ETC_RANGER:-/etc/ranger}
 NP_ETC_RANGER=/etc/ranger

@@ -98,7 +98,7 @@ if [ -f "$SOURCE_DIR/bigtop.bom" ]; then
 fi
 
 
-LIB_DIR=${LIB_DIR:-/usr/lib/flink}
+LIB_DIR=${LIB_DIR:-/flink}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 LIB_HADOOP=${LIB_HADOOP:-/usr/lib/hadoop}
 

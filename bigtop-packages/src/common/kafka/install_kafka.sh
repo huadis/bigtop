@@ -119,11 +119,11 @@ done
 
 MAN_DIR=${MAN_DIR:-/usr/share/man}/man1
 DOC_DIR=${DOC_DIR:-/usr/share/doc/kafka}
-LIB_DIR=${LIB_DIR:-/usr/lib/kafka}
+LIB_DIR=${LIB_DIR:-/kafka}
 VAR_DIR=${VAR_DIR:-/var/lib/kafka}
 BIN_DIR=${BIN_DIR:-/usr/bin}
 ETC_DEFAULT=${ETC_DEFAULT:-/etc/default}
-LIB_ZOOKEEPER_DIR=${LIB_ZOOKEEPER_DIR:-/usr/lib/zookeeper}
+LIB_ZOOKEEPER_DIR=${LIB_ZOOKEEPER_DIR:-/zookeeper}
 EXAMPLES_DIR=${EXAMPLES_DIR:-$DOC_DIR/examples}
 
 CONF_DIR=/etc/kafka/conf
@@ -149,7 +149,7 @@ rm -f ${PREFIX}/${LIB_DIR}/{LICENSE,NOTICE}
 rm -rf ${PREFIX}/${LIB_DIR}/site-docs
 
 # Site docs
-tar zxf ${BUILD_DIR}/build/kafka*site-docs.tgz -C ${PREFIX}/${DOC_DIR} 
+tar zxf ${BUILD_DIR}/build/kafka*site-docs.tgz -C ${PREFIX}/${DOC_DIR}
 
 #Remove config directory. Creating symlink below.
 rm -rf ${PREFIX}/${LIB_DIR}/config
