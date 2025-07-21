@@ -84,7 +84,7 @@ done
 
 LIB_DIR=${LIB_DIR:-/usr/lib/livy}
 INSTALLED_LIB_DIR=${INSTALLED_LIB_DIR:-/usr/lib/livy}
-CONF_DIR=${CONF_DIR:-/livy/conf.dist}
+CONF_DIR=${CONF_DIR:-/livy/conf}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
@@ -105,5 +105,5 @@ cp -ra ${BUILD_DIR}/rsc-jars/* $PREFIX/${LIB_DIR}/rsc-jars/
 cp -a ${BUILD_DIR}/bin/* $PREFIX/${LIB_DIR}/bin
 
 # Copy the configuration files
-cp -a ${BUILD_DIR}/conf/* $PREFIX/$LIB_DIR/conf
-ln -s /etc/livy/conf $PREFIX/$LIB_DIR/conf
+cp -a ${BUILD_DIR}/conf/* $PREFIX/$CONF_DIR
+ln -s /etc/livy/conf $PREFIX/$CONF_DIR
