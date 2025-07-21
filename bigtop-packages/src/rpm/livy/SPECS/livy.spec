@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%define lib_livy %{parent_dir}/%{name}
+%define lib_livy /usr/lib/%{name}
 %define etc_livy %{_sysconfdir}/%{name}
 %define config_livy %{etc_livy}/conf
 %define livy_services server
