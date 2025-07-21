@@ -122,7 +122,7 @@ done
 
 %files
 %defattr(-,root,root)
-%config(noreplace) %{config_livy}.dist
+%config(noreplace) %{config_livy}
 %{lib_livy}
 %attr(0755,livy,livy) %{var_lib_livy}
 %attr(0755,livy,livy) %{var_run_livy}
