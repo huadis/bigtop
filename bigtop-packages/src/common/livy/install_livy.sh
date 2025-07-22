@@ -26,6 +26,7 @@ usage: $0 <options>
 
   Optional options:
      --lib-dir=DIR               path to install livy home [/usr/lib/livy]
+     --conf-dir=DIR              path to install livy home [/usr/lib/livy]
      --installed-lib-dir=DIR     path where lib-dir will end up on target system
      --bin-dir=DIR               path to install bins [/usr/bin]
      ... [ see source for more similar options ]
@@ -38,6 +39,7 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'lib-dir:' \
+  -l 'conf-dir:' \
   -l 'installed-lib-dir:' \
   -l 'bin-dir:' \
   -l 'build-dir:' -- "$@")
@@ -57,6 +59,9 @@ while true ; do
         ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
+        ;;
+        --conf-dir)
+        CONF_DIR=$2 ; shift 2
         ;;
         --installed-lib-dir)
         INSTALLED_LIB_DIR=$2 ; shift 2

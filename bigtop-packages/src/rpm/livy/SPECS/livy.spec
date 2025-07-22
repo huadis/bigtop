@@ -15,7 +15,7 @@
 
 %define lib_livy %{parent_dir}/%{name}
 %define etc_livy %{parent_dir}/%{name}
-%define config_livy %{etc_livy}/conf
+%define config_livy %{parent_dir}/%{name}/conf
 %define livy_services server
 %define var_lib_livy /var/lib/%{name}
 %define var_run_livy /var/run/%{name}
@@ -82,7 +82,7 @@ bash %{SOURCE1}
 # Init.d scripts
 %__install -d -m 0755 $RPM_BUILD_ROOT/%{initd_dir}/
 
-bash -x %{SOURCE2} --prefix=$RPM_BUILD_ROOT --build-dir=build --lib-dir=%{lib_livy}
+bash -x %{SOURCE2} --prefix=$RPM_BUILD_ROOT --build-dir=build --lib-dir=%{lib_livy} --conf-dir=%{config_livy}
 
 for service in %{livy_services}
 do
