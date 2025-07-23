@@ -1,0 +1,10 @@
+<configuration>
+    <property>
+        <name>spark.shuffle.service.port</name>
+        <value>7339</value>
+    </property>
+    <property>
+        <name>spark.yarn.shuffle.service.metrics.namespace</name>
+        <value>sparkShuffleService</value>
+    </property>
+</configuration>
