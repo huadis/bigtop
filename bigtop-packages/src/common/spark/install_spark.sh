@@ -162,14 +162,13 @@ ln -s $NP_ETC_SPARK/conf $PREFIX/$LIB_DIR/conf
 # Copy in the wrappers
 install -d -m 0755 $PREFIX/$BIN_DIR
 for wrap in bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/find-spark-home bin/sparkR; do
-  mv $PREFIX/$BIN_DIR/$(basename $wrap) $PREFIX/$BIN_DIR/$(basename $wrap).distro
   cat > $PREFIX/$BIN_DIR/$(basename $wrap) <<EOF
 #!/bin/bash
 
 # Autodetect JAVA_HOME if not defined
 . /usr/lib/bigtop-utils/bigtop-detect-javahome
 
-exec $PREFIX/$BIN_DIR/$wrap.distro "\$@"
+exec $LIB_DIR/$wrap "\$@"
 EOF
   chmod 755 $PREFIX/$BIN_DIR/$(basename $wrap)
 done
