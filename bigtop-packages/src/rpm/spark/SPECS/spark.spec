@@ -256,8 +256,6 @@ done
 %exclude %{usr_lib_spark}/README.md
 # exclude yarn
 %exclude %{usr_lib_spark}/yarn
-# exclude aux
-%exclude %{usr_lib_spark}/aux
 
 %files -n %{spark_pkg_name}-core
 %defattr(-,root,root,755)
