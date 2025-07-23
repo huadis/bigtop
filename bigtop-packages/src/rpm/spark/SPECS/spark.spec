@@ -282,8 +282,6 @@ done
 %defattr(-,root,root,755)
 %{usr_lib_spark}/yarn/spark-*-yarn-shuffle.jar
 %{usr_lib_spark}/yarn/lib/spark-yarn-shuffle.jar
-# add aux
-%{usr_lib_spark}/aux
 
 %files -n %{spark_pkg_name}-sparkr
 %defattr(-,root,root,755)
