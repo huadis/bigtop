@@ -16,9 +16,6 @@
 %define spark_name spark
 %define spark_pkg_name spark%{pkg_name_suffix}
 %define hadoop_pkg_name hadoop%{pkg_name_suffix}
-%define hive_name hive
-%define hive_pkg_name hive%{pkg_name_suffix}
-%define usr_lib_hive %{parent_dir}/%{hive_name}
 
 %define etc_default %{parent_dir}/etc/default
 
@@ -26,9 +23,9 @@
 %define var_lib_spark %{parent_dir}/%{spark_name}
 %define etc_spark %{parent_dir}/%{spark_name}/etc
 
-%define bin_dir %{parent_dir}/%{spark_name}/bin
-%define man_dir %{parent_dir}/%{spark_name}/man
-%define doc_dir %{parent_dir}/%{spark_name}/doc
+%define bin_dir %{parent_dir}/%{_bindir}
+%define man_dir %{parent_dir}/%{_mandir}
+%define doc_dir %{parent_dir}/%{_docdir}
 
 # No prefix directory
 %define np_var_log_spark /var/log/%{spark_name}
@@ -69,7 +66,6 @@ Source9: bigtop.bom
 #BIGTOP_PATCH_FILES
 Requires: bigtop-utils >= 0.7, %{hadoop_pkg_name}-client, %{hadoop_pkg_name}-yarn
 Requires(preun): /sbin/service
-Requires: %{hive_pkg_name}
 
 %global initd_dir %{_sysconfdir}/init.d
 
@@ -86,7 +82,7 @@ Requires: /lib/lsb/init-functions
 
 %endif
 
-%description
+%description 
 Spark is a MapReduce-like cluster computing framework designed to support
 low-latency iterative jobs and interactive use from an interpreter. It is
 written in Scala, a high-level language for the JVM, and exposes a clean
@@ -286,6 +282,7 @@ done
 %defattr(-,root,root,755)
 %{usr_lib_spark}/yarn/spark-*-yarn-shuffle.jar
 %{usr_lib_spark}/yarn/lib/spark-yarn-shuffle.jar
+# add aux
 %{usr_lib_spark}/aux
 
 %files -n %{spark_pkg_name}-sparkr
