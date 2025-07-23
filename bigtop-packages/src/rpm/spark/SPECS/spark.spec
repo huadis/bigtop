@@ -16,6 +16,9 @@
 %define spark_name spark
 %define spark_pkg_name spark%{pkg_name_suffix}
 %define hadoop_pkg_name hadoop%{pkg_name_suffix}
+%define hive_name hive
+%define hive_pkg_name hive%{pkg_name_suffix}
+%define usr_lib_hive %{parent_dir}/%{hive_name}
 
 %define etc_default %{parent_dir}/etc/default
 
@@ -66,6 +69,7 @@ Source9: bigtop.bom
 #BIGTOP_PATCH_FILES
 Requires: bigtop-utils >= 0.7, %{hadoop_pkg_name}-client, %{hadoop_pkg_name}-yarn
 Requires(preun): /sbin/service
+Requires: %{hive_pkg_name}
 
 %global initd_dir %{_sysconfdir}/init.d
 
@@ -248,12 +252,12 @@ done
 %attr(0755,spark,spark) %{np_var_log_spark}
 %{bin_dir}/spark-*
 %{bin_dir}/find-spark-home
-%exclude %{usr_lib_spark}/README.md
 %exclude %{usr_lib_spark}/R
 %exclude %{usr_lib_spark}/bin/sparkR
 %exclude %{bin_dir}/sparkR
 # exclude python
 %exclude %{usr_lib_spark}/python
+%exclude %{usr_lib_spark}/README.md
 # exclude yarn
 %exclude %{usr_lib_spark}/yarn
 # exclude aux
@@ -282,6 +286,7 @@ done
 %defattr(-,root,root,755)
 %{usr_lib_spark}/yarn/spark-*-yarn-shuffle.jar
 %{usr_lib_spark}/yarn/lib/spark-yarn-shuffle.jar
+%{usr_lib_spark}/aux
 
 %files -n %{spark_pkg_name}-sparkr
 %defattr(-,root,root,755)
