@@ -168,7 +168,7 @@ for wrap in bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/f
 # Autodetect JAVA_HOME if not defined
 . /usr/lib/bigtop-utils/bigtop-detect-javahome
 
-exec $PREFIX/$BIN_DIR/$(basename $wrap).distro "\$@"
+exec $BIN_DIR/$(basename $wrap).distro "\$@"
 EOF
   chmod 755 $PREFIX/$BIN_DIR/$(basename $wrap)
 done
