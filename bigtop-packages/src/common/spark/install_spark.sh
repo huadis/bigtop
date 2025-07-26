@@ -161,7 +161,7 @@ ln -s $NP_ETC_SPARK/conf $PREFIX/$LIB_DIR/conf
 
 # Copy in the wrappers
 install -d -m 0755 $PREFIX/$BIN_DIR
-for wrap in bin/beeline bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/find-spark-home bin/sparkR; do
+for wrap in bin/spark-class bin/spark-shell bin/spark-sql bin/spark-submit bin/find-spark-home bin/sparkR; do
   mv $PREFIX/$BIN_DIR/$(basename $wrap) $PREFIX/$BIN_DIR/$(basename $wrap).distro
   cat > $PREFIX/$BIN_DIR/$(basename $wrap) <<EOF
 #!/bin/bash
@@ -177,6 +177,7 @@ done
 ln -s /var/run/spark/work $PREFIX/$LIB_DIR/work
 
 rm -f $PREFIX/$LIB_DIR/python/.gitignore
+mv $PREFIX/$BIN_DIR/pyspark $PREFIX/$BIN_DIR/pyspark.distro
 cat > $PREFIX/$BIN_DIR/pyspark <<EOF
 #!/bin/bash
 
