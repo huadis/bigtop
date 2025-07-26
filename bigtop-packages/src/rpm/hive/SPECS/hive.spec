@@ -24,16 +24,16 @@
 
 %define usr_lib_hive %{parent_dir}/%{hive_name}
 %define usr_lib_hcatalog %{parent_dir}/%{hive_name}-hcatalog
-%define var_lib_hive %{parent_dir}/var/lib/%{hive_name}
-%define var_lib_hcatalog %{parent_dir}/var/lib/%{hive_name}-hcatalog
-%define etc_hive %{parent_dir}/etc/%{hive_name}
+%define var_lib_hive %{parent_dir}/%{hive_name}
+%define var_lib_hcatalog %{parent_dir}/%{hive_name}-hcatalog
+%define etc_hive %{parent_dir}/%{hive_name}/etc
 
 %define usr_lib_zookeeper %{parent_dir}/zookeeper
 %define usr_lib_hbase %{parent_dir}/hbase
 
-%define bin_dir %{parent_dir}/%{_bindir}
-%define man_dir %{parent_dir}/%{_mandir}
-%define doc_dir %{parent_dir}/%{_docdir}
+%define bin_dir %{parent_dir}/%{hive_name}/bin
+%define man_dir %{parent_dir}/%{hive_name}/man
+%define doc_dir %{parent_dir}/%{hive_name}/doc
 
 # No prefix directory
 %define np_var_log_hive /var/log/%{hive_name}
@@ -368,6 +368,8 @@ fi
 %exclude %dir %{usr_lib_hive}
 %exclude %dir %{usr_lib_hive}/jdbc
 %exclude %{usr_lib_hive}/jdbc/hive-jdbc-*.jar
+%exclude %{usr_lib_hive}/jdbc/etc-hcatalog
+%exclude %{usr_lib_hive}/jdbc/etc-webhcat
 
 %files hbase
 %defattr(-,root,root,755)
