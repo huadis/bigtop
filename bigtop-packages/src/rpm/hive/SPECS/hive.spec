@@ -397,6 +397,10 @@ fi
 %{usr_lib_hcatalog}/sbin/hcat*
 %{bin_dir}/hcat
 %{man_dir}/man1/hive-hcatalog.1.*
+%exclude %{usr_lib_hcatalog}/etc/webhcat
+%exclude %{usr_lib_hcatalog}/sbin/webhcat_config.sh
+%exclude %{usr_lib_hcatalog}/sbin/webhcat_server.sh
+%exclude %dir %{usr_lib_hcatalog}/share/webhcat
 
 %files webhcat
 %defattr(-,root,root,755)
