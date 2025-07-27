@@ -368,8 +368,8 @@ fi
 %exclude %dir %{usr_lib_hive}
 %exclude %dir %{usr_lib_hive}/jdbc
 %exclude %{usr_lib_hive}/jdbc/hive-jdbc-*.jar
-%exclude %{usr_lib_hive}/jdbc/etc-hcatalog
-%exclude %{usr_lib_hive}/jdbc/etc-webhcat
+%exclude %{usr_lib_hive}/etc-hcatalog
+%exclude %{usr_lib_hive}/etc-webhcat
 
 %files hbase
 %defattr(-,root,root,755)
