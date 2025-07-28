@@ -233,7 +233,7 @@ for conf in `cd $PREFIX/$HCATALOG_DIR/etc ; ls -d *` ; do
   touch $PREFIX/$ETC_DEFAULT/hive-$conf-server
 done
 
-mv $PREFIX/$BIN_DIR/hcat $PREFIX/$BIN_DIR/hcat.distro
+cp $PREFIX/$BIN_DIR/hcat $PREFIX/${HCATALOG_DIR}/bin/hcat.distro
 wrapper=$PREFIX/$BIN_DIR/hcat
 cat >>$wrapper <<EOF
 #!/bin/sh
@@ -257,7 +257,6 @@ exec $HCATALOG_DIR/bin/hcat.distro "\$@"
 EOF
 chmod 755 $wrapper
 cp $PREFIX/${BIN_DIR}/hcat $PREFIX/${HCATALOG_DIR}/bin/hcat
-cp $PREFIX/${BIN_DIR}/hcat $PREFIX/${HIVE_DIR}/bin/hcat
 
 # Install the docs
 install -d -m 0755 $PREFIX/$DOC_DIR
