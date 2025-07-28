@@ -233,7 +233,7 @@ for conf in `cd $PREFIX/$HCATALOG_DIR/etc ; ls -d *` ; do
   touch $PREFIX/$ETC_DEFAULT/hive-$conf-server
 done
 
-cp $PREFIX/$BIN_DIR/hcat $PREFIX/${HCATALOG_DIR}/bin/hcat.distro
+cp $PREFIX/$HCATALOG_DIR/bin/hcat $PREFIX/${HCATALOG_DIR}/bin/hcat.distro
 wrapper=$PREFIX/$BIN_DIR/hcat
 cat >>$wrapper <<EOF
 #!/bin/sh
