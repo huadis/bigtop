@@ -24,9 +24,9 @@
 %define var_lib_zeppelin %{parent_dir}/%{zeppelin_name}
 %define etc_zeppelin_conf_dist %{parent_dir}/%{zeppelin_name}/conf.dist
 
-%define man_dir %{parent_dir}/%{_mandir}
-%define doc_dir %{parent_dir}/%{_docdir}
-%define lib_dir %{parent_dir}/%{_libdir}
+%define man_dir %{parent_dir}/man
+%define doc_dir %{parent_dir}/doc
+%define lib_dir %{parent_dir}/lib
 
 # No prefix directory
 %define np_var_log_zeppelin /var/log/%{zeppelin_name}

@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+%define livy_pkg_name livy%{pkg_name_suffix}
 %define lib_livy %{parent_dir}/%{name}
 %define etc_livy %{parent_dir}/%{name}
 %define config_livy %{parent_dir}/%{name}/conf
@@ -21,7 +22,7 @@
 %define var_run_livy /var/run/%{name}
 %define var_log_livy /var/log/%{name}
 
-Name: livy
+Name: %{livy_pkg_name}
 Version: %{livy_version}
 Release: %{livy_release}
 BuildArch: noarch

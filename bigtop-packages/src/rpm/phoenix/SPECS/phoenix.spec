@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 %define phoenix_name phoenix
+%define phoenix_pkg_name phoenix%{pkg_name_suffix}
 %define phoenix_home %{parent_dir}/%{phoenix_name}
 %define bin_phoenix %{phoenix_home}/bin
 %define lib_phoenix %{phoenix_home}/lib
@@ -77,7 +78,7 @@
 
 %endif
 
-Name: phoenix
+Name: %{phoenix_pkg_name}
 Version: %{phoenix_version}
 Release: %{phoenix_release}
 Summary: Phoenix is a SQL skin over HBase and client-embedded JDBC driver.
