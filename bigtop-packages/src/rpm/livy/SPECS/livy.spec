@@ -74,7 +74,7 @@ Requires: /lib/lsb/init-functions
 %__rm -rf $RPM_BUILD_ROOT
 
 %prep
-%setup -n %{name}-%{version}
+%setup -n %{livy_name}-%{version}
 #BIGTOP_PATCH_COMMANDS
 
 %build
@@ -89,17 +89,17 @@ bash -x %{SOURCE2} --prefix=$RPM_BUILD_ROOT --build-dir=build --lib-dir=%{lib_li
 for service in %{livy_services}
 do
   # Install init script
-  initd_script=$RPM_BUILD_ROOT/%{initd_dir}/%{name}-${service}
-  bash %{SOURCE6} $RPM_SOURCE_DIR/%{name}-${service}.svc rpm $initd_script
+  initd_script=$RPM_BUILD_ROOT/%{initd_dir}/%{livy_name}-${service}
+  bash %{SOURCE6} $RPM_SOURCE_DIR/%{livy_name}-${service}.svc rpm $initd_script
 done
 
 %preun
 for service in %{livy_services}; do
-  /sbin/service %{name}-${service} status > /dev/null 2>&1
+  /sbin/service %{livy_name}-${service} status > /dev/null 2>&1
   if [ $? -eq 0 ]; then
-    /sbin/service %{name}-${service} stop > /dev/null 2>&1
+    /sbin/service %{livy_name}-${service} stop > /dev/null 2>&1
   fi
-  chkconfig --del %{name}-${service}
+  chkconfig --del %{livy_name}-${service}
 done
 
 %pre
@@ -108,19 +108,19 @@ getent passwd livy >/dev/null || useradd -c "Livy" -s /sbin/nologin -g livy -r -
 
 %post
 install --owner livy --group livy --directory --mode=0755 %{var_log_livy}
-%{alternatives_cmd} --install %{config_livy} %{name}-conf %{config_livy}.dist 30
+%{alternatives_cmd} --install %{config_livy} %{livy_name}-conf %{config_livy}.dist 30
 for service in %{livy_services}; do
-  chkconfig --add %{name}-${service}
+  chkconfig --add %{livy_name}-${service}
 done
 
 %postun
 for service in %{livy_services}; do
   if [ $1 -ge 1 ]; then
-    service %{name}-${service} condrestart >/dev/null 2>&1
+    service %{livy_name}-${service} condrestart >/dev/null 2>&1
   fi
 done
 
-%{alternatives_cmd} --remove %{name}-conf %{config_livy}.dist
+%{alternatives_cmd} --remove %{livy_name}-conf %{config_livy}.dist
 
 %files
 %defattr(-,root,root)
@@ -129,4 +129,4 @@ done
 %attr(0755,livy,livy) %{var_lib_livy}
 %attr(0755,livy,livy) %{var_run_livy}
 %attr(0755,livy,livy) %{var_log_livy}
-%attr(0755,root,root) %{initd_dir}/%{name}*
+%attr(0755,root,root) %{initd_dir}/%{livy_name}*
