@@ -86,7 +86,7 @@ URL: http://phoenix.apache.org
 Group: Development/Libraries
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 License: ASL 2.0
-Source0: %{name}-%{phoenix_base_version}-src.tar.gz
+Source0: %{phoenix_name}-%{phoenix_base_version}-src.tar.gz
 Source1: do-component-build
 Source2: install_phoenix.sh
 Source3: bigtop.bom

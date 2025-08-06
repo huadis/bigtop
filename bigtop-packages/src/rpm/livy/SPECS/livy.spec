@@ -13,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+%define livy_name livy
 %define livy_pkg_name livy%{pkg_name_suffix}
-%define lib_livy %{parent_dir}/%{name}
-%define etc_livy %{parent_dir}/%{name}
-%define config_livy %{parent_dir}/%{name}/conf
+%define lib_livy %{parent_dir}/%{livy_name}
+%define etc_livy %{parent_dir}/%{livy_name}
+%define config_livy %{parent_dir}/%{livy_name}/conf
 %define livy_services server
-%define var_lib_livy /var/lib/%{name}
-%define var_run_livy /var/run/%{name}
-%define var_log_livy /var/log/%{name}
+%define var_lib_livy /var/lib/%{livy_name}
+%define var_run_livy /var/run/%{livy_name}
+%define var_log_livy /var/log/%{livy_name}
 
 Name: %{livy_pkg_name}
 Version: %{livy_version}
@@ -30,7 +31,7 @@ Summary: Livy Server
 URL: http://livy.incubator.apache.org/
 Group: Development/Libraries
 License: ASL 2.0
-Source0: %{name}-%{livy_base_version}.zip
+Source0: %{livy_name}-%{livy_base_version}.zip
 Source1: do-component-build
 Source2: install_%{name}.sh
 Source3: livy-server.svc
