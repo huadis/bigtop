@@ -33,7 +33,7 @@ Group: Development/Libraries
 License: ASL 2.0
 Source0: %{livy_name}-%{livy_base_version}.zip
 Source1: do-component-build
-Source2: install_%{name}.sh
+Source2: install_%{livy_name}.sh
 Source3: livy-server.svc
 Source4: bigtop.bom
 Source6: init.d.tmpl
