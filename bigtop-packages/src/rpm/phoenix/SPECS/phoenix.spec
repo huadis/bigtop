@@ -109,7 +109,7 @@ tens of millions of rows. Applications interact with Phoenix through a
 standard JDBC interface; all the usual interfaces are supported.
 
 %prep
-%setup -n %{name}-%{phoenix_base_version}
+%setup -n %{phoenix_name}-%{phoenix_base_version}
 #BIGTOP_PATCH_COMMANDS
 
 %build
@@ -133,12 +133,12 @@ getent group phoenix >/dev/null || groupadd -r phoenix
 getent passwd phoenix >/dev/null || useradd -c "Phoenix" -s /sbin/nologin -g phoenix -r -d %{var_lib_phoenix} phoenix 2> /dev/null || :
 
 %post
-%{alternatives_cmd} --install %{etc_phoenix_conf} %{name}-conf %{etc_phoenix_conf_dist} 30
+%{alternatives_cmd} --install %{etc_phoenix_conf} %{phoenix_name}-conf %{etc_phoenix_conf_dist} 30
 
 
 %preun
 if [ "$1" = 0 ]; then
-  %{alternatives_cmd} --remove %{name}-conf %{etc_phoenix_conf_dist} || :
+  %{alternatives_cmd} --remove %{phoenix_name}-conf %{etc_phoenix_conf_dist} || :
 fi
 
 
