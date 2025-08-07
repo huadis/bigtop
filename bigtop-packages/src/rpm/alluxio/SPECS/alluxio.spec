@@ -19,10 +19,10 @@
 %define _unpackaged_files_terminate_build 0
 
 %define etc_default %{parent_dir}/etc/default
-%define usr_lib_alluxio %{parent_dir}/usr/lib/%{alluxio_name}
-%define etc_alluxio %{parent_dir}/etc/%{alluxio_name}
-%define etc_alluxio_conf_dist %{parent_dir}/etc/%{alluxio_name}/conf.dist
-%define bin_dir %{parent_dir}/%{_bindir}
+%define usr_lib_alluxio %{parent_dir}/%{alluxio_name}
+%define etc_alluxio %{parent_dir}/%{alluxio_name}/etc
+%define etc_alluxio_conf_dist %{parent_dir}/%{alluxio_name}/etc/conf.dist
+%define bin_dir %{parent_dir}/bin
 
 %define libexec_dir %{usr_lib_alluxio}/libexec
 
@@ -32,7 +32,7 @@
 %define np_etc_alluxio /etc/%{alluxio_name}
 
 
-%define        alluxio_home %{parent_dir}/usr/lib/%{alluxio_name}
+%define        alluxio_home %{parent_dir}/%{alluxio_name}
 %define        alluxio_services master worker job-master job-worker
 
 %global        initd_dir %{_sysconfdir}/init.d
