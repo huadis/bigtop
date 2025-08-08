@@ -462,6 +462,25 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'knox' {
+      name    = 'knox'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache Knox'
+      version {
+        base = '2.0.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}-src.zip"
+        destination = source
+      }
+      url {
+        site          = "https://github.com/apache/ranger/archive/refs/tags"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
   }
 }
 
