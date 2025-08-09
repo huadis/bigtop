@@ -119,8 +119,6 @@ done
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_lib_knox}
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_log_knox}
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_run_knox}
-%doc %{usr_lib_knox}/doc
-%{usr_lib_knox}/man/man1/knox.1*
 
 %files server
 %attr(0755,root,root) %{initd_dir}/%{knox_name}-gateway
