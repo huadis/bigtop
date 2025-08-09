@@ -43,13 +43,13 @@ Group: System/Daemons
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 BuildArch: noarch
 Source0: %{knox_name}-%{knox_base_version}-src.zip
-Source1: do-component-build  # 编译脚本
-Source2: install_knox.sh     # 安装脚本
-Source3: init.d.tmpl         # 服务初始化模板
-Source4: knox-gateway.default  # 服务默认配置
-Source5: knox-gateway.svc    # 服务定义
-Source6: gateway-site.xml    # 核心配置文件
-Source7: knox.1              # man文档
+Source1: do-component-build
+Source2: install_knox.sh
+Source3: init.d.tmpl
+Source4: knox-gateway.default
+Source5: knox-gateway.svc
+Source6: gateway-site.xml
+Source7: knox.1
 
 # 依赖
 Requires: %{hadoop_pkg_name}-client, bigtop-utils >= 0.7, openssl
@@ -163,16 +163,16 @@ fi
 
 %files
 %defattr(-,root,root,755)
-%config(noreplace) %{etc_knox}/conf.dist  # 核心配置
-%{usr_lib_knox}/bin                      # 二进制脚本
-%{usr_lib_knox}/lib                      # 依赖库
-%{usr_lib_knox}/templates                # 拓扑模板
+%config(noreplace) %{etc_knox}/conf.dist
+%{usr_lib_knox}/bin
+%{usr_lib_knox}/lib
+%{usr_lib_knox}/templates
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_lib_knox}
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_log_knox}
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_run_knox}
-%doc %{usr_lib_knox}/doc                 # 文档
-%{usr_lib_knox}/man/man1/knox.1*         # man文档
+%doc %{usr_lib_knox}/doc
+%{usr_lib_knox}/man/man1/knox.1*
 
 %files server
-%attr(0755,root,root) %{initd_dir}/%{knox_name}-gateway  # 服务脚本
-%config(noreplace) %{etc_default}/%{knox_name}-gateway    # 服务默认配置
+%attr(0755,root,root) %{initd_dir}/%{knox_name}-gateway
+%config(noreplace) %{etc_default}/%{knox_name}-gateway
