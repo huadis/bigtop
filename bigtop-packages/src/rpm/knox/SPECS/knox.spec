@@ -42,7 +42,7 @@ URL: http://knox.apache.org/
 Group: System/Daemons
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 BuildArch: noarch
-Source0: apache-%{knox_name}-%{knox_base_version}-src.tar.gz
+Source0: %{knox_name}-%{knox_base_version}-src.zip
 Source1: do-component-build  # 编译脚本
 Source2: install_knox.sh     # 安装脚本
 Source3: init.d.tmpl         # 服务初始化模板
