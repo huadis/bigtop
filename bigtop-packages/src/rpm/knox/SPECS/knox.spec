@@ -94,7 +94,7 @@ bash %{SOURCE1}
 
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/dist \
+  --build-dir=`pwd`/target/%{version} \
   --lib-dir=%{usr_lib_knox}
 
 %pre

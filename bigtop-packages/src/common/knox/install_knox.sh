@@ -84,11 +84,13 @@ install -d -m 0755 $PREFIX/$LIB_DIR/lib
 install -d -m 0755 $PREFIX/$LIB_DIR/samples
 install -d -m 0755 $PREFIX/$LIB_DIR/templates
 
-cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/conf/* ${PREFIX}/${LIB_DIR}/conf/
-cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/
-cp -ra $BUILD_DIR/dep/* ${PREFIX}/${LIB_DIR}/dep/
-cp -ra $BUILD_DIR/ext/* ${PREFIX}/${LIB_DIR}/ext/
-cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $BUILD_DIR/samples/* ${PREFIX}/${LIB_DIR}/samples/
-cp -ra $BUILD_DIR/templates/* ${PREFIX}/${LIB_DIR}/templates/
+unzip -q -o "$BUILD_DIR/knox-2.0.0.tar.gz" -d "$BUILD_DIR/knox-2.0.0"
+#cp -ra '/opt/bigtop/build/knox/rpm/BUILD/knox-2.0.0/dist/bin/*' /opt/bigtop/build/knox/rpm/BUILDROOT/knox_3_3_0-2.0.0-1.el8.aarch64//usr/hdp/3.3.0/knox/bin/
+cp -ra $BUILD_DIR/knox-2.0.0/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/knox-2.0.0/conf/* ${PREFIX}/${LIB_DIR}/conf/
+cp -ra $BUILD_DIR/knox-2.0.0/data/* ${PREFIX}/${LIB_DIR}/data/
+cp -ra $BUILD_DIR/knox-2.0.0/dep/* ${PREFIX}/${LIB_DIR}/dep/
+cp -ra $BUILD_DIR/knox-2.0.0/ext/* ${PREFIX}/${LIB_DIR}/ext/
+cp -ra $BUILD_DIR/knox-2.0.0/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/knox-2.0.0/samples/* ${PREFIX}/${LIB_DIR}/samples/
+cp -ra $BUILD_DIR/knox-2.0.0/templates/* ${PREFIX}/${LIB_DIR}/templates/
