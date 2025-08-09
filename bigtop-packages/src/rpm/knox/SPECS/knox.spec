@@ -53,7 +53,7 @@ Source7: knox.1              # man文档
 
 # 依赖
 Requires: %{hadoop_pkg_name}-client, bigtop-utils >= 0.7, openssl
-Requires: /lib/lsb/init-functions  # 初始化脚本依赖
+Requires: /lib/lsb/init-functions
 
 %description
 Apache Knox provides a single point of authentication and access for Apache Hadoop services.
