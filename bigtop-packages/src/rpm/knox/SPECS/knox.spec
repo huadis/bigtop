@@ -95,11 +95,7 @@ bash %{SOURCE1}
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
   --build-dir=build \
-  --knox-dir=%{usr_lib_knox} \
-  --etc-knox=%{etc_knox} \
-  --var-lib-knox=%{var_lib_knox} \
-  --log-dir=%{var_log_knox} \
-  --knox-version=%{knox_base_version}
+  --lib-dir=%{usr_lib_knox}
 
 %pre
 # 创建knox用户和组

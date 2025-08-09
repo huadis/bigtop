@@ -25,13 +25,7 @@ usage: $0 <options>
      --prefix=PREFIX             path to install into
 
   Optional options:
-     --doc-dir=DIR               path to install docs into [/usr/share/doc/hbase]
-     --bin-dir=DIR               path to install bins [/usr/bin]
-     --lib-dir=DIR               path to install hbase home [/usr/lib/hbase]
-     --man-dir=DIR               path to install mans [/usr/share/man]
-     --etc-default=DIR           path to bigtop default dir [/etc/default]
-     --etc-hbase=DIR             path to install hbase conf [/etc/hbase]
-     --lib-zookeeper-dir=DIR     path to Zookeeper home [/usr/lib/zookeeper]
+     --lib-dir=DIR               path to install knox home [/usr/lib/knox]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -41,13 +35,7 @@ OPTS=$(getopt \
   -n $0 \
   -o '' \
   -l 'prefix:' \
-  -l 'doc-dir:' \
-  -l 'bin-dir:' \
   -l 'lib-dir:' \
-  -l 'man-dir:' \
-  -l 'etc-default:' \
-  -l 'etc-hbase:' \
-  -l 'lib-zookeeper-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -63,26 +51,8 @@ while true ; do
         --build-dir)
         BUILD_DIR=$2 ; shift 2
         ;;
-        --doc-dir)
-        DOC_DIR=$2 ; shift 2
-        ;;
-        --bin-dir)
-        BIN_DIR=$2 ; shift 2
-        ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
-        ;;
-        --man-dir)
-        MAN_DIR=$2 ; shift 2
-        ;;
-        --etc-default)
-        ETC_DEFAULT=$2 ; shift 2
-        ;;
-        --etc-hbase)
-        ETC_HBASE=$2 ; shift 2
-        ;;
-        --lib-zookeeper-dir)
-        LIB_ZOOKEEPER_DIR=$2 ; shift 2
         ;;
         --)
         shift ; break
@@ -95,3 +65,30 @@ while true ; do
     esac
 done
 
+for var in PREFIX BUILD_DIR ; do
+  if [ -z "$(eval "echo \$$var")" ]; then
+    echo Missing param: $var
+    usage
+  fi
+done
+
+LIB_DIR=${LIB_DIR:-/knox}
+
+install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/conf
+install -d -m 0755 $PREFIX/$LIB_DIR/data
+install -d -m 0755 $PREFIX/$LIB_DIR/dep
+install -d -m 0755 $PREFIX/$LIB_DIR/ext
+install -d -m 0755 $PREFIX/$LIB_DIR/lib
+install -d -m 0755 $PREFIX/$LIB_DIR/samples
+install -d -m 0755 $PREFIX/$LIB_DIR/templates
+
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/${LIB_DIR}/conf/
+cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/
+cp -ra $BUILD_DIR/dep/* ${PREFIX}/${LIB_DIR}/dep/
+cp -ra $BUILD_DIR/ext/* ${PREFIX}/${LIB_DIR}/ext/
+cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/samples/* ${PREFIX}/${LIB_DIR}/samples/
+cp -ra $BUILD_DIR/templates/* ${PREFIX}/${LIB_DIR}/templates/
