@@ -68,6 +68,16 @@ authentication, authorization, and audit capabilities. Knox supports multiple au
 mechanisms (LDAP, Kerberos, etc.) and provides a centralized gateway for HDFS, YARN, Hive,
 HBase, and other Hadoop services.
 
+%package server
+Summary: Apache Knox gateway server
+Group: System/Daemons
+Requires: %{name} = %{version}-%{release}
+Requires(pre): %{name} = %{version}-%{release}
+
+%description server
+This package contains the Apache Knox gateway server, including init scripts and service configuration.
+It provides the core reverse proxy functionality for secure Hadoop ecosystem access.
+
 %clean
 %__rm -rf $RPM_BUILD_ROOT
 
