@@ -82,7 +82,7 @@ It provides the core reverse proxy functionality for secure Hadoop ecosystem acc
 %__rm -rf $RPM_BUILD_ROOT
 
 %prep
-%setup -n %{knox_name}-%{version}-src
+%setup -n %{knox_name}-%{version}
 #BIGTOP_PATCH_COMMANDS
 
 %build
