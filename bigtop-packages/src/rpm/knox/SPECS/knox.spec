@@ -97,6 +97,9 @@ bash -x %{SOURCE2} \
   --build-dir=`pwd`/target/%{version} \
   --lib-dir=%{usr_lib_knox}
 
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
+
 %pre
 # 创建knox用户和组
 getent group knox >/dev/null || groupadd -r knox
@@ -110,7 +113,6 @@ done
 
 %files
 %defattr(-,root,root,755)
-%config(noreplace) %{etc_knox}/conf.dist
 %{usr_lib_knox}/bin
 %{usr_lib_knox}/lib
 %{usr_lib_knox}/templates
