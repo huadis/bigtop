@@ -114,7 +114,12 @@ done
 %files
 %defattr(-,root,root,755)
 %{usr_lib_knox}/bin
+%{usr_lib_knox}/conf
+%{usr_lib_knox}/data
+%{usr_lib_knox}/dep
+%{usr_lib_knox}/ext
 %{usr_lib_knox}/lib
+%{usr_lib_knox}/samples
 %{usr_lib_knox}/templates
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_lib_knox}
 %attr(0755,%{knox_username},%{knox_username}) %dir %{var_log_knox}
