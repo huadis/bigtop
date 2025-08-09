@@ -75,7 +75,7 @@ It provides the core reverse proxy functionality for secure Hadoop ecosystem acc
 
 
 %prep
-%setup -q -n apache-%{knox_name}-%{knox_base_version}-src
+%setup -q -n %{knox_name}-%{knox_base_version}-src
 # 应用补丁（如有）
 #BIGTOP_PATCH_COMMANDS
 
