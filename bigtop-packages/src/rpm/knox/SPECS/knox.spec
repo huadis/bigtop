@@ -128,6 +128,8 @@ getent passwd knox >/dev/null || useradd -c "Knox Gateway" -s /sbin/nologin -g k
 
 %post
 install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
 
 %preun
 
