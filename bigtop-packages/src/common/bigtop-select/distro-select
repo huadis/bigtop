@@ -78,7 +78,8 @@ leaves = {
            "livy-client" : "livy",
            "alluxio": "alluxio",
            "alluxio-master": "alluxio",
-           "alluxio-worker": "alluxio"
+           "alluxio-worker": "alluxio",
+           "knox-server": "knox"
 }
 
 # Define the aliases and the list of leaves they correspond to

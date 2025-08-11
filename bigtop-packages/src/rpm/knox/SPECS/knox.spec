@@ -13,25 +13,67 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%define knox_username knox
 %define knox_name knox
 %define knox_pkg_name knox%{pkg_name_suffix}
-%define hadoop_pkg_name hadoop%{pkg_name_suffix}
 
-# 目录定义
-%define initd_dir /etc/rc.d/init.d
+%define etc_default %{parent_dir}/etc/default
 
 %define usr_lib_knox %{parent_dir}/%{knox_name}
-%define etc_knox %{parent_dir}/%{knox_name}/etc
 %define var_lib_knox %{parent_dir}/%{knox_name}
+%define etc_knox %{parent_dir}/etc/%{knox_name}
+
 %define var_log_knox /var/log/%{knox_name}
 %define var_run_knox /var/run/%{knox_name}
 %define np_etc_knox /etc/%{knox_name}
 
-# 构建与服务相关定义
-%define knox_dist build/dist
-%define knox_services knox-gateway
 %define alternatives_cmd alternatives
+
+%if  %{?suse_version:1}0
+
+# Only tested on openSUSE 11.4. le'ts update it for previous release when confirmed
+%if 0%{suse_version} > 1130
+%define suse_check \# Define an empty suse_check for compatibility with older sles
+%endif
+
+# SLES is more strict anc check all symlinks point to valid path
+# But we do point to a hadoop jar which is not there at build time
+# (but would be at install time).
+# Since our package build system does not handle dependencies,
+# these symlink checks are deactivated
+%define __os_install_post \
+    %{suse_check} ; \
+    /usr/lib/rpm/brp-compress ; \
+    %{nil}
+
+%define doc_dir %{usr_lib_knox}/%{knox_name}
+%global initd_dir %{parent_dir}/etc/rc.d
+%define alternatives_cmd update-alternatives
+
+%else
+
+# CentOS 5 does not have any dist macro
+# So I will suppose anything that is not Mageia or a SUSE will be a RHEL/CentOS/Fedora
+%if %{!?mgaversion:1}0
+
+# FIXME: brp-repack-jars uses unzip to expand jar files
+# Unfortunately guice-2.0.jar pulled by ivy contains some files and directories without any read permission
+# and make whole process to fail.
+# So for now brp-repack-jars is being deactivated until this is fixed.
+# See BIGTOP-294
+%define __os_install_post \
+    /usr/lib/rpm/redhat/brp-compress ; \
+    /usr/lib/rpm/redhat/brp-strip-static-archive %{__strip} ; \
+    /usr/lib/rpm/redhat/brp-strip-comment-note %{__strip} %{__objdump} ; \
+    /usr/lib/rpm/brp-python-bytecompile ; \
+    %{nil}
+%endif
+
+
+%define doc_dir %{_docdir}/%{knox_name}
+%global initd_dir %{_sysconfdir}/rc.d
+%define alternatives_cmd alternatives
+
+%endif
 
 Name: %{knox_pkg_name}
 Version: %{knox_version}
@@ -45,21 +87,8 @@ Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 Source0: %{knox_name}-%{knox_base_version}-src.zip
 Source1: do-component-build
 Source2: install_%{knox_name}.sh
-Source3: init.d.tmpl
-Source4: knox-gateway.default
-Source5: knox-gateway.svc
-Source6: gateway-site.xml
-Source7: knox.1
-
-# 依赖
 Requires: bigtop-utils >= 0.7, openssl
 Requires(preun): /sbin/service
-
-%if  %{?suse_version:1}0
-%define alternatives_cmd update-alternatives
-%else
-%define alternatives_cmd alternatives
-%endif
 
 %description
 Apache Knox provides a single point of authentication and access for Apache Hadoop services.
@@ -78,27 +107,19 @@ Requires(pre): %{name} = %{version}-%{release}
 This package contains the Apache Knox gateway server, including init scripts and service configuration.
 It provides the core reverse proxy functionality for secure Hadoop ecosystem access.
 
-%clean
-%__rm -rf $RPM_BUILD_ROOT
-
 %prep
-%setup -n %{knox_name}-%{version}
+%setup -n %{knox_name}-%{knox_base_version}
 #BIGTOP_PATCH_COMMANDS
 
 %build
-bash %{SOURCE1}
+env KNOX_VERSION=%{knox_base_version} bash %{SOURCE1}
 
 %install
-# Init.d scripts
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{initd_dir}/
-
+%__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/target/%{version} \
+  --build-dir=`pwd`/target/%{knox_base_version} \
   --lib-dir=%{usr_lib_knox}
-
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
 
 %pre
 # 创建knox用户和组
@@ -107,20 +128,18 @@ getent passwd knox >/dev/null || useradd -c "Knox Gateway" -s /sbin/nologin -g k
 
 %post
 install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
-for service in %{knox_services}; do
-  chkconfig --add ${service}
-done
+
+%preun
+
+%postun
 
 %files
-%defattr(-,root,root,755)
-%{usr_lib_knox}/bin
-%{usr_lib_knox}/conf
-%{usr_lib_knox}/data
-%{usr_lib_knox}/dep
-%{usr_lib_knox}/ext
-%{usr_lib_knox}/lib
-%{usr_lib_knox}/samples
-%{usr_lib_knox}/templates
-%attr(0755,%{knox_username},%{knox_username}) %dir %{var_lib_knox}
-%attr(0755,%{knox_username},%{knox_username}) %dir %{var_log_knox}
-%attr(0755,%{knox_username},%{knox_username}) %dir %{var_run_knox}
+%defattr(644,root,root,755)
+%{usr_lib_knox}
+%defattr(755,root,root)
+%{usr_lib_knox}/bin/gateway
+%{usr_lib_knox}/bin/*.sh
+%defattr(644,knox,knox,755)
+%config(noreplace) %{usr_lib_knox}/data
+%{var_log_knox}
+%{var_run_knox}
