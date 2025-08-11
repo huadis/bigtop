@@ -28,53 +28,6 @@
 
 %define alternatives_cmd alternatives
 
-%if  %{?suse_version:1}0
-
-# Only tested on openSUSE 11.4. le'ts update it for previous release when confirmed
-%if 0%{suse_version} > 1130
-%define suse_check \# Define an empty suse_check for compatibility with older sles
-%endif
-
-# SLES is more strict anc check all symlinks point to valid path
-# But we do point to a hadoop jar which is not there at build time
-# (but would be at install time).
-# Since our package build system does not handle dependencies,
-# these symlink checks are deactivated
-%define __os_install_post \
-    %{suse_check} ; \
-    /usr/lib/rpm/brp-compress ; \
-    %{nil}
-
-%define doc_dir %{usr_lib_knox}/%{knox_name}
-%global initd_dir %{parent_dir}/etc/rc.d
-%define alternatives_cmd update-alternatives
-
-%else
-
-# CentOS 5 does not have any dist macro
-# So I will suppose anything that is not Mageia or a SUSE will be a RHEL/CentOS/Fedora
-%if %{!?mgaversion:1}0
-
-# FIXME: brp-repack-jars uses unzip to expand jar files
-# Unfortunately guice-2.0.jar pulled by ivy contains some files and directories without any read permission
-# and make whole process to fail.
-# So for now brp-repack-jars is being deactivated until this is fixed.
-# See BIGTOP-294
-%define __os_install_post \
-    /usr/lib/rpm/redhat/brp-compress ; \
-    /usr/lib/rpm/redhat/brp-strip-static-archive %{__strip} ; \
-    /usr/lib/rpm/redhat/brp-strip-comment-note %{__strip} %{__objdump} ; \
-    /usr/lib/rpm/brp-python-bytecompile ; \
-    %{nil}
-%endif
-
-
-%define doc_dir %{_docdir}/%{knox_name}
-%global initd_dir %{_sysconfdir}/rc.d
-%define alternatives_cmd alternatives
-
-%endif
-
 Name: %{knox_pkg_name}
 Version: %{knox_version}
 Release: %{knox_release}
