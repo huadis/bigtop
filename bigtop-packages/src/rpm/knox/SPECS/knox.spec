@@ -19,11 +19,10 @@
 %define etc_default %{parent_dir}/etc/default
 
 %define usr_lib_knox %{parent_dir}/%{knox_name}
-%define var_lib_knox %{parent_dir}/%{knox_name}
 %define etc_knox %{parent_dir}/etc/%{knox_name}
 
-%define var_log_knox /var/log/%{knox_name}
-%define var_run_knox /var/run/%{knox_name}
+%define np_var_log_knox /var/log/%{knox_name}
+%define np_var_run_knox /var/run/%{knox_name}
 %define np_etc_knox /etc/%{knox_name}
 
 %define alternatives_cmd alternatives
@@ -74,16 +73,16 @@ bash -x %{SOURCE2} \
   --build-dir=`pwd`/target/%{knox_base_version} \
   --lib-dir=%{usr_lib_knox}
 
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_log_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_run_knox}
 
 %pre
 # 创建knox用户和组
 getent group knox >/dev/null || groupadd -r knox
-getent passwd knox >/dev/null || useradd -c "Knox Gateway" -s /sbin/nologin -g knox -r -d %{var_lib_knox} knox 2>/dev/null || :
+getent passwd knox >/dev/null || useradd -c "Knox Gateway" -s /sbin/nologin -g knox -r -d %{usr_lib_knox} knox 2>/dev/null || :
 
 %post
-install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
+install --owner knox --group knox --directory --mode=0755 %{np_var_log_knox}
 
 %preun
 
@@ -96,6 +95,6 @@ install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
 %{usr_lib_knox}/bin/*.sh
 %defattr(644,knox,knox,755)
 %config(noreplace) %{usr_lib_knox}/data
-%{var_log_knox}
-%{var_run_knox}
+%{np_var_log_knox}
+%{np_var_run_knox}
 %{np_etc_knox}
