@@ -98,4 +98,4 @@ install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
 %config(noreplace) %{usr_lib_knox}/data
 %{var_log_knox}
 %{var_run_knox}
-%{etc_knox}
+%{np_etc_knox}

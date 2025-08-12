@@ -97,7 +97,7 @@ install -d -m 0755 $PREFIX/$LIB_DIR/templates
 install -d -m 0755 $PREFIX/$ETC_KNOX
 install -d -m 0755 $PREFIX/$ETC_KNOX/conf
 
-tar -xvzf "$BUILD_DIR/knox-${VERSION}.tar.gz" -C "$BUILD_DIR/"
+tar -xzf "$BUILD_DIR/knox-${VERSION}.tar.gz" -C "$BUILD_DIR/"
 #cp -ra '/opt/bigtop/build/knox/rpm/BUILD/knox-2.0.0/dist/bin/*' /opt/bigtop/build/knox/rpm/BUILDROOT/knox_3_3_0-2.0.0-1.el8.aarch64//usr/hdp/3.3.0/knox/bin/
 cp -ra $BUILD_DIR/knox-${VERSION}/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/knox-${VERSION}/data/* ${PREFIX}/${LIB_DIR}/data/
