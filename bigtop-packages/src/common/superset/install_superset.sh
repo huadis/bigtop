@@ -23,53 +23,44 @@ while [[ $# -gt 0 ]]; do
             PREFIX="$2"
             shift 2
             ;;
-        --build-dir)
-            BUILD_DIR="$2"
+        --source-dir)
+            SOURCE_DIR="$2"
             shift 2
             ;;
-        --lib-dir)
-            LIB_DIR="$2"
+        --install-dir)
+            INSTALL_DIR="$2"
             shift 2
             ;;
         *)
-            echo "Invalid argument: $1"
+            echo "Error: Unknown option $1"
             exit 1
             ;;
     esac
 done
 
-# 验证参数
-if [ -z "${PREFIX:-}" ] || [ -z "${BUILD_DIR:-}" ] || [ -z "${LIB_DIR:-}" ]; then
-    echo "Usage: $0 --prefix <prefix> --build-dir <build_dir> --lib-dir <lib_dir>"
+# 校验参数
+if [ -z "${PREFIX:-}" ] || [ -z "${SOURCE_DIR:-}" ] || [ -z "${INSTALL_DIR:-}" ]; then
+    echo "Usage: $0 --prefix <rpm_build_root> --source-dir <source_dir> --install-dir <install_dir>"
     exit 1
 fi
 
 # 定义目标路径
-DEST_DIR="${PREFIX}/${LIB_DIR}"
-echo "Installing DolphinScheduler to $DEST_DIR"
+TARGET_DIR="${PREFIX}${INSTALL_DIR}"
 
-# 创建目录
-mkdir -p "$DEST_DIR"
+# 创建安装目录
+mkdir -p "${TARGET_DIR}"
 
 # 复制核心文件
-cp -r "${BUILD_DIR}/bin" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/conf" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/lib" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/server" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/api" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/client" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/sql" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/licenses" "$DEST_DIR/"
+cp -r "${SOURCE_DIR}/"* "${TARGET_DIR}/"
 
-# 设置权限
-chmod 755 "$DEST_DIR/bin"/*.sh
-chmod 644 "$DEST_DIR/conf"/*
+# 创建配置目录
+mkdir -p "${TARGET_DIR}/conf"
 
-# 创建数据和日志目录
-mkdir -p "${PREFIX}/var/lib/dolphinscheduler"
-mkdir -p "${PREFIX}/var/log/dolphinscheduler"
-mkdir -p "${PREFIX}/var/run/dolphinscheduler"
-mkdir -p "${PREFIX}/etc/dolphinscheduler"
+# 修复虚拟环境路径引用
+find "${TARGET_DIR}/venv" -type f -exec sed -i "s|${SOURCE_DIR}|${INSTALL_DIR}|g" {} +
 
-echo "Installation completed successfully"
-exit 0
+# 设置可执行权限
+chmod +x "${TARGET_DIR}/bin/"*
+
+echo "Superset installed to ${TARGET_DIR}"
+

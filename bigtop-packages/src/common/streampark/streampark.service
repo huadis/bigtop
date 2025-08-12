@@ -1,0 +1,19 @@
+[Unit]
+Description=Apache StreamPark (incubating) - Stream Processing Platform
+Documentation=https://streampark.apache.org/docs/
+After=network.target zookeeper.service mysql.service flink-jobmanager.service
+
+[Service]
+User=streampark
+Group=streampark
+EnvironmentFile=/etc/streampark/conf/streampark-env.sh
+ExecStart=/usr/lib/streampark/bin/start-server.sh
+ExecStop=/usr/lib/streampark/bin/stop-server.sh
+PIDFile=/var/run/streampark/streampark.pid
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

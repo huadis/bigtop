@@ -1,0 +1,23 @@
+[Unit]
+Description=Apache Superset Business Intelligence Server
+Documentation=https://superset.apache.org/docs/
+After=network.target postgresql.service httpd.service
+
+[Service]
+User=superset
+Group=superset
+EnvironmentFile=/etc/superset/conf/superset-env.sh
+WorkingDirectory=/usr/lib/superset
+ExecStartPre=/usr/lib/superset/bin/superset db upgrade
+ExecStart=/usr/lib/superset/bin/gunicorn_launcher.sh
+ExecStartPost=/usr/bin/sleep 5
+ExecStartPost=/usr/lib/superset/bin/celery_worker.sh &
+PIDFile=/var/run/superset/superset.pid
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
+

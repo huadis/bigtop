@@ -1,0 +1,18 @@
+[Unit]
+Description=Apache DolphinScheduler Workflow Scheduler
+After=network.target zookeeper.service hadoop.service mysql.service
+Wants=zookeeper.service hadoop.service mysql.service
+
+[Service]
+User=dolphinscheduler
+Group=dolphinscheduler
+EnvironmentFile=/etc/dolphinscheduler/dolphinscheduler-env.sh
+ExecStart=/usr/lib/dolphinscheduler/bin/start-all.sh
+ExecStop=/usr/lib/dolphinscheduler/bin/stop-all.sh
+Restart=on-failure
+RestartSec=5
+Type=forking
+PIDFile=/var/run/dolphinscheduler/dolphinscheduler.pid
+
+[Install]
+WantedBy=multi-user.target

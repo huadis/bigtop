@@ -1,0 +1,45 @@
+#!/bin/bash
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -euo pipefail  # 严格模式，确保构建过程报错即停
+
+# 定义版本（从环境变量或参数获取，适配 spec 中的版本）
+GRAVITINO_VERSION=${GRAVITINO_VERSION:-$(cat VERSION 2>/dev/null || echo "0.5.0")}
+
+# 配置 Maven 环境（BigTop 推荐使用指定镜像加速）
+export MAVEN_OPTS="-Xms2g -Xmx4g"  # 增加内存避免 OOM
+MAVEN_SETTINGS=${MAVEN_SETTINGS:-/etc/maven/settings.xml}  # 可指定 BigTop 私有仓库
+
+# 编译源码（跳过测试加速构建，使用 Apache 镜像）
+echo "Starting to build Gravitino ${GRAVITINO_VERSION}..."
+mvn clean package \
+    -DskipTests \
+    -Dmaven.repo.local=/tmp/m2repo \
+    -s ${MAVEN_SETTINGS} \
+    -Pdist  # 激活打包配置（假设源码中有 dist profile）
+
+# 验证构建产物
+BUILD_DIR="distribution/server/target"  # 假设服务端打包目录
+if [ ! -d "${BUILD_DIR}" ]; then
+    echo "Error: Build directory ${BUILD_DIR} not found. Build failed."
+    exit 1
+fi
+
+# 解压构建产物到 dist 目录（供安装脚本使用）
+mkdir -p dist
+tar -zxf ${BUILD_DIR}/gravitino-server-${GRAVITINO_VERSION}-bin.tar.gz -C dist --strip-components=1
+
+echo "Build completed successfully. Output in dist/"

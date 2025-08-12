@@ -14,30 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
+# JDK 配置
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
 
-# 配置构建参数
-DS_VERSION=${DS_VERSION:-3.2.0}
-MAVEN_OPTS=${MAVEN_OPTS:="-Xms2g -Xmx4g"}
-SKIP_TESTS=${SKIP_TESTS:-true}
+# SeaTunnel 安装目录
+export SEATUNNEL_HOME=/usr/lib/seatunnel
 
-# 打印构建信息
-echo "Starting build of Apache DolphinScheduler version: $DS_VERSION"
-echo "Maven options: $MAVEN_OPTS"
+# 引擎配置（Flink/Spark）
+export ENGINE_TYPE=flink  # 可选：flink 或 spark
+export FLINK_HOME=/usr/lib/flink
+export SPARK_HOME=/usr/lib/spark  # 若使用 Spark
 
-# 执行编译
-if [ "$SKIP_TESTS" = "true" ]; then
-    mvn clean package -DskipTests -Dmaven.javadoc.skip=true -Pallinone,release
-else
-    mvn clean package -Dmaven.javadoc.skip=true -Pallinone,release
-fi
-
-# 验证构建结果
-BUILD_DIR="target/dolphinscheduler-$DS_VERSION"
-if [ ! -d "$BUILD_DIR" ]; then
-    echo "Build failed: $BUILD_DIR not found"
-    exit 1
-fi
-
-echo "Build completed successfully"
-exit 0
+# 集群配置
+export SEATUNNEL_CLUSTER_NAME=seatunnel-cluster
+export ZOOKEEPER_QUORUM=localhost:2181  # ZooKeeper

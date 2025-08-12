@@ -16,37 +16,33 @@
 
 set -euo pipefail
 
-# 定义版本信息
-STREAMPARK_VERSION=${STREAMPARK_VERSION:-$(cat VERSION 2>/dev/null || echo "2.1.0")}
+# 定义版本（从环境变量或源码中获取）
+SEATUNNEL_VERSION=${SEATUNNEL_VERSION:-$(cat VERSION 2>/dev/null || echo "2.3.3")}
 
-# 配置构建环境
+# 配置 Maven 环境（增加内存，使用 BigTop 仓库加速）
 export MAVEN_OPTS="-Xms2g -Xmx4g"
 MAVEN_SETTINGS=${MAVEN_SETTINGS:-/etc/maven/settings.xml}
 
-# 安装前端依赖并构建
-echo "Building frontend assets..."
-cd streampark-ui
-npm install --registry=https://registry.npm.taobao.org
-npm run build
-cd ..
-
-# 编译后端代码
-echo "Building StreamPark ${STREAMPARK_VERSION} backend..."
+# 编译源码（跳过测试，激活 distribution 配置）
+echo "Starting to build Apache SeaTunnel ${SEATUNNEL_VERSION}..."
 mvn clean package \
     -DskipTests \
     -Dmaven.repo.local=/tmp/m2repo \
     -s ${MAVEN_SETTINGS} \
-    -Pdist,release
+    -Pdist,plugins  # 构建发行包和插件
 
 # 验证构建产物
-BUILD_DIR="streampark-dist/target"
-if [ ! -f "${BUILD_DIR}/apache-streampark-${STREAMPARK_VERSION}-bin.tar.gz" ]; then
-    echo "Error: Build artifact not found in ${BUILD_DIR}"
+BUILD_DIR="seatunnel-dist/target"
+if [ ! -f "${BUILD_DIR}/apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz" ]; then
+    echo "Error: Build artifact not found in ${BUILD_DIR}. Build failed."
     exit 1
 fi
 
-# 准备安装源目录
+# 解压构建产物到 dist 目录（供安装脚本使用）
 mkdir -p dist
-tar -zxf ${BUILD_DIR}/apache-streampark-${STREAMPARK_VERSION}-bin.tar.gz -C dist --strip-components=1
+tar -zxf "${BUILD_DIR}/apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz" -C dist --strip-components=1
+
+# 复制插件到 dist 目录（SeaTunnel 插件需单独存放）
+cp -r seatunnel-plugins/* dist/plugins/
 
 echo "Build completed successfully. Output in dist/"

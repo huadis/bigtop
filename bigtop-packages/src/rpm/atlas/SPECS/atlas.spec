@@ -13,17 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%define crh_dir /usr/%{crh_tag}/%{crh_version_with_bn}
-%define component_name atlas
+%define atlas_name atlas
 
-%define etc_atlas_conf /etc/%{component_name}/conf
-%define conf_dir_shipped %{_sysconfdir}/%{component_name}/
+%define etc_atlas_conf /etc/%{atlas_name}/conf
+%define conf_dir_shipped %{_sysconfdir}/%{atlas_name}/
 %define etc_atlas_conf_dist %{etc_atlas_conf}.dist
 
-%define atlas_home %{crh_dir}/%{component_name}
+%define atlas_home %{crh_dir}/%{atlas_name}
 %define distroselect crh-select
-#%define atlas_slider_client_home %{crh_dir}/%{component_name}-slider-client
-%define atlas_user_home /var/lib/%{component_name}
+#%define atlas_slider_client_home %{crh_dir}/%{atlas_name}-slider-client
+%define atlas_user_home /var/lib/%{atlas_name}
 %define bin_atlas %{atlas_home}/bin
 %define lib_atlas %{atlas_home}
 %define conf_atlas %{atlas_home}/conf
@@ -50,7 +49,7 @@
     /usr/lib/rpm/brp-compress ; \
     %{nil}
 
-%define doc_atlas %{component_name}/doc
+%define doc_atlas %{atlas_name}/doc
 %global initd_dir %{_sysconfdir}/rc.d/init.d
 %define alternatives_cmd update-alternatives
 
@@ -74,7 +73,7 @@
 %endif
 
 
-%define doc_atlas %{_docdir}/%{component_name}
+%define doc_atlas %{_docdir}/%{atlas_name}
 %global initd_dir %{_sysconfdir}/rc.d/init.d
 %define alternatives_cmd alternatives
 
@@ -87,9 +86,9 @@ Release: %{atlas_release}
 Summary: Apache Atlas
 URL: http://incubator.apache.org/atlas/
 Group: Applications/Server
-Buildroot: %{_topdir}/INSTALL/%{component_name}-%{version}
+Buildroot: %{_topdir}/INSTALL/%{atlas_name}-%{version}
 License:  Apache License, Version 2.0
-Source0: %{component_name}-%{atlas_base_version}.tar.gz
+Source0: %{atlas_name}-%{atlas_base_version}.tar.gz
 Source1: do-component-build
 Source2: install_atlas.sh
 Requires: zookeeper%{crh_version_as_name},hadoop%{crh_version_as_name},hbase%{crh_version_as_name}
@@ -102,7 +101,7 @@ Altas is a distributed.
 
 
 %prep
-%setup -q -n apache-%{component_name}-sources-%{atlas_base_version}
+%setup -q -n apache-%{atlas_name}-sources-%{atlas_base_version}
 
 %build
 env ALTAS_VERSION=%{version} atlas_base_version=%{altas_base_version} bash %{SOURCE1}
@@ -114,11 +113,11 @@ env CRH_DIR=%{crh_dir} CRH_VERSION=%{crh_version_with_bn} sh %{SOURCE2} \
         --prefix=$RPM_BUILD_ROOT \
         --crh-dir=%{crh_dir}
 
-%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/log/%{component_name}
-ln -s %{_localstatedir}/log/%{component_name} %{buildroot}/%{logs_atlas}
+%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/log/%{atlas_name}
+ln -s %{_localstatedir}/log/%{atlas_name} %{buildroot}/%{logs_atlas}
 
-%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/run/%{component_name}
-ln -s %{_localstatedir}/run/%{component_name} %{buildroot}/%{pids_atlas}
+%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/run/%{atlas_name}
+ln -s %{_localstatedir}/run/%{atlas_name} %{buildroot}/%{pids_atlas}
 
 %pre
 getent group atlas 2>&1 > /dev/null || /usr/sbin/groupadd -r atlas
@@ -149,5 +148,5 @@ fi
 %defattr(-,atlas,atlas)
 %{logs_atlas}
 %{pids_atlas}
-%dir %{_localstatedir}/log/%{component_name}/
-%dir %{_localstatedir}/run/%{component_name}/
+%dir %{_localstatedir}/log/%{atlas_name}/
+%dir %{_localstatedir}/run/%{atlas_name}/

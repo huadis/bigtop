@@ -1,0 +1,91 @@
+#!/bin/bash
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -euo pipefail
+
+# 定义版本信息
+SUPERSET_VERSION=${SUPERSET_VERSION:-2.1.0}
+
+# 创建虚拟环境
+python3.9 -m venv venv
+source venv/bin/activate
+
+# 升级 pip 和基础工具
+pip install --upgrade pip setuptools wheel
+
+# 安装依赖
+pip install -r requirements/base.txt
+pip install -r requirements/dev.txt
+pip install -r requirements/production.txt
+
+# 安装额外的数据连接器
+pip install psycopg2-binary==2.9.5
+pip install mysql-connector-python==8.0.33
+pip install pyhive==0.6.5
+pip install clickhouse-connect==0.5.20
+
+# 构建前端资源
+cd superset-frontend
+npm install
+npm run build
+cd ..
+
+# 打包 Python 应用
+mkdir -p dist
+cp -r superset dist/
+cp -r venv dist/
+cp -r requirements dist/
+cp -r static dist/
+cp -r templates dist/
+cp setup.py dist/
+cp MANIFEST.in dist/
+cp README.md dist/
+cp LICENSE dist/
+cp NOTICE dist/
+
+# 创建启动脚本
+mkdir -p dist/bin
+cat > dist/bin/superset << 'EOF'
+#!/bin/bash
+source /usr/lib/superset/venv/bin/activate
+exec superset "$@"
+EOF
+
+cat > dist/bin/gunicorn_launcher.sh << 'EOF'
+#!/bin/bash
+source /usr/lib/superset/venv/bin/activate
+exec gunicorn --bind 0.0.0.0:8088 --workers 4 --threads 4 "superset.app:create_app()"
+EOF
+
+cat > dist/bin/celery_worker.sh << 'EOF'
+#!/bin/bash
+source /usr/lib/superset/venv/bin/activate
+exec celery -A superset.tasks.celery_app:app worker --loglevel=info
+EOF
+
+cat > dist/bin/superset-cli.sh << 'EOF'
+#!/bin/bash
+source /usr/lib/superset/venv/bin/activate
+exec superset "$@"
+EOF
+
+# 设置脚本权限
+chmod +x dist/bin/*
+
+deactivate
+
+echo "Build completed successfully. Output in dist/"
+

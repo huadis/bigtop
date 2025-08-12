@@ -13,13 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-##### HUE METAPACKAGE ######
-%define crh_dir /usr/%{crh_tag}/%{crh_version_with_bn}
 %define hue_name hue
+%define hue_pkg_name hue%{pkg_name_suffix}
 
+%define etc_default %{parent_dir}/etc/default
 
+%define usr_lib_hue %{parent_dir}/%{hue_name}
+%define etc_hue %{parent_dir}/etc/%{hue_name}
 
-Name:    hue%{crh_version_as_name}
+%define np_var_log_hue /var/log/%{hue_name}
+%define np_var_run_hue /var/run/%{hue_name}
+%define np_etc_hue /etc/%{hue_name}
+
+Name:    %{hue_pkg_name}
 Version: %{hue_version}
 Release: %{hue_release}
 Group: Applications/Engineering
@@ -84,12 +90,12 @@ AutoReqProv: no
 ############### DESKTOP SPECIFIC CONFIGURATION ##################
 
 # customization of install spots
-%define hue_dir %{crh_dir}/hue
-%define hadoop_home %{crh_dir}/hadoop
+%define hue_dir %{parent_dir}/hue
+%define hadoop_home %{parent_dir}/hadoop
 %define hadoop_lib %{hadoop_home}/lib
-%define username hue
+%define hue_username hue
 
-%define apps_dir %{hue_dir}/apps
+%define hue_apps_dir %{hue_dir}/apps
 %define about_app_dir %{hue_dir}/apps/about
 %define impala_app_dir %{hue_dir}/apps/impala
 %define security_app_dir %{hue_dir}/apps/security
@@ -128,7 +134,7 @@ export DESKTOP_LOG_DIR=/var/log/hue \
 if [ "$1" != 1 ] ; then \
   echo %{hue_dir}/apps/%1 >> %{hue_dir}/.re_register \
 fi \
-%{hue_dir}/build/env/bin/python %{hue_dir}/tools/app_reg/app_reg.py --install %{apps_dir}/%1 \
+%{hue_dir}/build/env/bin/python %{hue_dir}/tools/app_reg/app_reg.py --install %{hue_apps_dir}/%1 \
 chown -R hue:hue /var/log/hue /var/lib/hue
 
 # Preun macro for apps
@@ -141,9 +147,9 @@ if [ "$1" = 0 ] ; then \
   if [ -e $ENV_PYTHON ] ; then \
     %{hue_dir}/build/env/bin/python %{hue_dir}/tools/app_reg/app_reg.py --remove %1 ||: \
   fi \
-  find %{apps_dir}/%1 -name \*.egg-info -type f -print0 | xargs -0 /bin/rm -fR   \
+  find %{hue_apps_dir}/%1 -name \*.egg-info -type f -print0 | xargs -0 /bin/rm -fR   \
 fi \
-find %{apps_dir}/%1 -iname \*.py[co] -type f -print0 | xargs -0 /bin/rm -f \
+find %{hue_apps_dir}/%1 -iname \*.py[co] -type f -print0 | xargs -0 /bin/rm -f \
 chown -R hue:hue /var/log/hue /var/lib/hue || :
 
 %description
@@ -170,7 +176,7 @@ env FULL_VERSION=%{hue_base_version} bash -x %{SOURCE3}
 # Install
 ########################################
 %install
-env CRH_DIR=%{crh_dir} bash -x %{SOURCE4} --prefix=$RPM_BUILD_ROOT --build-dir=${PWD}
+bash -x %{SOURCE4} --prefix=$RPM_BUILD_ROOT --build-dir=${PWD}
 
 %if  %{?suse_version:1}0
 orig_init_file=$RPM_SOURCE_DIR/%{hue_name}.init.suse
@@ -223,8 +229,8 @@ It supports a file browser, job tracker interface, cluster health monitor, and m
 # Preinstall
 ########################################
 %pre -n %{name}-common -p /bin/bash
-getent group %{username} 2>/dev/null >/dev/null || /usr/sbin/groupadd -r %{username}
-getent passwd %{username} 2>&1 > /dev/null || /usr/sbin/useradd -c "Hue" -s /sbin/nologin -g %{username} -r -d %{hue_dir} %{username} 2> /dev/null || :
+getent group %{hue_username} 2>/dev/null >/dev/null || /usr/sbin/groupadd -r %{hue_username}
+getent passwd %{hue_username} 2>&1 > /dev/null || /usr/sbin/useradd -c "Hue" -s /sbin/nologin -g %{hue_username} -r -d %{hue_dir} %{hue_username} 2> /dev/null || :
 
 ########################################
 # Postinstall
@@ -305,8 +311,8 @@ fi
 %{useradmin_app_dir}
 %{metastore_app_dir}
 %{oozie_app_dir}
-%attr(0755,%{username},%{username}) /var/log/hue
-%attr(0755,%{username},%{username}) /var/lib/hue
+%attr(0755,%{hue_username},%{hue_username}) /var/log/hue
+%attr(0755,%{hue_username},%{hue_username}) /var/lib/hue
 
 # these apps are packaged as a plugin app
 %exclude %{beeswax_app_dir}
@@ -385,7 +391,7 @@ and import and export data.
 %app_preun_macro impala
 
 %files -n %{name}-impala
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{impala_app_dir}
 
 
@@ -405,7 +411,7 @@ and import and export data.
 %app_preun_macro beeswax
 
 %files -n %{name}-beeswax
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{beeswax_app_dir}
 
 #### HUE-PIG PLUGIN ######
@@ -441,7 +447,7 @@ It allows users to construct and run HBase queries.
 %app_preun_macro hbase
 
 %files -n %{name}-hbase
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{hbase_app_dir}
 
 #### HUE-SQOOP PLUGIN ######
@@ -457,7 +463,7 @@ A web interface for Sqoop.
 %app_preun_macro sqoop
 
 %files -n %{name}-sqoop
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{sqoop_app_dir}
 
 #### HUE-SEARCH PLUGIN ######
@@ -475,7 +481,7 @@ It allows users to interact with Solr
 %app_preun_macro search
 
 %files -n %{name}-search
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{search_app_dir}
 
 #### HUE-RDBMS PLUGIN ######
@@ -493,7 +499,7 @@ It allows users to interact with RDBMS
 %app_preun_macro rdbms
 
 %files -n %{name}-rdbms
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{rdbms_app_dir}
 
 #### HUE-SECURITY PLUGIN ######
@@ -511,7 +517,7 @@ It allows users to interact with Roles and Security
 %app_preun_macro security
 
 %files -n %{name}-security
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{security_app_dir}
 
 #### HUE-USERADMIN PLUGIN ######
@@ -529,7 +535,7 @@ It allows for Hue user administration
 %app_preun_macro useradmin
 
 %files -n %{name}-useradmin
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{useradmin_app_dir}
 
 #### HUE-SPARK PLUGIN ######
@@ -547,7 +553,7 @@ It allows users to interact with Spark
 %app_preun_macro spark
 
 %files -n %{name}-spark
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{spark_app_dir}
 
 #### HUE-ZOOKEEPER PLUGIN ######
@@ -565,5 +571,5 @@ It allows users to interact with Zookeeper
 %app_preun_macro zookeeper
 
 %files -n %{name}-zookeeper
-%defattr(-, %{username}, %{username})
+%defattr(-, %{hue_username}, %{hue_username})
 %{zookeeper_app_dir}
