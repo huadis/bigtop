@@ -303,6 +303,25 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'phoenix-queryserver' {
+      name    = 'phoenix-queryserver'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache Phoenix: A SQL skin over HBase'
+      version {
+        base = "6.0.0"
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}-src.tar.gz"
+        destination = source
+      }
+      url {
+        download_path = ""
+        site = "${apache.APACHE_MIRROR}/${download_path}"
+        archive = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
+    }
     'bigtop-groovy' {
       name    = 'bigtop-groovy'
       relNotes = "Groovy: a dynamic language for the Java platform"
