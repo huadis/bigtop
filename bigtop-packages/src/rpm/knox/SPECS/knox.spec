@@ -61,7 +61,7 @@ This package contains the Apache Knox gateway server, including init scripts and
 It provides the core reverse proxy functionality for secure Hadoop ecosystem access.
 
 %prep
-%setup -n %{knox_name}-%{knox_base_version}
+%setup -q -n %{knox_name}-%{knox_base_version}
 #BIGTOP_PATCH_COMMANDS
 
 %build
@@ -74,6 +74,9 @@ bash -x %{SOURCE2} \
   --build-dir=`pwd`/target/%{knox_base_version} \
   --lib-dir=%{usr_lib_knox}
 
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
+
 %pre
 # 创建knox用户和组
 getent group knox >/dev/null || groupadd -r knox
@@ -81,8 +84,6 @@ getent passwd knox >/dev/null || useradd -c "Knox Gateway" -s /sbin/nologin -g k
 
 %post
 install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_log_knox}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{var_run_knox}
 
 %preun
 
@@ -92,7 +93,6 @@ install --owner knox --group knox --directory --mode=0755 %{var_log_knox}
 %defattr(644,root,root,755)
 %{usr_lib_knox}
 %defattr(755,root,root)
-%{usr_lib_knox}/bin/gateway
 %{usr_lib_knox}/bin/*.sh
 %defattr(644,knox,knox,755)
 %config(noreplace) %{usr_lib_knox}/data
