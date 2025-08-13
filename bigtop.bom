@@ -118,7 +118,7 @@ bigtop {
     'bigtop-jsvc':['hadoop'],
     zookeeper:['hadoop', 'hbase', 'kafka'],
     hadoop:['hbase', 'hive', 'tez', 'solr', 'spark', 'ranger', 'phoenix', 'alluxio', 'zeppelin'],
-    hbase:['phoenix', 'phoenix-queryserver', ''hive'],
+    hbase:['phoenix', 'phoenix-queryserver', 'hive'],
     hive:['zeppelin'],
     spark:['livy', 'zeppelin'],
   ]
