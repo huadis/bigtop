@@ -118,7 +118,7 @@ bigtop {
     'bigtop-jsvc':['hadoop'],
     zookeeper:['hadoop', 'hbase', 'kafka'],
     hadoop:['hbase', 'hive', 'tez', 'solr', 'spark', 'ranger', 'phoenix', 'alluxio', 'zeppelin'],
-    hbase:['phoenix', 'hive'],
+    hbase:['phoenix', 'phoenix-queryserver', ''hive'],
     hive:['zeppelin'],
     spark:['livy', 'zeppelin'],
   ]
@@ -318,9 +318,10 @@ bigtop {
       }
       url {
         download_path = ""
-        site = "${apache.APACHE_MIRROR}/${download_path}"
-        archive = "${apache.APACHE_ARCHIVE}/${download_path}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
       }
+      maven_parallel_build = true
     }
     'bigtop-groovy' {
       name    = 'bigtop-groovy'
@@ -495,7 +496,7 @@ bigtop {
         destination = source
       }
       url {
-        site          = "https://github.com/apache/ranger/archive/refs/tags"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
         archive       = "${apache.APACHE_ARCHIVE}"
       }
       maven_parallel_build = true
