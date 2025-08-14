@@ -23,9 +23,9 @@
 %define var_run_kyuubi /var/run/%{kyuubi_name}
 %define var_log_kyuubi /var/log/%{kyuubi_name}
 
-Name: %{livy_pkg_name}
-Version: %{livy_version}
-Release: %{livy_release}
+Name: %{kyuubi_pkg_name}
+Version: %{kyuubi_version}
+Release: %{kyuubi_release}
 BuildArch:      noarch
 Summary:        Apache Kyuubi is a distributed and multi-tenant gateway to provide SQL service over various computing frameworks.
 Group:          Applications/Internet
