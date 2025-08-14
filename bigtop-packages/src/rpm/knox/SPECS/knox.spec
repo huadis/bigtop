@@ -14,7 +14,7 @@
 # limitations under the License.
 
 %define knox_name knox
-%define knox_pkg_name knox%{pkg_name_suffix}
+%define knox_pkg_name knox-server%{pkg_name_suffix}
 
 %define etc_default %{parent_dir}/etc/default
 
