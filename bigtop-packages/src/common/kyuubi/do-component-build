@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,42 +13,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-set -e
+set -ex
 
-# 读取 BigTop 环境变量
-if [ -z "${BIGTOP_HOME}" ]; then
-  BIGTOP_HOME=$(cd $(dirname ${0})/../../..; pwd)
-fi
+#load versions
+. `dirname $0`/bigtop.bom
 
-. ${BIGTOP_HOME}/etc/bigtop.bom
+. /etc/os-release
 
-# 配置 Kyuubi 版本和下载地址
-KYUUBI_VERSION=${KYUUBI_VERSION:-1.8.1}
-KYUUBI_DIST_URL=${KYUUBI_DIST_URL:-"https://dlcdn.apache.org/kyuubi/${KYUUBI_VERSION}/apache-kyuubi-${KYUUBI_VERSION}-bin.tgz"}
+# 配置编译参数
+MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
+MVN_CMD="${MVN_CMD:-mvn}"
 
-# 创建构建目录
-BUILD_DIR=$(pwd)/build
-mkdir -p ${BUILD_DIR}
-cd ${BUILD_DIR}
+$MVN_CMD clean
 
-# 下载并解压 Kyuubi
-if [ ! -f "apache-kyuubi-${KYUUBI_VERSION}-bin.tgz" ]; then
-  wget ${KYUUBI_DIST_URL}
-fi
+$MVN_CMD package \
+    -DskipTests \
+    -Dmaven.javadoc.skip=true \
+    -Ppackage \
+    -e
 
-tar -zxf apache-kyuubi-${KYUUBI_VERSION}-bin.tgz
-cd apache-kyuubi-${KYUUBI_VERSION}-bin
 
-# 构建 Kyuubi （如果需要从源码构建）
-# ./build/mvn clean package -DskipTests
-
-# 准备打包所需文件
-mkdir -p ${BUILD_DIR}/kyuubi
-cp -r * ${BUILD_DIR}/kyuubi/
-
-# 清理不必要的文件
-rm -rf ${BUILD_DIR}/kyuubi/examples
-rm -rf ${BUILD_DIR}/kyuubi/docs
-rm -rf ${BUILD_DIR}/kyuubi/build

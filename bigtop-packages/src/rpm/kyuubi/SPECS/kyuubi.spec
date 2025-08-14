@@ -15,26 +15,30 @@
 
 %define kyuubi_name kyuubi
 %define kyuubi_pkg_name kyuubi%{pkg_name_suffix}
+
 %define lib_kyuubi %{parent_dir}/%{kyuubi_name}
 %define etc_kyuubi %{parent_dir}/%{kyuubi_name}
 %define config_kyuubi %{parent_dir}/%{kyuubi_name}/conf
+
 %define kyuubi_services server
-%define var_lib_kyuubi /var/lib/%{kyuubi_name}
-%define var_run_kyuubi /var/run/%{kyuubi_name}
-%define var_log_kyuubi /var/log/%{kyuubi_name}
+%define np_var_lib_kyuubi /var/lib/%{kyuubi_name}
+%define np_var_run_kyuubi /var/run/%{kyuubi_name}
+%define np_var_log_kyuubi /var/log/%{kyuubi_name}
 
 Name: %{kyuubi_pkg_name}
 Version: %{kyuubi_version}
 Release: %{kyuubi_release}
 BuildArch:      noarch
 Summary:        Apache Kyuubi is a distributed and multi-tenant gateway to provide SQL service over various computing frameworks.
+URL:            https://kyuubi.apache.org/
 Group:          Applications/Internet
 License:        Apache License 2.0
-URL:            https://kyuubi.apache.org/
-Source0:        apache-kyuubi-%{version}-source.tgz
-Source1:        install_kyuubi.sh
-Source2:        kyuubi.service
-Source3:        kyuubi-env.sh
+Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
+Source0:        apache-%{kyuubi_name}-%{kyuubi_base_version}-source.tgz
+Source1:        do-component-build
+Source2:        install_kyuubi.sh
+Source3:        kyuubi.service
+Source4:        kyuubi-env.sh
 Requires:       hadoop >= 3.0.0
 Requires:       spark >= 3.0.0
 Requires(pre):  shadow-utils
@@ -44,79 +48,42 @@ Apache Kyuubi is a distributed and multi-tenant gateway to provide SQL service o
 It aims to make the Data Lakehouse accessible via SQL based tools, and decouple the computing and storage.
 
 %prep
-%setup -q -n apache-kyuubi-%{version}-source
+%setup -q -n apache-%{kyuubi_name}-%{kyuubi_base_version}-source
 
 %build
-# 构建过程在 do-component-build 中完成，此处仅做准备
-cp %{SOURCE1} .
-cp %{SOURCE2} .
-cp %{SOURCE3} .
+bash %{SOURCE1}
+
 
 %install
-# 创建临时安装目录
-mkdir -p %{buildroot}/usr/lib/kyuubi
-mkdir -p %{buildroot}/etc/kyuubi/conf
-mkdir -p %{buildroot}/var/log/kyuubi
-mkdir -p %{buildroot}/var/run/kyuubi
-mkdir -p %{buildroot}/usr/lib/systemd/system
-mkdir -p %{buildroot}/etc/profile.d
+%__rm -rf $RPM_BUILD_ROOT
+bash -x %{SOURCE2} \
+  --prefix=$RPM_BUILD_ROOT \
+  --build-dir=`pwd`/target/%{kyuubi_base_version} \
+  --lib-dir=%{lib_kyuubi}
 
-# 复制 Kyuubi 文件
-cp -r * %{buildroot}/usr/lib/kyuubi/
 
-# 移动配置文件
-mv %{buildroot}/usr/lib/kyuubi/conf/* %{buildroot}/etc/kyuubi/conf/
-ln -s /etc/kyuubi/conf %{buildroot}/usr/lib/kyuubi/conf
-
-# 安装 systemd 服务文件
-install -m 0644 kyuubi.service %{buildroot}/usr/lib/systemd/system/
-
-# 安装环境变量配置
-install -m 0644 kyuubi-env.sh %{buildroot}/etc/profile.d/
-
-# 安装启动脚本
-install -m 0755 bin/kyuubi %{buildroot}/usr/bin/
-install -m 0755 bin/kyuubi-daemon.sh %{buildroot}/usr/bin/
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_log_kyuubi}
+%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_run_kyuubi}
 
 %pre
-# 创建用户和组
+# 创建kyuubi用户和组
 getent group kyuubi >/dev/null || groupadd -r kyuubi
-getent passwd kyuubi >/dev/null || \
-    useradd -r -g kyuubi -d /usr/lib/kyuubi -s /sbin/nologin \
-    -c "Apache Kyuubi" kyuubi
-exit 0
+getent passwd kyuubi >/dev/null || useradd -c "Kyuubi" -s /sbin/nologin -g kyuubi -r -d %{usr_lib_kyuubi} kyuubi 2>/dev/null || :
 
 %post
-# 启用并启动服务
-systemctl daemon-reload
-if [ $1 -eq 1 ]; then
-    # 首次安装
-    systemctl enable kyuubi
-    systemctl start kyuubi
-else
-    # 升级
-    systemctl restart kyuubi
-fi
+install --owner kyuubi --group kyuubi --directory --mode=0755 %{np_var_log_kyuubi}
 
 %preun
-if [ $1 -eq 0 ]; then
-    # 完全卸载
-    systemctl stop kyuubi
-    systemctl disable kyuubi
-fi
+
+%postun
 
 %files
-%defattr(-,kyuubi,hadoop,-)
-/usr/lib/kyuubi/
-/etc/kyuubi/
-/var/log/kyuubi/
-/var/run/kyuubi/
-/usr/bin/kyuubi
-/usr/bin/kyuubi-daemon.sh
-/usr/lib/systemd/system/kyuubi.service
-/etc/profile.d/kyuubi-env.sh
-%doc LICENSE NOTICE README.md
-
-%changelog
-* Thu Aug 14 2025 Your Name <your.email@example.com> - %{version}-1
-- Initial RPM package for Apache Kyuubi following BigTop specifications
+%defattr(644,root,root,755)
+%{usr_lib_kyuubi}
+%defattr(755,root,root)
+%{usr_lib_kyuubi}/bin/*.sh
+%defattr(644,kyuubi,kyuubi,755)
+%config(noreplace) %{usr_lib_kyuubi}/data
+%{np_var_log_kyuubi}
+%{np_var_run_kyuubi}
+%{np_etc_kyuubi}
