@@ -98,3 +98,5 @@ install --owner knox --group knox --directory --mode=0755 %{np_var_log_knox}
 %{np_var_log_knox}
 %{np_var_run_knox}
 %{np_etc_knox}
+
+%service_macro server
