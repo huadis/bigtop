@@ -6,7 +6,7 @@ Summary:        Apache Kyuubi is a distributed and multi-tenant gateway to provi
 Group:          Applications/Internet
 License:        Apache License 2.0
 URL:            https://kyuubi.apache.org/
-Source0:        apache-kyuubi-%{version}-bin.tgz
+Source0:        apache-kyuubi-%{version}-source.tgz
 Source1:        install_kyuubi.sh
 Source2:        kyuubi.service
 Source3:        kyuubi-env.sh
