@@ -262,7 +262,26 @@ bigtop {
         archive       = "${apache.APACHE_ARCHIVE}"
       }
     }
-
+    'kyuubi' {
+      name    = 'kyuubi'
+      pkg     = 'kyuubi'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache Kyuubi'
+      version {
+        base = '1.9.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-${version.base}-source.taz"
+        destination = source
+      }
+      url {
+        download_path = ""
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
     'flink' {
       name    = 'flink'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")

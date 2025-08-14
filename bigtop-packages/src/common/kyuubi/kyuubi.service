@@ -1,0 +1,22 @@
+[Unit]
+Description=Apache Kyuubi Server
+After=network.target hadoop.service spark.service
+Documentation=https://kyuubi.apache.org/docs/latest/
+
+[Service]
+User=kyuubi
+Group=hadoop
+EnvironmentFile=-/etc/sysconfig/kyuubi
+Environment=KYUUBI_HOME=/usr/lib/kyuubi
+Environment=KYUUBI_CONF_DIR=/etc/kyuubi/conf
+Environment=KYUUBI_LOG_DIR=/var/log/kyuubi
+Environment=JAVA_HOME=/usr/lib/jvm/jre-openjdk
+ExecStart=/usr/bin/kyuubi-daemon.sh start
+ExecStop=/usr/bin/kyuubi-daemon.sh stop
+PIDFile=/var/run/kyuubi/kyuubi-server.pid
+Restart=on-failure
+RestartSec=5
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
