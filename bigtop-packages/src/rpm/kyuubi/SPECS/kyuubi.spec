@@ -35,9 +35,6 @@ Source0:        apache-kyuubi-%{version}-source.tgz
 Source1:        install_kyuubi.sh
 Source2:        kyuubi.service
 Source3:        kyuubi-env.sh
-BuildRequires:  java-1.8.0-openjdk-devel
-BuildRequires:  bigtop-utils
-Requires:       java-1.8.0-openjdk
 Requires:       hadoop >= 3.0.0
 Requires:       spark >= 3.0.0
 Requires(pre):  shadow-utils
