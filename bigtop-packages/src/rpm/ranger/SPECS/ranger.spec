@@ -522,19 +522,16 @@ fi
 %defattr(-,root,root,755)
 %{usr_lib_ranger}-usersync
 %attr(750,root,ranger) %{usr_lib_ranger}-usersync/native/credValidator.uexe
-%config(noreplace) %{etc_ranger}/usersync/conf.dist
 %attr(0755,ranger,ranger) %{np_etc_ranger}/usersync
 
 %files kms
 %defattr(-,root,root,755)
 %{usr_lib_ranger}-kms
-%config(noreplace) %{etc_ranger}/kms/conf.dist
 %attr(0755,ranger,ranger) %{np_etc_ranger}/kms
 
 %files tagsync
 %defattr(-,root,root,755)
 %{usr_lib_ranger}-tagsync
-%config(noreplace) %{etc_ranger}/tagsync/conf.dist
 %attr(0755,ranger,ranger) %{np_etc_ranger}/tagsync
 
 %files hdfs-plugin
