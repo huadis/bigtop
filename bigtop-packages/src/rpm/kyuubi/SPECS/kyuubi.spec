@@ -44,7 +44,7 @@ Apache Kyuubi is a distributed and multi-tenant gateway to provide SQL service o
 It aims to make the Data Lakehouse accessible via SQL based tools, and decouple the computing and storage.
 
 %prep
-%setup -q -n apache-kyuubi-%{version}-bin
+%setup -q -n apache-kyuubi-%{version}-source
 
 %build
 # 构建过程在 do-component-build 中完成，此处仅做准备
