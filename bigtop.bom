@@ -273,7 +273,7 @@ bigtop {
         release = 1
       }
       tarball {
-        source      = "apache-$name-${version.base}-source.taz"
+        source      = "apache-$name-${version.base}-source.tgz"
         destination = source
       }
       url {
