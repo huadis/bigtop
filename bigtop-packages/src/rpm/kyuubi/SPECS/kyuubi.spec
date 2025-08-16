@@ -21,9 +21,9 @@
 %define config_kyuubi %{parent_dir}/%{kyuubi_name}/conf
 
 %define kyuubi_services server
-%define np_var_lib_kyuubi /var/lib/%{kyuubi_name}
 %define np_var_run_kyuubi /var/run/%{kyuubi_name}
 %define np_var_log_kyuubi /var/log/%{kyuubi_name}
+%define np_etc_kyuubi /etc/kyuubi
 
 Name: %{kyuubi_pkg_name}
 Version: %{kyuubi_version}
@@ -64,7 +64,7 @@ bash -x %{SOURCE2} \
 %pre
 # 创建kyuubi用户和组
 getent group kyuubi >/dev/null || groupadd -r kyuubi
-getent passwd kyuubi >/dev/null || useradd -c "Kyuubi" -s /sbin/nologin -g kyuubi -r -d %{usr_lib_kyuubi} kyuubi 2>/dev/null || :
+getent passwd kyuubi >/dev/null || useradd -c "Kyuubi" -s /sbin/nologin -g kyuubi -r -d %{lib_kyuubi} kyuubi 2>/dev/null || :
 
 %post
 install --owner kyuubi --group kyuubi --directory --mode=0755 %{np_var_log_kyuubi}
@@ -75,7 +75,7 @@ install --owner kyuubi --group kyuubi --directory --mode=0755 %{np_var_log_kyuub
 
 %files
 %defattr(644,kyuubi,kyuubi,755)
-%{usr_lib_kyuubi}
+%{lib_kyuubi}
 %{np_var_log_kyuubi}
 %{np_var_run_kyuubi}
 %{np_etc_kyuubi}
