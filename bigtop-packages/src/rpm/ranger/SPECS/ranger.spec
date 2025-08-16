@@ -511,7 +511,7 @@ fi
 #### FILES SECTION ####
 #######################
 %files admin
-%defattr(-,root,root,755)
+%defattr(-,ranger,ranger,755)
 %attr(0775,ranger,ranger) %{var_lib_ranger}
 %attr(0775,ranger,ranger) %{np_var_run_ranger}
 %config(noreplace) %{etc_ranger}/admin/conf.dist
@@ -519,18 +519,18 @@ fi
 %{usr_lib_ranger}-admin
 
 %files usersync
-%defattr(-,root,root,755)
+%defattr(-,ranger,ranger,755)
 %{usr_lib_ranger}-usersync
 %attr(750,root,ranger) %{usr_lib_ranger}-usersync/native/credValidator.uexe
 %attr(0755,ranger,ranger) %{np_etc_ranger}/usersync
 
 %files kms
-%defattr(-,root,root,755)
+%defattr(-,ranger,ranger,755)
 %{usr_lib_ranger}-kms
 %attr(0755,ranger,ranger) %{np_etc_ranger}/kms
 
 %files tagsync
-%defattr(-,root,root,755)
+%defattr(-,ranger,ranger,755)
 %{usr_lib_ranger}-tagsync
 %attr(0755,ranger,ranger) %{np_etc_ranger}/tagsync
 
