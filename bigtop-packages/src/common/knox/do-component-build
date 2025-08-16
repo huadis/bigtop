@@ -36,5 +36,4 @@ $MVN_CMD package \
 
 rm -rf build
 mkdir build
-tar -C build --strip-components=1 -xzf knox-${KNOX_VERSION}.tar.gz
-
+tar -C build --strip-components=1 -xzf target/${KNOX_VERSION}/knox-${KNOX_VERSION}.tar.gz
