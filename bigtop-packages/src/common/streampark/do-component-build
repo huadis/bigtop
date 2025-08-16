@@ -21,7 +21,6 @@ STREAMPARK_VERSION=${STREAMPARK_VERSION:-$(cat VERSION 2>/dev/null || echo "2.1.
 
 # 配置构建环境
 export MAVEN_OPTS="-Xms2g -Xmx4g"
-MAVEN_SETTINGS=${MAVEN_SETTINGS:-/etc/maven/settings.xml}
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
@@ -34,8 +33,6 @@ cd ..
 echo "Building StreamPark ${STREAMPARK_VERSION} backend..."
 mvn clean package \
     -DskipTests \
-    -Dmaven.repo.local=/tmp/m2repo \
-    -s ${MAVEN_SETTINGS} \
     -Pdist,release
 
 # 验证构建产物

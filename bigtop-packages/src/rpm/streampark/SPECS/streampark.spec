@@ -13,24 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 基础变量定义（遵循 BigTop 命名规范）
 %define streampark_name streampark
 %define streampark_pkg_name %{streampark_name}%{pkg_name_suffix}
 %define streampark_version %{version}
 %define streampark_user %{streampark_name}
 %define streampark_group %{streampark_name}
 
-# 路径定义（符合 FHS 标准和 BigTop 目录规范）
-%define parent_dir %{_prefix}
-%define usr_lib_streampark %{parent_dir}/%{streampark_name}          # 主程序目录
-%define etc_streampark %{parent_dir}/etc/%{streampark_name}          # 配置文件目录
-%define var_lib_streampark %{parent_dir}/var/lib/%{streampark_name}  # 数据存储目录
-%define var_log_streampark %{parent_dir}/var/log/%{streampark_name}  # 日志目录
-%define var_run_streampark %{parent_dir}/var/run/%{streampark_name}  # 运行时目录（PID等）
-%define bin_streampark %{usr_lib_streampark}/bin                      # 可执行脚本目录
-%define conf_streampark %{usr_lib_streampark}/conf                    # 配置模板目录
+%define usr_lib_streampark %{parent_dir}/%{streampark_name}
+%define etc_streampark %{parent_dir}/etc/%{streampark_name}
+%define var_lib_streampark %{parent_dir}/var/lib/%{streampark_name}
+%define var_log_streampark %{parent_dir}/var/log/%{streampark_name}
+%define var_run_streampark %{parent_dir}/var/run/%{streampark_name}
+%define bin_streampark %{usr_lib_streampark}/bin
+%define conf_streampark %{usr_lib_streampark}/conf
 
-# 系统标准路径映射（通过符号链接关联）
 %define sys_etc_streampark /etc/%{streampark_name}
 %define sys_var_log_streampark /var/log/%{streampark_name}
 %define sys_var_run_streampark /var/run/%{streampark_name}
@@ -47,7 +43,7 @@ Summary: Apache StreamPark is a stream processing platform based on Flink
 Group: Applications/System
 License: Apache License 2.0
 URL: https://streampark.apache.org/
-Source0: %{streampark_name}-%{version}-src.tar.gz
+Source0: apache-%{streampark_name}-%{version}-src.tar.gz
 Source1: do-component-build
 Source2: install_streampark.sh
 Source3: streampark-env.sh
@@ -61,7 +57,6 @@ Requires: flink >= 1.15.0
 Requires: scala >= 2.12.15
 Requires: mysql-connector-java >= 8.0.30
 Requires: zookeeper >= 3.8.0
-BuildRequires: maven >= 3.8.6, git, nodejs >= 14.0.0, npm >= 6.0.0, tar, gzip
 
 %description
 Apache StreamPark (incubating) is a one-stop stream processing platform based on Apache Flink,
@@ -94,7 +89,7 @@ enabling users to submit, manage and monitor Flink jobs.
 
 # 准备阶段：解压源码包
 %prep
-%setup -q -n %{streampark_name}-%{version}
+%setup -q -n apache-%{streampark_name}-%{version}-src
 
 # 构建阶段：执行编译脚本
 %build

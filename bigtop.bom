@@ -302,6 +302,66 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'streampark' {
+      name    = 'streampark'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache StreamPark'
+      version {
+        base = '2.1.6'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-${version.base}-src.tar.gz"
+        destination = source
+      }
+      url {
+        download_path = ""
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
+    'superset' {
+      name    = 'superset'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache Superset'
+      version {
+        base = '5.0.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-${version.base}-source.tar.gz"
+        destination = source
+      }
+      url {
+        download_path = ""
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
+    'gravitino' {
+      name    = 'gravitino'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache Gravitino'
+      version {
+        base = '0.9.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}-src.tar.gz"
+        destination = source
+      }
+      url {
+        download_path = ""
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
     'phoenix' {
       name    = 'phoenix'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
