@@ -25,12 +25,9 @@ set -ex
 MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
 MVN_CMD="${MVN_CMD:-mvn}"
 
-$MVN_CMD clean
+build/dist --tgz --spark-provided --flink-provided --hive-provided --web-ui -Pspark3.3 -Pflink-1.16
 
-$MVN_CMD package \
-    -DskipTests \
-    -Dmaven.javadoc.skip=true \
-    -Ppackage \
-    -e
+
+
 
 
