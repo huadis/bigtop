@@ -97,18 +97,16 @@ install -d -m 0755 $PREFIX/$LIB_DIR/templates
 install -d -m 0755 $PREFIX/$ETC_KNOX
 install -d -m 0755 $PREFIX/$ETC_KNOX/conf
 
-tar -xzf "$BUILD_DIR/knox-${VERSION}.tar.gz" -C "$BUILD_DIR/"
-#cp -ra '/opt/bigtop/build/knox/rpm/BUILD/knox-2.0.0/dist/bin/*' /opt/bigtop/build/knox/rpm/BUILDROOT/knox_3_3_0-2.0.0-1.el8.aarch64//usr/hdp/3.3.0/knox/bin/
-cp -ra $BUILD_DIR/knox-${VERSION}/bin/* ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/knox-${VERSION}/data/* ${PREFIX}/${LIB_DIR}/data/
-cp -ra $BUILD_DIR/knox-${VERSION}/dep/* ${PREFIX}/${LIB_DIR}/dep/
-cp -ra $BUILD_DIR/knox-${VERSION}/ext/* ${PREFIX}/${LIB_DIR}/ext/
-cp -ra $BUILD_DIR/knox-${VERSION}/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $BUILD_DIR/knox-${VERSION}/samples/* ${PREFIX}/${LIB_DIR}/samples/
-cp -ra $BUILD_DIR/knox-${VERSION}/templates/* ${PREFIX}/${LIB_DIR}/templates/
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/
+cp -ra $BUILD_DIR/dep/* ${PREFIX}/${LIB_DIR}/dep/
+cp -ra $BUILD_DIR/ext/* ${PREFIX}/${LIB_DIR}/ext/
+cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/samples/* ${PREFIX}/${LIB_DIR}/samples/
+cp -ra $BUILD_DIR/templates/* ${PREFIX}/${LIB_DIR}/templates/
 
 ln -s $ETC_KNOX/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/knox $PREFIX/$LIB_DIR/logs
 ln -s /var/run/knox $PREFIX/$LIB_DIR/pids
 
-cp -ra $BUILD_DIR/knox-${VERSION}/conf/* ${PREFIX}/$ETC_KNOX/conf/
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_KNOX/conf/

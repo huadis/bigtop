@@ -70,7 +70,7 @@ env KNOX_VERSION=%{knox_base_version} bash %{SOURCE1}
 %__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/target/%{knox_base_version} \
+  --build-dir=`pwd`/build \
   --lib-dir=%{usr_lib_knox}
 
 %__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_log_knox}
