@@ -16,24 +16,12 @@
 
 set -euo pipefail
 
-# 定义版本信息
-STREAMPARK_VERSION=${STREAMPARK_VERSION:-$(cat VERSION 2>/dev/null || echo "2.1.0")}
-
 # 配置构建环境
 export MAVEN_OPTS="-Xms2g -Xmx4g"
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
-cd streampark-ui
-npm install --registry=https://registry.npm.taobao.org
-npm run build
-cd ..
-
-# 编译后端代码
-echo "Building StreamPark ${STREAMPARK_VERSION} backend..."
-mvn clean package \
-    -DskipTests \
-    -Pdist,release
+mvn -Pscala-2.12,dist -DskipTests clean package
 
 # 验证构建产物
 BUILD_DIR="streampark-dist/target"
