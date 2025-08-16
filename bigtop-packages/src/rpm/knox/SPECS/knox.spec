@@ -73,9 +73,6 @@ bash -x %{SOURCE2} \
   --build-dir=`pwd`/build \
   --lib-dir=%{usr_lib_knox}
 
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_log_knox}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_run_knox}
-
 %pre
 # 创建knox用户和组
 getent group knox >/dev/null || groupadd -r knox

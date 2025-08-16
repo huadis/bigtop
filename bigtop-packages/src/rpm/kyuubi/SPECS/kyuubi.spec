@@ -58,12 +58,8 @@ env KYUUBI_VERSION=%{kyuubi_base_version} bash %{SOURCE1}
 %__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/apache-kyuubi-1.9.4-bin.tgz \
+  --build-dir=`pwd`/build \
   --lib-dir=%{lib_kyuubi}
-
-
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_log_kyuubi}
-%__install -d -m 0755 $RPM_BUILD_ROOT/%{np_var_run_kyuubi}
 
 %pre
 # 创建kyuubi用户和组
@@ -78,12 +74,8 @@ install --owner kyuubi --group kyuubi --directory --mode=0755 %{np_var_log_kyuub
 %postun
 
 %files
-%defattr(644,root,root,755)
-%{usr_lib_kyuubi}
-%defattr(755,root,root)
-%{usr_lib_kyuubi}/bin/*.sh
 %defattr(644,kyuubi,kyuubi,755)
-%config(noreplace) %{usr_lib_kyuubi}/data
+%{usr_lib_kyuubi}
 %{np_var_log_kyuubi}
 %{np_var_run_kyuubi}
 %{np_etc_kyuubi}

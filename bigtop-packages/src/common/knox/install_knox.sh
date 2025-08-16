@@ -26,7 +26,6 @@ usage: $0 <options>
 
   Optional options:
      --lib-dir=DIR               path to install knox home [/usr/lib/knox]
-     --version=VERSION           knox version [2.0.0]
      --etc-knox=DIR             path to install knox conf [/etc/knox]
      ... [ see source for more similar options ]
   "
@@ -38,7 +37,6 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'lib-dir:' \
-  -l 'version:' \
   -l 'etc-knox:' \
   -l 'build-dir:' -- "$@")
 
@@ -57,9 +55,6 @@ while true ; do
         ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
-        ;;
-        --version)
-        VERSION=$2 ; shift 2
         ;;
         --etc-knox)
         ETC_KNOX=$2 ; shift 2
@@ -83,7 +78,6 @@ for var in PREFIX BUILD_DIR ; do
 done
 
 LIB_DIR=${LIB_DIR:-/knox}
-VERSION=${VERSION:-2.0.0}
 ETC_KNOX=${ETC_KNOX:-/etc/knox}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
@@ -96,6 +90,8 @@ install -d -m 0755 $PREFIX/$LIB_DIR/samples
 install -d -m 0755 $PREFIX/$LIB_DIR/templates
 install -d -m 0755 $PREFIX/$ETC_KNOX
 install -d -m 0755 $PREFIX/$ETC_KNOX/conf
+install -d -m 0755 $PREFIX/var/log/knox
+install -d -m 0755 $PREFIX/var/run/knox
 
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/

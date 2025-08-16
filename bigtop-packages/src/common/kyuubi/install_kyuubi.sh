@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,49 +14,99 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-set -e
+set -ex
 
-# 定义安装路径和用户
-KYUUBI_HOME=/usr/lib/kyuubi
-KYUUBI_CONF_DIR=/etc/kyuubi/conf
-KYUUBI_LOG_DIR=/var/log/kyuubi
-KYUUBI_PID_DIR=/var/run/kyuubi
-KYUUBI_USER=kyuubi
-KYUUBI_GROUP=hadoop
+usage() {
+  echo "
+usage: $0 <options>
+  Required not-so-options:
+     --build-dir=DIR             path to kyuubi dist.dir
+     --prefix=PREFIX             path to install into
 
-# 创建用户和组
-if ! id -u ${KYUUBI_USER} >/dev/null 2>&1; then
-  groupadd -r ${KYUUBI_GROUP}
-  useradd -r -g ${KYUUBI_GROUP} -d ${KYUUBI_HOME} -s /sbin/nologin ${KYUUBI_USER}
+  Optional options:
+     --lib-dir=DIR               path to install kyuubi home [/usr/lib/kyuubi]
+     --etc-kyuubi=DIR             path to install kyuubi conf [/etc/kyuubi]
+     ... [ see source for more similar options ]
+  "
+  exit 1
+}
+
+OPTS=$(getopt \
+  -n $0 \
+  -o '' \
+  -l 'prefix:' \
+  -l 'lib-dir:' \
+  -l 'etc-kyuubi:' \
+  -l 'build-dir:' -- "$@")
+
+if [ $? != 0 ] ; then
+    usage
 fi
 
-# 创建目录
-mkdir -p ${KYUUBI_HOME}
-mkdir -p ${KYUUBI_CONF_DIR}
-mkdir -p ${KYUUBI_LOG_DIR}
-mkdir -p ${KYUUBI_PID_DIR}
+eval set -- "$OPTS"
+while true ; do
+    case "$1" in
+        --prefix)
+        PREFIX=$2 ; shift 2
+        ;;
+        --build-dir)
+        BUILD_DIR=$2 ; shift 2
+        ;;
+        --lib-dir)
+        LIB_DIR=$2 ; shift 2
+        ;;
+        --etc-kyuubi)
+        ETC_KNOX=$2 ; shift 2
+        ;;
+        --)
+        shift ; break
+        ;;
+        *)
+        echo "Unknown option: $1"
+        usage
+        exit 1
+        ;;
+    esac
+done
 
-# 复制文件
-cp -r ${BUILD_DIR}/kyuubi/* ${KYUUBI_HOME}/
+for var in PREFIX BUILD_DIR ; do
+  if [ -z "$(eval "echo \$$var")" ]; then
+    echo Missing param: $var
+    usage
+  fi
+done
 
-# 移动配置文件到标准位置
-mv ${KYUUBI_HOME}/conf/* ${KYUUBI_CONF_DIR}/
-ln -s ${KYUUBI_CONF_DIR} ${KYUUBI_HOME}/conf
+LIB_DIR=${LIB_DIR:-/kyuubi}
+ETC_KYUUBI=${ETC_KYUUBI:-/etc/kyuubi}
 
-# 设置权限
-chown -R ${KYUUBI_USER}:${KYUUBI_GROUP} ${KYUUBI_HOME}
-chown -R ${KYUUBI_USER}:${KYUUBI_GROUP} ${KYUUBI_CONF_DIR}
-chown -R ${KYUUBI_USER}:${KYUUBI_GROUP} ${KYUUBI_LOG_DIR}
-chown -R ${KYUUBI_USER}:${KYUUBI_GROUP} ${KYUUBI_PID_DIR}
+install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/beeline-jars
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/charts
+install -d -m 0755 $PREFIX/$LIB_DIR/db-scripts
+install -d -m 0755 $PREFIX/$LIB_DIR/docker
+install -d -m 0755 $PREFIX/$LIB_DIR/externals
+install -d -m 0755 $PREFIX/$LIB_DIR/jars
+install -d -m 0755 $PREFIX/$LIB_DIR/web-ui
+install -d -m 0755 $PREFIX/$LIB_DIR/work
+install -d -m 0755 $PREFIX/$ETC_KYUUBI
+install -d -m 0755 $PREFIX/$ETC_KYUUBI/conf
+install -d -m 0755 $PREFIX/var/log/kyuubi
+install -d -m 0755 $PREFIX/var/run/kyuubi
 
-# 创建符号链接到 /usr/bin
-ln -s ${KYUUBI_HOME}/bin/kyuubi ${KYUUBI_HOME}/bin/kyuubi-daemon.sh /usr/bin/
+cp -ra $BUILD_DIR/beeline-jars/* ${PREFIX}/${LIB_DIR}/beeline-jars/
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/charts/* ${PREFIX}/${LIB_DIR}/charts/
+cp -ra $BUILD_DIR/db-scripts/* ${PREFIX}/${LIB_DIR}/db-scripts/
+cp -ra $BUILD_DIR/docker/* ${PREFIX}/${LIB_DIR}/docker/
+cp -ra $BUILD_DIR/externals/* ${PREFIX}/${LIB_DIR}/externals/
+cp -ra $BUILD_DIR/jars/* ${PREFIX}/${LIB_DIR}/jars/
+cp -ra $BUILD_DIR/web-ui/* ${PREFIX}/${LIB_DIR}/web-ui/
+cp -ra $BUILD_DIR/work/* ${PREFIX}/${LIB_DIR}/work/
 
-# 配置环境变量
-cat > /etc/profile.d/kyuubi.sh << EOF
-export KYUUBI_HOME=${KYUUBI_HOME}
-export KYUUBI_CONF_DIR=${KYUUBI_CONF_DIR}
-export PATH=\$PATH:\$KYUUBI_HOME/bin
-EOF
+ln -s $ETC_KYUUBI/conf $PREFIX/$LIB_DIR/conf
+ln -s /var/log/kyuubi $PREFIX/$LIB_DIR/logs
+ln -s /var/run/kyuubi $PREFIX/$LIB_DIR/pid
+
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_KYUUBI/conf/
