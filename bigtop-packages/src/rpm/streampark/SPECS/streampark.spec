@@ -14,22 +14,15 @@
 # limitations under the License.
 
 %define streampark_name streampark
-%define streampark_pkg_name %{streampark_name}%{pkg_name_suffix}
-%define streampark_version %{version}
-%define streampark_user %{streampark_name}
-%define streampark_group %{streampark_name}
+%define streampark_pkg_name streampark%{pkg_name_suffix}
 
-%define usr_lib_streampark %{parent_dir}/%{streampark_name}
-%define etc_streampark %{parent_dir}/etc/%{streampark_name}
-%define var_lib_streampark %{parent_dir}/var/lib/%{streampark_name}
-%define var_log_streampark %{parent_dir}/var/log/%{streampark_name}
-%define var_run_streampark %{parent_dir}/var/run/%{streampark_name}
-%define bin_streampark %{usr_lib_streampark}/bin
-%define conf_streampark %{usr_lib_streampark}/conf
+%define lib_streampark %{parent_dir}/%{streampark_name}
+%define etc_streampark %{parent_dir}/%{streampark_name}
+%define config_streampark %{parent_dir}/%{streampark_name}/conf
 
-%define sys_etc_streampark /etc/%{streampark_name}
-%define sys_var_log_streampark /var/log/%{streampark_name}
-%define sys_var_run_streampark /var/run/%{streampark_name}
+%define np_var_run_streampark /var/run/%{streampark_name}
+%define np_var_log_streampark /var/log/%{streampark_name}
+%define np_etc_streampark /etc/streampark
 
 # 依赖管理配置
 %define alternatives_cmd alternatives
