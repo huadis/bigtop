@@ -36,8 +36,8 @@
 
 # RPM 包基本信息
 Name: %{streampark_pkg_name}
-Version: 2.1.0
-Release: 1%{?dist}
+Version: %{streampark_version}
+Release: %{streampark_release}
 BuildArch: noarch
 Summary: Apache StreamPark is a stream processing platform based on Flink
 Group: Applications/System
