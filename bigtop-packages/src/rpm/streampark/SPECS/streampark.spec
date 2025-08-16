@@ -41,7 +41,6 @@ Source1: do-component-build
 Source2: install_streampark.sh
 Source3: streampark-env.sh
 Source4: streampark.service
-Source5: application.yml
 
 # 依赖项（基于 StreamPark 运行需求）
 Requires: java-11-openjdk >= 11.0.20
