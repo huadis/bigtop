@@ -103,7 +103,6 @@ cp -ra $BUILD_DIR/docker/* ${PREFIX}/${LIB_DIR}/docker/
 cp -ra $BUILD_DIR/externals/* ${PREFIX}/${LIB_DIR}/externals/
 cp -ra $BUILD_DIR/jars/* ${PREFIX}/${LIB_DIR}/jars/
 cp -ra $BUILD_DIR/web-ui/* ${PREFIX}/${LIB_DIR}/web-ui/
-cp -ra $BUILD_DIR/work/* ${PREFIX}/${LIB_DIR}/work/
 
 ln -s $ETC_KYUUBI/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/kyuubi $PREFIX/$LIB_DIR/logs
