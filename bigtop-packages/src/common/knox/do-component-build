@@ -21,8 +21,6 @@ set -ex
 
 . /etc/os-release
 
-# 配置编译参数
-KNOX_VERSION="2.0.0"
 MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
 MVN_CMD="${MVN_CMD:-mvn}"
 
@@ -36,4 +34,7 @@ $MVN_CMD package \
     -Ppackage \
     -e
 
+rm -rf build
+mkdir build
+tar -C build --strip-components=1 -xzf knox-${KNOX_VERSION}.tar.gz
 

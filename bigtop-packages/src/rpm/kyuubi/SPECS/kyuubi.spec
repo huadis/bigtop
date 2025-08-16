@@ -51,14 +51,14 @@ It aims to make the Data Lakehouse accessible via SQL based tools, and decouple 
 %setup -q -n apache-%{kyuubi_name}-%{kyuubi_base_version}-source
 
 %build
-bash %{SOURCE1}
+env KYUUBI_VERSION=%{kyuubi_base_version} bash %{SOURCE1}
 
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/target/%{kyuubi_base_version} \
+  --build-dir=`pwd`/apache-kyuubi-1.9.4-bin.tgz \
   --lib-dir=%{lib_kyuubi}
 
 
