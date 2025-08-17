@@ -29,8 +29,8 @@
 %define alternatives_cmd alternatives
 
 Name: %{ds_pkg_name}
-Version: %{ds_version}
-Release: %{ds_release}
+Version: %{dolphinscheduler_version}
+Release: %{dolphinscheduler_release}
 BuildArch: noarch
 Summary: Apache DolphinScheduler is a distributed workflow scheduler
 Group: Applications/System
