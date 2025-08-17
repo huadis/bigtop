@@ -18,20 +18,15 @@ set -euo pipefail
 
 # 配置构建环境
 export MAVEN_OPTS="-Xms2g -Xmx4g"
+export SCALA_VERSION="2.12"
+export STREAMPARK_VERSION="2.1.6"
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
-mvn clean install -Pscala-2.12,shaded,webapp,dist -DskipTests
+mvn clean install -Pscala-${SCALA_VERSION},shaded,webapp,dist -DskipTests
 
-# 验证构建产物
-BUILD_DIR="streampark-dist/target"
-if [ ! -f "${BUILD_DIR}/apache-streampark-${STREAMPARK_VERSION}-bin.tar.gz" ]; then
-    echo "Error: Build artifact not found in ${BUILD_DIR}"
-    exit 1
-fi
-
-# 准备安装源目录
-mkdir -p dist
-tar -zxf ${BUILD_DIR}/apache-streampark-${STREAMPARK_VERSION}-bin.tar.gz -C dist --strip-components=1
+rm -rf build
+mkdir build
+tar -C build --strip-components=1 -xzf dist/apache-streampark_${SCALA_VERSION}-${STREAMPARK_VERSION}-bin.tar.gz
 
 echo "Build completed successfully. Output in dist/"

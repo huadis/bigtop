@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,56 +15,91 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
+set -ex
 
-# 解析命令行参数
-while [[ $# -gt 0 ]]; do
+usage() {
+  echo "
+usage: $0 <options>
+  Required not-so-options:
+     --build-dir=DIR             path to streampark dist.dir
+     --prefix=PREFIX             path to install into
+
+  Optional options:
+     --lib-dir=DIR               path to install streampark home [/usr/lib/streampark]
+     --etc-streampark=DIR             path to install streampark conf [/etc/streampark]
+     ... [ see source for more similar options ]
+  "
+  exit 1
+}
+
+OPTS=$(getopt \
+  -n $0 \
+  -o '' \
+  -l 'prefix:' \
+  -l 'lib-dir:' \
+  -l 'etc-streampark:' \
+  -l 'build-dir:' -- "$@")
+
+if [ $? != 0 ] ; then
+    usage
+fi
+
+eval set -- "$OPTS"
+while true ; do
     case "$1" in
         --prefix)
-            PREFIX="$2"
-            shift 2
-            ;;
-        --source-dir)
-            SOURCE_DIR="$2"
-            shift 2
-            ;;
-        --install-dir)
-            INSTALL_DIR="$2"
-            shift 2
-            ;;
+        PREFIX=$2 ; shift 2
+        ;;
+        --build-dir)
+        BUILD_DIR=$2 ; shift 2
+        ;;
+        --lib-dir)
+        LIB_DIR=$2 ; shift 2
+        ;;
+        --etc-streampark)
+        ETC_STREAMPARK=$2 ; shift 2
+        ;;
+        --)
+        shift ; break
+        ;;
         *)
-            echo "Error: Unknown option $1"
-            exit 1
-            ;;
+        echo "Unknown option: $1"
+        usage
+        exit 1
+        ;;
     esac
 done
 
-# 校验参数
-if [ -z "${PREFIX:-}" ] || [ -z "${SOURCE_DIR:-}" ] || [ -z "${INSTALL_DIR:-}" ]; then
-    echo "Usage: $0 --prefix <rpm_build_root> --source-dir <source_dir> --install-dir <install_dir>"
-    exit 1
-fi
+for var in PREFIX BUILD_DIR ; do
+  if [ -z "$(eval "echo \$$var")" ]; then
+    echo Missing param: $var
+    usage
+  fi
+done
 
-# 定义目标路径
-TARGET_DIR="${PREFIX}${INSTALL_DIR}"
+LIB_DIR=${LIB_DIR:-/streampark}
+ETC_STREAMPARK=${ETC_STREAMPARK:-/etc/streampark}
 
-# 创建安装目录
-mkdir -p "${TARGET_DIR}"
+install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/client
+install -d -m 0755 $PREFIX/$LIB_DIR/lib
+install -d -m 0755 $PREFIX/$LIB_DIR/licenses
+install -d -m 0755 $PREFIX/$LIB_DIR/plugins
+install -d -m 0755 $PREFIX/$LIB_DIR/script
+install -d -m 0755 $PREFIX/$LIB_DIR/temp
+install -d -m 0755 $PREFIX/$ETC_STREAMPARK
+install -d -m 0755 $PREFIX/$ETC_STREAMPARK/conf
+install -d -m 0755 $PREFIX/var/log/streampark
+install -d -m 0755 $PREFIX/var/run/streampark
 
-# 复制核心文件
-cp -r "${SOURCE_DIR}/bin" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/lib" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/server" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/client" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/static" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/licenses" "${TARGET_DIR}/"
-cp -r "${SOURCE_DIR}/plugins" "${TARGET_DIR}/"
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/client/* ${PREFIX}/${LIB_DIR}/client/
+cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/licenses/* ${PREFIX}/${LIB_DIR}/licenses/
+cp -ra $BUILD_DIR/script/* ${PREFIX}/${LIB_DIR}/script/
 
-# 创建配置目录
-mkdir -p "${TARGET_DIR}/conf"
+ln -s $ETC_STREAMPARK/conf $PREFIX/$LIB_DIR/conf
+ln -s /var/log/streampark $PREFIX/$LIB_DIR/logs
 
-# 设置可执行权限
-chmod +x "${TARGET_DIR}/bin/"*.sh
-chmod +x "${TARGET_DIR}/bin/streampark-cli"
-
-echo "StreamPark installed to ${TARGET_DIR}"
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_STREAMPARK/conf/
