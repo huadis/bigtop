@@ -84,10 +84,10 @@ install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
 install -d -m 0755 $PREFIX/$LIB_DIR/client
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
-install -d -m 0755 $PREFIX/$LIB_DIR/licenses
 install -d -m 0755 $PREFIX/$LIB_DIR/plugins
 install -d -m 0755 $PREFIX/$LIB_DIR/script
 install -d -m 0755 $PREFIX/$LIB_DIR/temp
+install -d -m 0755 $PREFIX/$LIB_DIR/temp/streampark
 install -d -m 0755 $PREFIX/$ETC_STREAMPARK
 install -d -m 0755 $PREFIX/$ETC_STREAMPARK/conf
 install -d -m 0755 $PREFIX/var/log/streampark
@@ -96,7 +96,6 @@ install -d -m 0755 $PREFIX/var/run/streampark
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/client/* ${PREFIX}/${LIB_DIR}/client/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $BUILD_DIR/licenses/* ${PREFIX}/${LIB_DIR}/licenses/
 cp -ra $BUILD_DIR/script/* ${PREFIX}/${LIB_DIR}/script/
 
 ln -s $ETC_STREAMPARK/conf $PREFIX/$LIB_DIR/conf
