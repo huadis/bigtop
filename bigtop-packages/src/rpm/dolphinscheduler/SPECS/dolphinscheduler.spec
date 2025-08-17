@@ -15,6 +15,8 @@
 
 # 基础定义
 %define ds_name dolphinscheduler
+%define ds_version %{dolphinscheduler_version}
+%define ds_release %{dolphinscheduler_release}
 %define ds_pkg_name %{ds_name}%{pkg_name_suffix}
 %define etc_ds %{parent_dir}/etc/%{ds_name}
 %define usr_lib_ds %{parent_dir}/%{ds_name}
@@ -29,8 +31,8 @@
 %define alternatives_cmd alternatives
 
 Name: %{ds_pkg_name}
-Version: %{dolphinscheduler_version}
-Release: %{dolphinscheduler_release}
+Version: %{ds_version}
+Release: %{ds_release}
 BuildArch: noarch
 Summary: Apache DolphinScheduler is a distributed workflow scheduler
 Group: Applications/System
