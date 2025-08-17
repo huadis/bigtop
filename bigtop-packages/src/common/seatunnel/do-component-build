@@ -16,15 +16,10 @@
 
 set -euo pipefail
 
-# 定义版本（从环境变量或源码中获取）
-SEATUNNEL_VERSION=${SEATUNNEL_VERSION:-$(cat VERSION 2>/dev/null || echo "2.3.3")}
-
-# 配置 Maven 环境（增加内存，使用 BigTop 仓库加速）
 export MAVEN_OPTS="-Xms2g -Xmx4g"
-MAVEN_SETTINGS=${MAVEN_SETTINGS:-/etc/maven/settings.xml}
 
-# 编译源码（跳过测试，激活 distribution 配置）
-echo "Starting to build Apache SeaTunnel ${SEATUNNEL_VERSION}..."
+echo "Starting to build Apache SeaTunnel ..."
+mvn spotless:apply
 mvn clean package -pl seatunnel-dist -am -DskipTests -Dmaven.javadoc.skip=true
 
 # 验证构建产物
