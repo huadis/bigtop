@@ -25,11 +25,7 @@ MAVEN_SETTINGS=${MAVEN_SETTINGS:-/etc/maven/settings.xml}
 
 # 编译源码（跳过测试，激活 distribution 配置）
 echo "Starting to build Apache SeaTunnel ${SEATUNNEL_VERSION}..."
-mvn clean package \
-    -DskipTests \
-    -Dmaven.repo.local=/tmp/m2repo \
-    -s ${MAVEN_SETTINGS} \
-    -Pdist,plugins  # 构建发行包和插件
+mvn clean package -pl seatunnel-dist -am -Dmaven.test.skip=true
 
 # 验证构建产物
 BUILD_DIR="seatunnel-dist/target"

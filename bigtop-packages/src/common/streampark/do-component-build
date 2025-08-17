@@ -21,7 +21,7 @@ export MAVEN_OPTS="-Xms2g -Xmx4g"
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
-mvn -Pscala-2.12,dist -DskipTests clean package
+mvn clean install -Pscala-2.12,shaded,webapp,dist -DskipTests
 
 # 验证构建产物
 BUILD_DIR="streampark-dist/target"
