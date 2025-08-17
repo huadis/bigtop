@@ -23,3 +23,5 @@ set -ex
 
 MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
 MVN_CMD="${MVN_CMD:-mvn}"
+
+mvn clean package -Prelease -Dmaven.test.skip=true
