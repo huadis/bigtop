@@ -20,7 +20,7 @@ export MAVEN_OPTS="-Xms2g -Xmx4g"
 
 echo "Starting to build Apache SeaTunnel ..."
 mvn spotless:apply
-mvn clean package -pl seatunnel-dist -am -DskipTests -Dmaven.javadoc.skip=true
+mvn clean install -pl seatunnel-dist -am -DskipTests -Dmaven.javadoc.skip=true
 
 # 验证构建产物
 BUILD_DIR="seatunnel-dist/target"
