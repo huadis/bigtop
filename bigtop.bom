@@ -585,7 +585,7 @@ bigtop {
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache SeaTunnel'
       version {
-        base = '2.3.10'
+        base = '2.3.11'
         pkg = base
         release = 1
       }
