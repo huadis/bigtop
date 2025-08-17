@@ -24,10 +24,8 @@
 %define np_var_log_streampark /var/log/%{streampark_name}
 %define np_etc_streampark /etc/streampark
 
-# 依赖管理配置
 %define alternatives_cmd alternatives
 
-# RPM 包基本信息
 Name: %{streampark_pkg_name}
 Version: %{streampark_version}
 Release: %{streampark_release}
@@ -39,16 +37,6 @@ URL: https://streampark.apache.org/
 Source0: apache-%{streampark_name}-%{version}-src.tar.gz
 Source1: do-component-build
 Source2: install_streampark.sh
-Source3: streampark-env.sh
-Source4: streampark.service
-
-# 依赖项（基于 StreamPark 运行需求）
-Requires: java-11-openjdk >= 11.0.20
-Requires: bigtop-utils >= 0.14
-Requires: flink >= 1.15.0
-Requires: scala >= 2.12.15
-Requires: mysql-connector-java >= 8.0.30
-Requires: zookeeper >= 3.8.0
 
 %description
 Apache StreamPark (incubating) is a one-stop stream processing platform based on Apache Flink,
@@ -56,7 +44,6 @@ which provides stream processing job development, deployment, operation, mainten
 monitoring capabilities. It supports Flink SQL and DataStream, and integrates with various
 data sources and sinks.
 
-# 子包：server（核心服务组件）
 %package server
 Summary: Apache StreamPark server component
 Group: Applications/System
@@ -69,7 +56,6 @@ This package contains the core server components of Apache StreamPark, including
 the web server, job manager, and resource manager. It provides the main functionality
 for stream processing job management and execution.
 
-# 子包：client（客户端工具）
 %package client
 Summary: Apache StreamPark command-line client
 Group: Applications/System
@@ -79,103 +65,34 @@ Requires: %{name} = %{version}-%{release}
 This package provides command-line tools for interacting with Apache StreamPark server,
 enabling users to submit, manage and monitor Flink jobs.
 
-# 准备阶段：解压源码包
 %prep
 %setup -q -n apache-%{streampark_name}-%{version}-src
 
-# 构建阶段：执行编译脚本
 %build
-bash %{SOURCE1}
+env SCALA_VERSION="2.12" STREAMPARK_VERSION=%{streampark_base_version} bash %{SOURCE1}
 
-# 安装阶段：执行安装脚本
 %install
 rm -rf $RPM_BUILD_ROOT
 bash %{SOURCE2} \
     --prefix=$RPM_BUILD_ROOT \
-    --source-dir=`pwd`/dist \
-    --install-dir=%{usr_lib_streampark}
+    --source-dir=`pwd`/build \
+    --install-dir=%{lib_streampark}
 
-# 复制配置文件和环境变量模板
-mkdir -p $RPM_BUILD_ROOT%{conf_streampark}
-cp %{SOURCE3} $RPM_BUILD_ROOT%{conf_streampark}/streampark-env.sh
-cp %{SOURCE5} $RPM_BUILD_ROOT%{conf_streampark}/application.yml
-
-# 配置 systemd 服务
-mkdir -p $RPM_BUILD_ROOT%{_unitdir}
-cp %{SOURCE4} $RPM_BUILD_ROOT%{_unitdir}/%{streampark_name}.service
-
-# 创建符号链接（符合 FHS 标准）
-mkdir -p $RPM_BUILD_ROOT%{sys_etc_streampark}
-ln -s %{conf_streampark} $RPM_BUILD_ROOT%{sys_etc_streampark}/conf
-
-# 预安装脚本：创建专用用户和组
 %pre
-# 创建 streampark 组
-if ! getent group %{streampark_group} >/dev/null; then
-    groupadd -r %{streampark_group}
-fi
-# 创建 streampark 用户（禁止登录，主目录为数据目录）
-if ! getent passwd %{streampark_user} >/dev/null; then
-    useradd -r -g %{streampark_group} -d %{var_lib_streampark} \
-            -s /sbin/nologin -c "Apache StreamPark" %{streampark_user}
-fi
+# 创建streampark用户和组
+getent group streampark >/dev/null || groupadd -r streampark
+getent passwd streampark >/dev/null || useradd -c "Streampark" -s /sbin/nologin -g streampark -r -d %{lib_streampark} streampark 2>/dev/null || :
 
-# 安装后脚本：初始化目录和服务
 %post
-# 创建数据、日志、运行时目录
-mkdir -p %{var_lib_streampark} %{var_log_streampark} %{var_run_streampark}
-# 设置目录权限
-chown -R %{streampark_user}:%{streampark_group} %{var_lib_streampark} %{var_log_streampark} %{var_run_streampark}
-chmod -R 755 %{var_lib_streampark} %{var_log_streampark} %{var_run_streampark}
+install --owner streampark --group streampark --directory --mode=0755 %{np_var_log_streampark}
 
-# 配置 systemd 服务
-systemctl daemon-reload
-if [ $1 -eq 1 ]; then
-    # 首次安装时启用服务
-    systemctl enable %{streampark_name}.service >/dev/null 2>&1 || :
-fi
-
-# 预卸载脚本：停止服务
 %preun
-if [ $1 -eq 0 ]; then
-    # 完全卸载时停止并禁用服务
-    systemctl stop %{streampark_name}.service >/dev/null 2>&1 || :
-    systemctl disable %{streampark_name}.service >/dev/null 2>&1 || :
-fi
 
-# 卸载后脚本：清理残留文件
 %postun
-if [ $1 -eq 0 ]; then
-    # 完全卸载时删除数据目录
-    rm -rf %{var_lib_streampark}
-    rm -rf %{sys_etc_streampark}
-fi
 
-# 主包文件列表
 %files
-%defattr(-,root,root)
-%dir %{usr_lib_streampark}
-%{usr_lib_streampark}/lib/
-%{usr_lib_streampark}/static/
-%{usr_lib_streampark}/licenses/
-%config(noreplace) %{conf_streampark}/streampark-env.sh
-%config(noreplace) %{conf_streampark}/application.yml
-%attr(755,root,root) %{bin_streampark}/common.sh
-
-# Server 子包文件列表
-%files server
-%defattr(-,root,root)
-%{usr_lib_streampark}/server/
-%attr(755,root,root) %{bin_streampark}/start-server.sh
-%attr(755,root,root) %{bin_streampark}/stop-server.sh
-%{_unitdir}/%{streampark_name}.service
-%dir %attr(755,%{streampark_user},%{streampark_group}) %{var_lib_streampark}
-%dir %attr(755,%{streampark_user},%{streampark_group}) %{var_log_streampark}
-%dir %attr(755,%{streampark_user},%{streampark_group}) %{var_run_streampark}
-
-# Client 子包文件列表
-%files client
-%defattr(-,root,root)
-%attr(755,root,root) %{bin_streampark}/streampark-cli
-%{usr_lib_streampark}/client/
-%{sys_etc_streampark}/conf
+%defattr(644,root,root,755)
+%{lib_streampark}
+%{np_var_log_streampark}
+%{np_var_run_streampark}
+%{np_etc_streampark}

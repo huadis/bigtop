@@ -18,8 +18,6 @@ set -euo pipefail
 
 # 配置构建环境
 export MAVEN_OPTS="-Xms2g -Xmx4g"
-export SCALA_VERSION="2.12"
-export STREAMPARK_VERSION="2.1.6"
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
