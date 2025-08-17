@@ -43,8 +43,9 @@ Requires:       spark >= 3.0.0
 Requires(pre):  shadow-utils
 
 %description
-Apache Kyuubi is a distributed and multi-tenant gateway to provide SQL service over various computing frameworks.
-It aims to make the Data Lakehouse accessible via SQL based tools, and decouple the computing and storage.
+Apache SeaTunnel is an open-source distributed data integration platform that supports
+batch and streaming data synchronization. It provides rich connectors for databases,
+message queues, and data warehouses, enabling efficient data migration and transformation.
 
 %prep
 %setup -q -n apache-%{seatunnel_name}-%{seatunnel_base_version}-src
