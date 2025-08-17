@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
+set -ex
+
+#load versions
+. `dirname $0`/bigtop.bom
+
+. /etc/os-release
 
 # 配置构建环境
 export MAVEN_OPTS="-Xms2g -Xmx4g"

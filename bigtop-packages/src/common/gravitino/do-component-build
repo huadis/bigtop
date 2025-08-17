@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail  # 严格模式，确保构建过程报错即停
+set -ex
+
+#load versions
+. `dirname $0`/bigtop.bom
+
+. /etc/os-release
 
 # 定义版本（从环境变量或参数获取，适配 spec 中的版本）
 GRAVITINO_VERSION=${GRAVITINO_VERSION:-$(cat VERSION 2>/dev/null || echo "0.5.0")}

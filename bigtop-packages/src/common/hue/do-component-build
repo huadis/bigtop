@@ -15,7 +15,11 @@
 # limitations under the License.
 
 set -ex
+
+#load versions
 . `dirname $0`/bigtop.bom
+
+. /etc/os-release
 
 #FIXME: this needs to be fixed upstream
 sed -i -e "s#${FULL_VERSION}-SNAPSHOT#${FULL_VERSION}#g" `grep -lR ${FULL_VERSION}-SNAPSHOT .`
