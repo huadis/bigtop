@@ -104,41 +104,8 @@ install --owner %{ds_user} --group %{ds_group} --directory --mode=0755 %{np_var_
 
 # 文件列表 - 主包
 %files
-%defattr(-,root,root)
-%dir %{usr_lib_ds}
-%{usr_lib_ds}/lib/
-%{usr_lib_ds}/sql/
-%{usr_lib_ds}/licenses/
-%config(noreplace) %{conf_ds}/application.yaml
-%config(noreplace) %{conf_ds}/logback.xml
-%attr(755,root,root) %{bin_ds}/common.sh
-%attr(755,root,root) %{bin_ds}/check-env.sh
-
-# 文件列表 - server 子包
-%files server
-%defattr(-,root,root)
-%{usr_lib_ds}/server/
-%attr(755,root,root) %{bin_ds}/start-master.sh
-%attr(755,root,root) %{bin_ds}/start-worker.sh
-%attr(755,root,root) %{bin_ds}/stop-master.sh
-%attr(755,root,root) %{bin_ds}/stop-worker.sh
-%dir %attr(775,%{ds_user},%{ds_group}) %{var_lib_ds}
-%dir %attr(775,%{ds_user},%{ds_group}) %{var_log_ds}
-
-# 文件列表 - api 子包
-%files api
-%defattr(-,root,root)
-%{usr_lib_ds}/api/
-%{_unitdir}/%{ds_name}.service
-%attr(755,root,root) %{bin_ds}/start-api.sh
-%attr(755,root,root) %{bin_ds}/stop-api.sh
-%dir %attr(775,%{ds_user},%{ds_group}) %{var_run_ds}
-
-# 文件列表 - client 子包
-%files client
-%defattr(-,root,root)
-%attr(755,root,root) %{bin_ds}/dsctl
-%attr(755,root,root) %{bin_ds}/dolphinscheduler-daemon.sh
-%{usr_lib_ds}/client/
-%{sys_etc_ds}
-%config(noreplace) %{etc_ds}/%{ds_name}-env.sh
+%defattr(644,dolphinscheduler,dolphinscheduler,755)
+%{usr_lib_ds}
+%{np_var_log_ds}
+%{np_var_run_ds}
+%{np_etc_ds}
