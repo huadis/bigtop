@@ -57,7 +57,7 @@ while true ; do
         LIB_DIR=$2 ; shift 2
         ;;
         --etc-kyuubi)
-        ETC_KNOX=$2 ; shift 2
+        ETC_KYUUBI=$2 ; shift 2
         ;;
         --)
         shift ; break

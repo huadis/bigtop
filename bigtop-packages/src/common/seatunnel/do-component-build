@@ -27,19 +27,3 @@ export MAVEN_OPTS="-Xms2g -Xmx4g"
 echo "Starting to build Apache SeaTunnel ..."
 mvn spotless:apply
 mvn clean install -pl seatunnel-dist -am -DskipTests -Dmaven.javadoc.skip=true
-
-# 验证构建产物
-BUILD_DIR="seatunnel-dist/target"
-if [ ! -f "${BUILD_DIR}/apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz" ]; then
-    echo "Error: Build artifact not found in ${BUILD_DIR}. Build failed."
-    exit 1
-fi
-
-# 解压构建产物到 dist 目录（供安装脚本使用）
-mkdir -p dist
-tar -zxf "${BUILD_DIR}/apache-seatunnel-${SEATUNNEL_VERSION}-bin.tar.gz" -C dist --strip-components=1
-
-# 复制插件到 dist 目录（SeaTunnel 插件需单独存放）
-cp -r seatunnel-plugins/* dist/plugins/
-
-echo "Build completed successfully. Output in dist/"
