@@ -26,10 +26,11 @@ export MAVEN_OPTS="-Xms2g -Xmx4g"
 
 # 安装前端依赖并构建
 echo "Building frontend assets..."
-mvn clean install -Pscala-${SCALA_VERSION},shaded,webapp,dist -DskipTests
+SCALA_MAJOR_VERSION=$(echo $SCALA_VERSION | cut -d'.' -f1,2)
+mvn clean install -Pscala-${SCALA_MAJOR_VERSION},shaded,webapp,dist -DskipTests
 
 rm -rf build
 mkdir build
-tar -C build --strip-components=1 -xzf dist/apache-streampark_${SCALA_VERSION}-${STREAMPARK_VERSION}-bin.tar.gz
+tar -C build --strip-components=1 -xzf dist/apache-streampark_${SCALA_MAJOR_VERSION}-${STREAMPARK_VERSION}-bin.tar.gz
 
 echo "Build completed successfully. Output in dist/"
