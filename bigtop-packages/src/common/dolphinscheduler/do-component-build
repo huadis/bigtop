@@ -26,3 +26,7 @@ MVN_CMD="${MVN_CMD:-mvn}"
 
 mvn spotless:apply
 mvn clean package -Prelease -Dmaven.test.skip=true
+
+rm -rf build
+mkdir build
+tar -C build --strip-components=1 -xzf dolphinscheduler-dist/target/apache-dolphinscheduler-${DOLPHINSCHEDULER_VERSION}-bin.tar.gz

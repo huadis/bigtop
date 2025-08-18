@@ -79,7 +79,7 @@ This package provides command line tools for interacting with Apache DolphinSche
 
 # 构建阶段
 %build
-env DS_VERSION=%{ds_version} bash %{SOURCE1}
+bash %{SOURCE1}
 
 # 安装阶段
 %install

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,62 +15,95 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
+set -ex
 
-# 解析命令行参数
-while [[ $# -gt 0 ]]; do
+usage() {
+  echo "
+usage: $0 <options>
+  Required not-so-options:
+     --build-dir=DIR             path to dolphinscheduler dist.dir
+     --prefix=PREFIX             path to install into
+
+  Optional options:
+     --lib-dir=DIR               path to install dolphinscheduler home [/usr/lib/dolphinscheduler]
+     --etc-dolphinscheduler=DIR             path to install dolphinscheduler conf [/etc/dolphinscheduler]
+     ... [ see source for more similar options ]
+  "
+  exit 1
+}
+
+OPTS=$(getopt \
+  -n $0 \
+  -o '' \
+  -l 'prefix:' \
+  -l 'lib-dir:' \
+  -l 'etc-dolphinscheduler:' \
+  -l 'build-dir:' -- "$@")
+
+if [ $? != 0 ] ; then
+    usage
+fi
+
+eval set -- "$OPTS"
+while true ; do
     case "$1" in
         --prefix)
-            PREFIX="$2"
-            shift 2
-            ;;
+        PREFIX=$2 ; shift 2
+        ;;
         --build-dir)
-            BUILD_DIR="$2"
-            shift 2
-            ;;
+        BUILD_DIR=$2 ; shift 2
+        ;;
         --lib-dir)
-            LIB_DIR="$2"
-            shift 2
-            ;;
+        LIB_DIR=$2 ; shift 2
+        ;;
+        --etc-dolphinscheduler)
+        ETC_DOLPHINSCHEDULER=$2 ; shift 2
+        ;;
+        --)
+        shift ; break
+        ;;
         *)
-            echo "Invalid argument: $1"
-            exit 1
-            ;;
+        echo "Unknown option: $1"
+        usage
+        exit 1
+        ;;
     esac
 done
 
-# 验证参数
-if [ -z "${PREFIX:-}" ] || [ -z "${BUILD_DIR:-}" ] || [ -z "${LIB_DIR:-}" ]; then
-    echo "Usage: $0 --prefix <prefix> --build-dir <build_dir> --lib-dir <lib_dir>"
-    exit 1
-fi
+for var in PREFIX BUILD_DIR ; do
+  if [ -z "$(eval "echo \$$var")" ]; then
+    echo Missing param: $var
+    usage
+  fi
+done
 
-# 定义目标路径
-DEST_DIR="${PREFIX}/${LIB_DIR}"
-echo "Installing DolphinScheduler to $DEST_DIR"
+LIB_DIR=${LIB_DIR:-/dolphinscheduler}
+ETC_DOLPHINSCHEDULER=${ETC_DOLPHINSCHEDULER:-/etc/dolphinscheduler}
 
-# 创建目录
-mkdir -p "$DEST_DIR"
+install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/alert-server
+install -d -m 0755 $PREFIX/$LIB_DIR/api-server
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/master-server/
+install -d -m 0755 $PREFIX/$LIB_DIR/standalone-server
+install -d -m 0755 $PREFIX/$LIB_DIR/tools
+install -d -m 0755 $PREFIX/$LIB_DIR/ui
+install -d -m 0755 $PREFIX/$LIB_DIR/worker-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHINSCHEDULER
+install -d -m 0755 $PREFIX/$ETC_DOLPHINSCHEDULER/conf
+install -d -m 0755 $PREFIX/var/log/dolphinscheduler
+install -d -m 0755 $PREFIX/var/run/dolphinscheduler
 
-# 复制核心文件
-cp -r "${BUILD_DIR}/bin" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/conf" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/lib" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/server" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/api" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/client" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/sql" "$DEST_DIR/"
-cp -r "${BUILD_DIR}/licenses" "$DEST_DIR/"
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/
+cp -ra $BUILD_DIR/dep/* ${PREFIX}/${LIB_DIR}/dep/
+cp -ra $BUILD_DIR/ext/* ${PREFIX}/${LIB_DIR}/ext/
+cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/samples/* ${PREFIX}/${LIB_DIR}/samples/
+cp -ra $BUILD_DIR/templates/* ${PREFIX}/${LIB_DIR}/templates/
 
-# 设置权限
-chmod 755 "$DEST_DIR/bin"/*.sh
-chmod 644 "$DEST_DIR/conf"/*
+ln -s $ETC_DOLPHINSCHEDULER/conf $PREFIX/$LIB_DIR/conf
+ln -s /var/log/dolphinscheduler $PREFIX/$LIB_DIR/logs
+ln -s /var/run/dolphinscheduler $PREFIX/$LIB_DIR/pids
 
-# 创建数据和日志目录
-mkdir -p "${PREFIX}/var/lib/dolphinscheduler"
-mkdir -p "${PREFIX}/var/log/dolphinscheduler"
-mkdir -p "${PREFIX}/var/run/dolphinscheduler"
-mkdir -p "${PREFIX}/etc/dolphinscheduler"
-
-echo "Installation completed successfully"
-exit 0
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_DOLPHINSCHEDULER/conf/
