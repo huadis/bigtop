@@ -51,7 +51,7 @@ message queues, and data warehouses, enabling efficient data migration and trans
 %setup -q -n apache-%{seatunnel_name}-%{seatunnel_base_version}-src
 
 %build
-env SEATUNNEL_VERSION=%{seatunnel_base_version} bash %{SOURCE1}
+bash %{SOURCE1}
 
 
 %install

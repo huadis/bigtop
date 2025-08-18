@@ -91,7 +91,7 @@ install -d -m 0755 $PREFIX/$ETC_SEATUNNEL/conf
 install -d -m 0755 $PREFIX/var/log/seatunnel
 install -d -m 0755 $PREFIX/var/run/seatunnel
 
-cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/bin/*.sh ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/connectors/* ${PREFIX}/${LIB_DIR}/connectors/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/plugins/* ${PREFIX}/${LIB_DIR}/plugins/
