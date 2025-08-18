@@ -94,13 +94,14 @@ install -d -m 0755 $PREFIX/$ETC_DOLPHINSCHEDULER/conf
 install -d -m 0755 $PREFIX/var/log/dolphinscheduler
 install -d -m 0755 $PREFIX/var/run/dolphinscheduler
 
+cp -ra $BUILD_DIR/alert-server/* ${PREFIX}/${LIB_DIR}/alert-server/
+cp -ra $BUILD_DIR/api-server/* ${PREFIX}/${LIB_DIR}/api-server/
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data/
-cp -ra $BUILD_DIR/dep/* ${PREFIX}/${LIB_DIR}/dep/
-cp -ra $BUILD_DIR/ext/* ${PREFIX}/${LIB_DIR}/ext/
-cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $BUILD_DIR/samples/* ${PREFIX}/${LIB_DIR}/samples/
-cp -ra $BUILD_DIR/templates/* ${PREFIX}/${LIB_DIR}/templates/
+cp -ra $BUILD_DIR/master-server/* ${PREFIX}/${LIB_DIR}/master-server/
+cp -ra $BUILD_DIR/standalone-server/* ${PREFIX}/${LIB_DIR}/standalone-server/
+cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
+cp -ra $BUILD_DIR/ui/* ${PREFIX}/${LIB_DIR}/ui/
+cp -ra $BUILD_DIR/worker-server/* ${PREFIX}/${LIB_DIR}/worker-server/
 
 ln -s $ETC_DOLPHINSCHEDULER/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/dolphinscheduler $PREFIX/$LIB_DIR/logs
