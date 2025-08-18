@@ -106,5 +106,3 @@ cp -ra $BUILD_DIR/worker-server/* ${PREFIX}/${LIB_DIR}/worker-server/
 ln -s $ETC_DOLPHINSCHEDULER/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/dolphinscheduler $PREFIX/$LIB_DIR/logs
 ln -s /var/run/dolphinscheduler $PREFIX/$LIB_DIR/pids
-
-cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_DOLPHINSCHEDULER/conf/
