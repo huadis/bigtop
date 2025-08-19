@@ -556,6 +556,7 @@ bigtop {
         destination = source
       }
       url {
+        download_path = ""
         site          = "https://github.com/apache/ranger/archive/refs/tags"
         archive       = "${apache.APACHE_ARCHIVE}"
       }
