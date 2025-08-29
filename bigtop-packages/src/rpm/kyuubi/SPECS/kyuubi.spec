@@ -15,6 +15,8 @@
 
 %define kyuubi_name kyuubi
 %define kyuubi_pkg_name kyuubi%{pkg_name_suffix}
+%define hadoop_pkg_name hadoop%{pkg_name_suffix}
+%define spark_pkg_name spark%{pkg_name_suffix}
 
 %define lib_kyuubi %{parent_dir}/%{kyuubi_name}
 %define etc_kyuubi %{parent_dir}/%{kyuubi_name}
@@ -39,8 +41,7 @@ Source1:        do-component-build
 Source2:        install_kyuubi.sh
 Source3:        kyuubi.service
 Source4:        kyuubi-env.sh
-Requires:       hadoop >= 3.0.0
-Requires:       spark >= 3.0.0
+Requires: bigtop-utils >= 0.7, %{hadoop_pkg_name}-client, %{hadoop_pkg_name}-yarn, %{spark_pkg_name}
 Requires(pre):  shadow-utils
 
 %description
