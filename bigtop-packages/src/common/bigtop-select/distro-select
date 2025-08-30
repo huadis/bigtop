@@ -79,7 +79,9 @@ leaves = {
            "alluxio": "alluxio",
            "alluxio-master": "alluxio",
            "alluxio-worker": "alluxio",
-           "knox-server": "knox"
+           "knox-server": "knox",
+           "kyuubi-server": "kyuubi",
+           "kyuubi-client": "kyuubi",
 }
 
 # Define the aliases and the list of leaves they correspond to
