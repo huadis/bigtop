@@ -600,6 +600,25 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'seatunnel-web' {
+      name    = 'seatunnel-web'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'Apache SeaTunnel'
+      version {
+        base = '1.0.2'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-${version.base}-src.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
     'dolphinscheduler' {
       name    = 'dolphinscheduler'
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")

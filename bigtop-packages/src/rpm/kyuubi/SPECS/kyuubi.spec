@@ -63,7 +63,6 @@ bash -x %{SOURCE2} \
   --lib-dir=%{lib_kyuubi}
 
 %pre
-# 创建kyuubi用户和组
 getent group kyuubi >/dev/null || groupadd -r kyuubi
 getent passwd kyuubi >/dev/null || useradd -c "Kyuubi" -s /sbin/nologin -g kyuubi -r -d %{lib_kyuubi} kyuubi 2>/dev/null || :
 
