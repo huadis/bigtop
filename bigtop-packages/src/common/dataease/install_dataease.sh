@@ -21,12 +21,12 @@ usage() {
   echo "
 usage: $0 <options>
   Required not-so-options:
-     --build-dir=DIR             path to seatunnel-web dist.dir
+     --build-dir=DIR             path to dataease dist.dir
      --prefix=PREFIX             path to install into
 
   Optional options:
-     --lib-dir=DIR               path to install seatunnel-web home [/usr/lib/seatunnel-web]
-     --etc-seatunnel-web=DIR             path to install seatunnel-web conf [/etc/seatunnel-web]
+     --lib-dir=DIR               path to install dataease home [/usr/lib/dataease]
+     --etc-dataease=DIR             path to install dataease conf [/etc/dataease]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -37,7 +37,7 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'lib-dir:' \
-  -l 'etc-seatunnel-web:' \
+  -l 'etc-dataease:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -56,8 +56,8 @@ while true ; do
         --lib-dir)
         LIB_DIR=$2 ; shift 2
         ;;
-        --etc-seatunnel-web)
-        ETC_SEATUNNEL_WEB=$2 ; shift 2
+        --etc-dataease)
+        ETC_DATAEASE=$2 ; shift 2
         ;;
         --)
         shift ; break
@@ -77,28 +77,19 @@ for var in PREFIX BUILD_DIR ; do
   fi
 done
 
-LIB_DIR=${LIB_DIR:-/seatunnel-web}
-ETC_SEATUNNEL_WEB=${ETC_SEATUNNEL_WEB:-/etc/seatunnel-web}
+LIB_DIR=${LIB_DIR:-/dataease}
+ETC_DATAEASE=${ETC_DATAEASE:-/etc/dataease}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
-install -d -m 0755 $PREFIX/$LIB_DIR/datasource
-install -d -m 0755 $PREFIX/$LIB_DIR/libs
-install -d -m 0755 $PREFIX/$LIB_DIR/script
-install -d -m 0755 $PREFIX/$LIB_DIR/ui
-install -d -m 0755 $PREFIX/$ETC_SEATUNNEL_WEB
-install -d -m 0755 $PREFIX/$ETC_SEATUNNEL_WEB/conf
-install -d -m 0755 $PREFIX/var/log/seatunnel-web
-install -d -m 0755 $PREFIX/var/run/seatunnel-web
+install -d -m 0755 $PREFIX/$LIB_DIR/lib
+install -d -m 0755 $PREFIX/$ETC_DATAEASE
+install -d -m 0755 $PREFIX/$ETC_DATAEASE/conf
+install -d -m 0755 $PREFIX/var/log/dataease
+install -d -m 0755 $PREFIX/var/run/dataease
 
-cp -ra $BUILD_DIR/bin/*.sh ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/datasource/* ${PREFIX}/${LIB_DIR}/datasource/
-cp -ra $BUILD_DIR/libs/* ${PREFIX}/${LIB_DIR}/libs/
-cp -ra $BUILD_DIR/script/* ${PREFIX}/${LIB_DIR}/script/
-cp -ra $BUILD_DIR/ui/* ${PREFIX}/${LIB_DIR}/ui/
+cp -ra $BUILD_DIR/* ${PREFIX}/${LIB_DIR}/lib/
 
-ln -s $ETC_SEATUNNEL_WEB/conf $PREFIX/$LIB_DIR/conf
-ln -s /var/log/seatunnel $PREFIX/$LIB_DIR/logs
-ln -s /var/run/seatunnel $PREFIX/$LIB_DIR/pid
-
-cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_SEATUNNEL_WEB/conf/
+ln -s $ETC_DATAEASE/conf $PREFIX/$LIB_DIR/conf
+ln -s /var/log/dataease $PREFIX/$LIB_DIR/logs
+ln -s /var/run/dataease $PREFIX/$LIB_DIR/pid

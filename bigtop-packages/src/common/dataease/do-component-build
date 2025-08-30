@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 set -ex
 
 #load versions
@@ -22,12 +21,12 @@ set -ex
 
 . /etc/os-release
 
-export MAVEN_OPTS="-Xms2g -Xmx4g"
-
-echo "Starting to build Apache SeaTunnel Web ..."
-mvn spotless:apply
-mvn clean package -pl seatunnel-web-dist -am -Dmaven.test.skip=true
+# 配置编译参数
+MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
+mvn clean install
+cd core
+mvn clean package -Pstandalone -U -Dmaven.test.skip=true
 
 rm -rf build
 mkdir build
-tar -C build --strip-components=1 -xzf seatunnel-web-dist/target/apache-seatunnel-web-${SEATUNNEL_WEB_VERSION}-bin.tar.gz
+cp core-backend/target/CoreApplication.jar build/
