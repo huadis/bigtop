@@ -30,4 +30,4 @@ mvn clean package -pl seatunnel-web-dist -am -Dmaven.test.skip=true
 
 rm -rf build
 mkdir build
-tar -C build --strip-components=1 -xzf seatunnel-web-dist/target/apache-seatunnel-web-${SEATUNNEL_WEB_VERSION}-bin.tar.gz
+tar -C build --strip-components=1 -xzf seatunnel-web-dist/target/apache-seatunnel-web-${SEATUNNEL_WEB_VERSION}.tar.gz
