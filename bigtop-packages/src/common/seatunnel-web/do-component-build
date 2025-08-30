@@ -25,6 +25,7 @@ set -ex
 export MAVEN_OPTS="-Xms2g -Xmx4g"
 
 echo "Starting to build Apache SeaTunnel Web ..."
+mvn spotless:apply
 mvn clean package -pl seatunnel-web-dist -am -Dmaven.test.skip=true
 
 rm -rf build
