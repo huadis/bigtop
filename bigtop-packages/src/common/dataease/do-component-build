@@ -23,7 +23,7 @@ set -ex
 
 # 配置编译参数
 MAVEN_OPTS="${MAVEN_OPTS:--Xmx2g -XX:MetaspaceSize=512m}"
-JAVA_HOME=/usr/local/jdk-21.0.7/
+#JAVA_HOME=/usr/local/jdk-21.0.7/
 mvn clean install
 cd core
 mvn clean package -Pstandalone -U -Dmaven.test.skip=true
