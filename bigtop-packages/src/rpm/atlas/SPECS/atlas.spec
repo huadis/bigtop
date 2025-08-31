@@ -47,7 +47,7 @@ batch and streaming data synchronization. It provides rich connectors for databa
 message queues, and data warehouses, enabling efficient data migration and transformation.
 
 %prep
-%setup -q -n apache-%{atlas_name}-%{atlas_base_version}-sources
+%setup -q -n apache-%{atlas_name}-sources-%{atlas_base_version}
 
 %build
 bash %{SOURCE1}
