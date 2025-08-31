@@ -213,7 +213,7 @@ Requires: insserv, python-xml
 BuildRequires: /sbin/runuser, sqlite-devel, openldap-devel, mysql-devel, openssl-devel
 # Required for init scripts
 Requires: /lib/lsb/init-functions
-BuildRequires: python-devel, python-setuptools
+BuildRequires: python3-devel, python3-setuptools
 %endif
 
 # Disable automatic Provides generation - otherwise we will claim to provide all of the
