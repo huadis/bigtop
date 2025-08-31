@@ -33,4 +33,4 @@ popd
 
 rm -rf build
 mkdir build
-cp core-backend/target/CoreApplication.jar build/
+cp core/core-backend/target/CoreApplication.jar build/

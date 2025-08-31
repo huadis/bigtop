@@ -21,6 +21,8 @@ usage() {
   echo "
 usage: $0 <options>
   Required not-so-options:
+     --distro-dir=DIR            path to distro specific files (debian/RPM)
+     --src-dir=DIR               path to dataease source.dir
      --build-dir=DIR             path to dataease dist.dir
      --prefix=PREFIX             path to install into
 
@@ -35,9 +37,11 @@ usage: $0 <options>
 OPTS=$(getopt \
   -n $0 \
   -o '' \
+  -l 'distro-dir:' \
   -l 'prefix:' \
   -l 'lib-dir:' \
   -l 'etc-dataease:' \
+  -l 'src-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -50,8 +54,14 @@ while true ; do
         --prefix)
         PREFIX=$2 ; shift 2
         ;;
+        --distro-dir)
+        DISTRO_DIR=$2 ; shift 2
+        ;;
         --build-dir)
         BUILD_DIR=$2 ; shift 2
+        ;;
+        --src-dir)
+        SRC_DIR=$2 ; shift 2
         ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
@@ -70,7 +80,7 @@ while true ; do
     esac
 done
 
-for var in PREFIX BUILD_DIR ; do
+for var in PREFIX BUILD_DIR SRC_DIR; do
   if [ -z "$(eval "echo \$$var")" ]; then
     echo Missing param: $var
     usage
@@ -83,13 +93,22 @@ ETC_DATAEASE=${ETC_DATAEASE:-/etc/dataease}
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
+install -d -m 0755 $PREFIX/$LIB_DIR/drivers
+install -d -m 0755 $PREFIX/$LIB_DIR/cache
+install -d -m 0755 $PREFIX/$LIB_DIR/data
+install -d -m 0755 $PREFIX/$LIB_DIR/data/map
+install -d -m 0755 $PREFIX/$LIB_DIR/data/static-resource
 install -d -m 0755 $PREFIX/$ETC_DATAEASE
 install -d -m 0755 $PREFIX/$ETC_DATAEASE/conf
 install -d -m 0755 $PREFIX/var/log/dataease
 install -d -m 0755 $PREFIX/var/run/dataease
 
 cp -ra $BUILD_DIR/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $SRC_DIR/drivers/* ${PREFIX}/${LIB_DIR}/drivers
+cp -ra $SRC_DIR/mapFiles/* ${PREFIX}/${LIB_DIR}/data/map/
+cp -ra $SRC_DIR/staticResource/* ${PREFIX}/${LIB_DIR}/data/static-resource/
 
-ln -s $ETC_DATAEASE/conf $PREFIX/$LIB_DIR/conf
+ln -s $ETC_DATAEASE/conf $PREFIX/$LIB_DIR/config
 ln -s /var/log/dataease $PREFIX/$LIB_DIR/logs
 ln -s /var/run/dataease $PREFIX/$LIB_DIR/pid
+cp -ra $DISTRO_DIR/application.yml ${PREFIX}/$ETC_DATAEASE/conf/

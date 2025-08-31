@@ -53,6 +53,8 @@ bash %{SOURCE1}
 %__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
+  --distro-dir=$RPM_SOURCE_DIR \
+  --src-dir=`pwd` \
   --build-dir=`pwd`/build \
   --lib-dir=%{lib_dataease}
 
