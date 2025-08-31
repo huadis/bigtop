@@ -20,13 +20,7 @@ set -e
 . `dirname $0`/bigtop.bom
 
 export MAVEN_OPTS="-Xmx1500m -Xms1500m -XX:MaxPermSize=256m"
-mvn clean install -DskipTests "$@"
 mvn clean -DskipTests package -Pdist
 
-echo "build done"
-
-mkdir build
-echo " doing untar"
-
-tar -C build/ --strip-components=1 -xzf distro/target/apache-atlas-${ATLAS_VERSION}-bin.tar.gz
-echo "-------------- Atlas-do-component-build-completed --------------"
+rm -rf build && mkdir build
+tar -C build --strip-components=1 -xzf distro/target/apache-atlas-${ATLAS_VERSION}.tar.gz

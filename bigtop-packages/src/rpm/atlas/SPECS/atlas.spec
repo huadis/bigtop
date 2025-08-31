@@ -15,8 +15,6 @@
 
 %define atlas_name atlas
 %define atlas_pkg_name atlas%{pkg_name_suffix}
-%define hadoop_pkg_name hadoop%{pkg_name_suffix}
-%define spark_pkg_name spark%{pkg_name_suffix}
 
 %define lib_atlas %{parent_dir}/%{atlas_name}
 %define etc_atlas %{parent_dir}/%{atlas_name}
@@ -30,7 +28,7 @@ Name: %{atlas_pkg_name}
 Version: %{atlas_version}
 Release: %{atlas_release}
 BuildArch:      noarch
-Summary:        Apache SeaTunnel is a distributed and multi-tenant gateway to provide SQL service over various computing frameworks.
+Summary:        Atlas is a scalable and extensible set of core foundational governance services.
 URL:            https://atlas.apache.org/
 Group:          Applications/Internet
 License:        Apache License 2.0
@@ -38,13 +36,12 @@ Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 Source0:        apache-%{atlas_name}-%{atlas_base_version}-sources.tar.gz
 Source1:        do-component-build
 Source2:        install_atlas.sh
-Requires: bigtop-utils >= 0.7, %{hadoop_pkg_name}-client, %{hadoop_pkg_name}-yarn, %{spark_pkg_name}
-Requires(pre):  shadow-utils
+Requires: bigtop-utils >= 0.7
 
 %description
-Apache SeaTunnel is an open-source distributed data integration platform that supports
-batch and streaming data synchronization. It provides rich connectors for databases,
-message queues, and data warehouses, enabling efficient data migration and transformation.
+Atlas is a scalable and extensible set of core foundational governance services –
+enabling enterprises to effectively and efficiently meet their compliance requirements
+within Hadoop and allows integration with the whole enterprise data ecosystem.
 
 %prep
 %setup -q -n apache-%{atlas_name}-sources-%{atlas_base_version}
@@ -62,7 +59,7 @@ bash -x %{SOURCE2} \
 
 %pre
 getent group atlas >/dev/null || groupadd -r atlas
-getent passwd atlas >/dev/null || useradd -c "SeaTunnel" -s /sbin/nologin -g atlas -r -d %{lib_atlas} atlas 2>/dev/null || :
+getent passwd atlas >/dev/null || useradd -c "Atlas" -s /sbin/nologin -g atlas -r -d %{lib_atlas} atlas 2>/dev/null || :
 
 %post
 install --owner atlas --group atlas --directory --mode=0755 %{np_var_log_atlas}

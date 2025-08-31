@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -xe
+set -ex
 
 usage() {
   echo "
@@ -25,11 +25,8 @@ usage: $0 <options>
      --prefix=PREFIX             path to install into
 
   Optional options:
-     --doc-dir=DIR               path to install docs into [/usr/share/doc/atlas]
      --lib-dir=DIR               path to install atlas home [/usr/lib/atlas]
-     --installed-lib-dir=DIR     path where lib-dir will end up on target system
-     --bin-dir=DIR               path to install bins [/usr/bin]
-     --examples-dir=DIR          path to install examples [doc-dir/examples]
+     --etc-atlas=DIR             path to install atlas conf [/etc/atlas]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -39,13 +36,8 @@ OPTS=$(getopt \
   -n $0 \
   -o '' \
   -l 'prefix:' \
-  -l 'crh-dir:' \
-  -l 'doc-dir:' \
   -l 'lib-dir:' \
-  -l 'installed-lib-dir:' \
-  -l 'bin-dir:' \
-  -l 'examples-dir:' \
-  -l 'conf-dir:' \
+  -l 'etc-atlas:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -58,29 +50,14 @@ while true ; do
         --prefix)
         PREFIX=$2 ; shift 2
         ;;
-        --crh-dir)
-        CRH_DIR=$2 ; shift 2
-        ;;
-         --build-dir)
+        --build-dir)
         BUILD_DIR=$2 ; shift 2
-        ;;
-        --doc-dir)
-        DOC_DIR=$2 ; shift 2
         ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
         ;;
-        --installed-lib-dir)
-        INSTALLED_LIB_DIR=$2 ; shift 2
-        ;;
-        --bin-dir)
-        BIN_DIR=$2 ; shift 2
-        ;;
-        --examples-dir)
-        EXAMPLES_DIR=$2 ; shift 2
-        ;;
-        --conf-dir)
-        CONF_DIR=$2 ; shift 2
+        --etc-atlas)
+        ETC_ATLAS=$2 ; shift 2
         ;;
         --)
         shift ; break
@@ -93,70 +70,37 @@ while true ; do
     esac
 done
 
-for var in PREFIX BUILD_DIR CRH_DIR; do
+for var in PREFIX BUILD_DIR ; do
   if [ -z "$(eval "echo \$$var")" ]; then
     echo Missing param: $var
     usage
   fi
 done
 
-MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
-DOC_DIR=${DOC_DIR:-/usr/share/doc/atlas}
-LIB_DIR=${LIB_DIR:-${CRH_DIR}/atlas}
-BIN_DIR=${BIN_DIR:-${CRH_DIR}/atlas/bin}
-ETC_DIR=${ETC_DIR:-/etc/atlas}
-CONF_DIR=${CONF_DIR:-${ETC_DIR}/conf.dist}
+LIB_DIR=${LIB_DIR:-/atlas}
+ETC_ATLAS=${ETC_ATLAS:-/etc/atlas}
 
+install -d -m 0755 $PREFIX/$LIB_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/hook
+install -d -m 0755 $PREFIX/$LIB_DIR/hook-bin
+install -d -m 0755 $PREFIX/$LIB_DIR/models
+install -d -m 0755 $PREFIX/$LIB_DIR/server
+install -d -m 0755 $PREFIX/$LIB_DIR/tools
+install -d -m 0755 $PREFIX/$ETC_ATLAS
+install -d -m 0755 $PREFIX/$ETC_ATLAS/conf
+install -d -m 0755 $PREFIX/var/log/atlas
+install -d -m 0755 $PREFIX/var/run/atlas
 
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/hook/* ${PREFIX}/${LIB_DIR}/hook/
+cp -ra $BUILD_DIR/hook-bin/* ${PREFIX}/${LIB_DIR}/hook-bin/
+cp -ra $BUILD_DIR/models/* ${PREFIX}/${LIB_DIR}/models/
+cp -ra $BUILD_DIR/server/* ${PREFIX}/${LIB_DIR}/server/
+cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
 
-install -d -m 0755 ${PREFIX}/$LIB_DIR/
-install -d -m 0755 ${PREFIX}/$LIB_DIR/hook
-install -d -m 0755 ${PREFIX}/$LIB_DIR/hook-bin
-install -d -m 0755 ${PREFIX}/$LIB_DIR/models
-install -d -m 0755 ${PREFIX}/$LIB_DIR/server
+ln -s $ETC_ATLAS/conf $PREFIX/$LIB_DIR/conf
+ln -s /var/log/atlas $PREFIX/$LIB_DIR/logs
+ln -s /var/run/atlas $PREFIX/$LIB_DIR/pid
 
-install -d -m 0755 ${PREFIX}/$DOC_DIR
-install -d -m 0755 ${PREFIX}/$BIN_DIR
-install -d -m 0755 ${PREFIX}/$ETC_DIR
-install -d -m 0755 ${PREFIX}/$MAN_DIR
-
-if [ ! -e "${PREFIX}/${ETC_DIR}" ]; then
-    rm -f ${PREFIX}/${ETC_DIR}
-    mkdir -p ${PREFIX}/${ETC_DIR}
-fi
-
-cp -ra $BUILD_DIR/bin/* ${PREFIX}/$BIN_DIR
-cp -ra $BUILD_DIR/hook/* ${PREFIX}/$LIB_DIR/hook
-cp -ra $BUILD_DIR/hook-bin/* ${PREFIX}/$LIB_DIR/hook-bin
-cp -ra $BUILD_DIR/models/* ${PREFIX}/$LIB_DIR/models
-cp -ra $BUILD_DIR/server/* ${PREFIX}/$LIB_DIR/server
-cp -ra $BUILD_DIR/DISCLAIMER.txt ${PREFIX}/$LIB_DIR/
-cp -ra $BUILD_DIR/LICENSE ${PREFIX}/$LIB_DIR/
-cp -ra $BUILD_DIR/NOTICE ${PREFIX}/$LIB_DIR/
-
-cp -a $BUILD_DIR/conf ${PREFIX}/$CONF_DIR
-ln -s /etc/atlas/conf ${PREFIX}/$LIB_DIR/conf
-
-
-
-# Copy in the /usr/bin/storm wrapper
-#mv ${PREFIX}/$BIN_DIR/atlas ${PREFIX}/$BIN_DIR/atlas.distro
-
-#cat > ${PREFIX}/$BIN_DIR/atlas <<EOF
-#!/bin/bash
-#. /etc/default/hadoop
-
-# Autodetect JAVA_HOME if not defined
-#if [ -e /usr/libexec/bigtop-detect-javahome ]; then
-#  . /usr/libexec/bigtop-detect-javahome
-#elif [ -e /usr/lib/bigtop-utils/bigtop-detect-javahome ]; then
-#  . /usr/lib/bigtop-utils/bigtop-detect-javahome
-#fi
-
-#BIGTOP_DEFAULTS_DIR=\${BIGTOP_DEFAULTS_DIR-/etc/default}
-#[ -n "\${BIGTOP_DEFAULTS_DIR}" -a -r \${BIGTOP_DEFAULTS_DIR}/atlas ] && . \${BIGTOP_DEFAULTS_DIR}/atlas
-
-#exec ${CRH_DIR}/atlas/bin/atlas.distro "\$@"
-#EOF
-
-#chmod 755 ${PREFIX}/${BIN_DIR}/atlas
+cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_ATLAS/conf/
