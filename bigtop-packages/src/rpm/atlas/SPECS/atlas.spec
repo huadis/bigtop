@@ -14,139 +14,66 @@
 # limitations under the License.
 
 %define atlas_name atlas
+%define atlas_pkg_name atlas%{pkg_name_suffix}
+%define hadoop_pkg_name hadoop%{pkg_name_suffix}
+%define spark_pkg_name spark%{pkg_name_suffix}
 
-%define etc_atlas_conf /etc/%{atlas_name}/conf
-%define conf_dir_shipped %{_sysconfdir}/%{atlas_name}/
-%define etc_atlas_conf_dist %{etc_atlas_conf}.dist
+%define lib_atlas %{parent_dir}/%{atlas_name}
+%define etc_atlas %{parent_dir}/%{atlas_name}
+%define config_atlas %{parent_dir}/%{atlas_name}/conf
 
-%define atlas_home %{crh_dir}/%{atlas_name}
-%define distroselect crh-select
-#%define atlas_slider_client_home %{crh_dir}/%{atlas_name}-slider-client
-%define atlas_user_home /var/lib/%{atlas_name}
-%define bin_atlas %{atlas_home}/bin
-%define lib_atlas %{atlas_home}
-%define conf_atlas %{atlas_home}/conf
-%define logs_atlas %{atlas_home}/logs
-%define pids_atlas %{atlas_home}/pids
-%define man_dir %{_mandir}
-%define atlas_username atlas
-#fix BUG-26074
-%global debug_package %{nil}
-%if  %{?suse_version:1}0
+%define np_var_run_atlas /var/run/%{atlas_name}
+%define np_var_log_atlas /var/log/%{atlas_name}
+%define np_etc_atlas /etc/atlas
 
-# Only tested on openSUSE 11.4. le'ts update it for previous release when confirmed
-%if 0%{suse_version} > 1130
-%define suse_check \# Define an empty suse_check for compatibility with older sles
-%endif
-
-# SLES is more strict anc check all symlinks point to valid path
-# But we do point to a hadoop jar which is not there at build time
-# (but would be at install time).
-# Since our package build system does not handle dependencies,
-# these symlink checks are deactivated
-%define __os_install_post \
-    %{suse_check} ; \
-    /usr/lib/rpm/brp-compress ; \
-    %{nil}
-
-%define doc_atlas %{atlas_name}/doc
-%global initd_dir %{_sysconfdir}/rc.d/init.d
-%define alternatives_cmd update-alternatives
-
-%else
-
-# CentOS 5 does not have any dist macro
-# So I will suppose anything that is not Mageia or a SUSE will be a RHEL/CentOS/Fedora
-%if %{!?mgaversion:1}0
-
-# FIXME: brp-repack-jars uses unzip to expand jar files
-# Unfortunately guice-2.0.jar pulled by ivy contains some files and directories without any read permission
-# and make whole process to fail.
-# So for now brp-repack-jars is being deactivated until this is fixed.
-# See BIGTOP-294
-%define __os_install_post \
-    /usr/lib/rpm/redhat/brp-compress ; \
-    /usr/lib/rpm/redhat/brp-strip-static-archive %{__strip} ; \
-    /usr/lib/rpm/redhat/brp-strip-comment-note %{__strip} %{__objdump} ; \
-    /usr/lib/rpm/brp-python-bytecompile ; \
-    %{nil}
-%endif
-
-
-%define doc_atlas %{_docdir}/%{atlas_name}
-%global initd_dir %{_sysconfdir}/rc.d/init.d
-%define alternatives_cmd alternatives
-
-%endif
-
-
-Name: atlas%{crh_version_as_name}
-Version: %{atlas_base_version}
+Name: %{atlas_pkg_name}
+Version: %{atlas_version}
 Release: %{atlas_release}
-Summary: Apache Atlas
-URL: http://incubator.apache.org/atlas/
-Group: Applications/Server
-Buildroot: %{_topdir}/INSTALL/%{atlas_name}-%{version}
-License:  Apache License, Version 2.0
-Source0: apache-%{atlas_name}-%{atlas_base_version}-sources.tar.gz
-Source1: do-component-build
-Source2: install_atlas.sh
-Requires: zookeeper%{crh_version_as_name},hadoop%{crh_version_as_name},hbase%{crh_version_as_name}
-#Requires: ranger%{crh_version_as_name}-atlas-plugin
-
+BuildArch:      noarch
+Summary:        Apache SeaTunnel is a distributed and multi-tenant gateway to provide SQL service over various computing frameworks.
+URL:            https://atlas.apache.org/
+Group:          Applications/Internet
+License:        Apache License 2.0
+Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
+Source0:        apache-%{atlas_name}-%{atlas_base_version}-sources.tar.gz
+Source1:        do-component-build
+Source2:        install_atlas.sh
+Requires: bigtop-utils >= 0.7, %{hadoop_pkg_name}-client, %{hadoop_pkg_name}-yarn, %{spark_pkg_name}
+Requires(pre):  shadow-utils
 
 %description
-Altas is a distributed.
-
-
+Apache SeaTunnel is an open-source distributed data integration platform that supports
+batch and streaming data synchronization. It provides rich connectors for databases,
+message queues, and data warehouses, enabling efficient data migration and transformation.
 
 %prep
 %setup -q -n apache-%{atlas_name}-%{atlas_base_version}-sources
 
 %build
-env ALTAS_VERSION=%{version} atlas_base_version=%{altas_base_version} bash %{SOURCE1}
+bash %{SOURCE1}
+
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
-env CRH_DIR=%{crh_dir} CRH_VERSION=%{crh_version_with_bn} sh %{SOURCE2} \
-        --build-dir=build \
-        --prefix=$RPM_BUILD_ROOT \
-        --crh-dir=%{crh_dir}
-
-%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/log/%{atlas_name}
-ln -s %{_localstatedir}/log/%{atlas_name} %{buildroot}/%{logs_atlas}
-
-%__install -d  -m 0755  %{buildroot}/%{_localstatedir}/run/%{atlas_name}
-ln -s %{_localstatedir}/run/%{atlas_name} %{buildroot}/%{pids_atlas}
+bash -x %{SOURCE2} \
+  --prefix=$RPM_BUILD_ROOT \
+  --build-dir=`pwd`/build \
+  --lib-dir=%{lib_atlas}
 
 %pre
-getent group atlas 2>&1 > /dev/null || /usr/sbin/groupadd -r atlas
-getent group hadoop 2>&1 > /dev/null || /usr/sbin/groupadd -r hadoop
-getent passwd atlas 2>&1 > /dev/null || /usr/sbin/useradd -c "ATLAS" -s /bin/bash -g atlas -G atlas, hadoop -r -m -d %{atlas_user_home} atlas 2> /dev/null || :
+getent group atlas >/dev/null || groupadd -r atlas
+getent passwd atlas >/dev/null || useradd -c "SeaTunnel" -s /sbin/nologin -g atlas -r -d %{lib_atlas} atlas 2>/dev/null || :
 
 %post
-if [ !  -e "%{conf_dir_shipped}/conf" ]; then
-    rm -f %{conf_dir_shipped}/conf
-    mkdir -p %{conf_dir_shipped}/conf
-    cp -rp  %{etc_atlas_conf_dist}/* %{conf_dir_shipped}/conf
-fi
+install --owner atlas --group atlas --directory --mode=0755 %{np_var_log_atlas}
 
-/usr/bin/%{distroselect} --rpm-mode set atlas-client %{crh_version_with_bn}
-/usr/bin/%{distroselect} --rpm-mode set atlas-server %{crh_version_with_bn}
+%preun
 
+%postun
 
-#######################
-#### FILES SECTION ####
-#######################
 %files
-%defattr(-,root,root)
-%{atlas_home}/
-%{atlas_home}/DISCLAIMER.txt
-%{atlas_home}/LICENSE
-%{atlas_home}/NOTICE
-%config(noreplace) %{etc_atlas_conf_dist}
-%defattr(-,atlas,atlas)
-%{logs_atlas}
-%{pids_atlas}
-%dir %{_localstatedir}/log/%{atlas_name}/
-%dir %{_localstatedir}/run/%{atlas_name}/
+%defattr(644,atlas,atlas,755)
+%{lib_atlas}
+%{np_var_log_atlas}
+%{np_var_run_atlas}
+%{np_etc_atlas}
