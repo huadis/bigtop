@@ -23,4 +23,4 @@ export MAVEN_OPTS="-Xmx1500m -Xms1500m -XX:MaxPermSize=256m"
 mvn clean -DskipTests package -Pdist
 
 rm -rf build && mkdir build
-tar -C build --strip-components=1 -xzf distro/target/apache-atlas-${ATLAS_VERSION}.tar.gz
+tar -C build --strip-components=1 -xzf distro/target/apache-atlas-${ATLAS_VERSION}-bin.tar.gz
