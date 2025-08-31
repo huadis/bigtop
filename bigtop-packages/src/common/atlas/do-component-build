@@ -16,17 +16,12 @@
 
 set -e
 
-echo "-------------- Atlas-do-component-build-started -----------"
-
-base_path=`pwd`
-build_support_dir=`echo ${base_path%bigtop*}`
-
 
 . `dirname $0`/bigtop.bom
 
 export MAVEN_OPTS="-Xmx1500m -Xms1500m -XX:MaxPermSize=256m"
 mvn clean install -DskipTests "$@"
-mvn clean package -Pdist -DskipTests
+mvn clean -DskipTests package -Pdist
 
 echo "build done"
 

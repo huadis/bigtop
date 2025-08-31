@@ -21,4 +21,5 @@ set -ex
 
 . /etc/os-release
 
+PYTHON_VER=python3.6
 make apps
