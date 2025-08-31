@@ -82,20 +82,26 @@ ETC_DINKY=${ETC_DINKY:-/etc/dinky}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
-install -d -m 0755 $PREFIX/$LIB_DIR/connectors
+install -d -m 0755 $PREFIX/$LIB_DIR/deploy
+install -d -m 0755 $PREFIX/$LIB_DIR/dinky-loader
+install -d -m 0755 $PREFIX/$LIB_DIR/extends
+install -d -m 0755 $PREFIX/$LIB_DIR/html
+install -d -m 0755 $PREFIX/$LIB_DIR/jar
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
-install -d -m 0755 $PREFIX/$LIB_DIR/plugins
-install -d -m 0755 $PREFIX/$LIB_DIR/starter
+install -d -m 0755 $PREFIX/$LIB_DIR/sql
 install -d -m 0755 $PREFIX/$ETC_DINKY
 install -d -m 0755 $PREFIX/$ETC_DINKY/conf
 install -d -m 0755 $PREFIX/var/log/dinky
 install -d -m 0755 $PREFIX/var/run/dinky
 
 cp -ra $BUILD_DIR/bin/*.sh ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/connectors/* ${PREFIX}/${LIB_DIR}/connectors/
+cp -ra $BUILD_DIR/deploy/* ${PREFIX}/${LIB_DIR}/deploy/
+cp -ra $BUILD_DIR/dinky-loader/* ${PREFIX}/${LIB_DIR}/dinky-loader/
+cp -ra $BUILD_DIR/extends/* ${PREFIX}/${LIB_DIR}/extends/
+cp -ra $BUILD_DIR/html/* ${PREFIX}/${LIB_DIR}/html/
+cp -ra $BUILD_DIR/jar/* ${PREFIX}/${LIB_DIR}/jar/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $BUILD_DIR/plugins/* ${PREFIX}/${LIB_DIR}/plugins/
-cp -ra $BUILD_DIR/starter/* ${PREFIX}/${LIB_DIR}/starter/
+cp -ra $BUILD_DIR/sql/* ${PREFIX}/${LIB_DIR}/sql/
 
 ln -s $ETC_DINKY/conf $PREFIX/$LIB_DIR/config
 ln -s /var/log/dinky $PREFIX/$LIB_DIR/logs
