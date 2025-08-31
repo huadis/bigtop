@@ -27,5 +27,5 @@ MAVEN_SETTINGS=${MAVEN_SETTINGS:-/usr/local/maven-3.9.10/conf/settings.xml}  # �
 
 # 编译源码（跳过测试加速构建，使用 Apache 镜像）
 echo "Starting to build Gravitino ${GRAVITINO_VERSION}..."
-./gradlew build
+./gradlew build -x test
 # mvn clean package -DskipTests  -Dmaven.repo.local=/usr/local/maven-3.9.10/repo -s ${MAVEN_SETTINGS} -Pdist
