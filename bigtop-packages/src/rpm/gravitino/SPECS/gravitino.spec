@@ -40,8 +40,8 @@
 
 # RPM 包基本信息
 Name: %{gravitino_pkg_name}
-Version: 0.5.0
-Release: 1%{?dist}
+Version: %{gravitino_version}
+Release: %{gravitino_release}
 BuildArch: noarch
 Summary: Apache Gravitino is a metadata lake management system
 Group: Applications/System
@@ -50,16 +50,7 @@ URL: https://gravitino.apache.org/
 Source0: %{gravitino_name}-%{version}-src.tar.gz
 Source1: do-component-build
 Source2: install_gravitino.sh
-Source3: gravitino-env.sh
-Source4: gravitino.service
-Source5: gravitino-server.conf
-
-# 依赖项（基于 Gravitino 运行需求）
-Requires: java-11-openjdk >= 11.0.20
 Requires: bigtop-utils >= 0.14
-Requires: zookeeper >= 3.8.0
-Requires: postgresql-jdbc >= 42.5.4
-BuildRequires: maven >= 3.8.6, git, tar, gzip
 
 %description
 Apache Gravitino is an open-source metadata lake management system that provides
@@ -92,7 +83,7 @@ catalogs, schemas, and tables.
 
 # 准备阶段：解压源码包
 %prep
-%setup -q -n %{gravitino_name}-%{version}
+%setup -q -n %{gravitino_name}-%{version}-src
 
 # 构建阶段：执行编译脚本
 %build
