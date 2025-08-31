@@ -695,6 +695,25 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'dinky' {
+      name    = 'dinky'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'dinky'
+      version {
+        base = '1.2.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
   }
 }
 
