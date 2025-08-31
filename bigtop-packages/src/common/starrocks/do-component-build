@@ -23,6 +23,4 @@ set -ex
 . /etc/os-release
 
 export MAVEN_OPTS="-Xms2g -Xmx4g"
-mvn clean package -DskipTests=true -Pprod,flink-single-version,aliyun,flink-1.16,web,fast
-
-tar -C build --strip-components=1 -xzf build/dinky-${DINKY_VERSION}-bin.tar.gz
+./build.sh -j 24

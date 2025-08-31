@@ -714,6 +714,25 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'starrocks' {
+      name    = 'starrocks'
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      relNotes = 'starrocks'
+      version {
+        base = '3.5.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
   }
 }
 
