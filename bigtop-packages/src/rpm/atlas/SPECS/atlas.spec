@@ -88,7 +88,7 @@ URL: http://incubator.apache.org/atlas/
 Group: Applications/Server
 Buildroot: %{_topdir}/INSTALL/%{atlas_name}-%{version}
 License:  Apache License, Version 2.0
-Source0: %{atlas_name}-%{atlas_base_version}.tar.gz
+Source0: apache-%{atlas_name}-%{atlas_base_version}-sources.tar.gz
 Source1: do-component-build
 Source2: install_atlas.sh
 Requires: zookeeper%{crh_version_as_name},hadoop%{crh_version_as_name},hbase%{crh_version_as_name}
@@ -101,7 +101,7 @@ Altas is a distributed.
 
 
 %prep
-%setup -q -n apache-%{atlas_name}-sources-%{atlas_base_version}
+%setup -q -n apache-%{atlas_name}-%{atlas_base_version}-sources
 
 %build
 env ALTAS_VERSION=%{version} atlas_base_version=%{altas_base_version} bash %{SOURCE1}
