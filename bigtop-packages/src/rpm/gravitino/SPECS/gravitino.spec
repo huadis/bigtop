@@ -44,7 +44,7 @@ StarRocks provides best-in-class performance for multi-dimensional analytics, re
 A Linux Foundation project.
 
 %prep
-%setup -q -n apache-%{gravitino_name}-%{gravitino_base_version}-src
+%setup -q -n %{gravitino_name}-%{gravitino_base_version}-src
 
 %build
 bash %{SOURCE1}
