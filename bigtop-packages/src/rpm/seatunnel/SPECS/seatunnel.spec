@@ -74,7 +74,7 @@ install --owner seatunnel --group seatunnel --directory --mode=0755 %{np_var_log
 %postun
 
 %files
-%defattr(644,seatunnel,seatunnel,755)
+%defattr(-,seatunnel,seatunnel,755)
 %{lib_seatunnel}
 %{np_var_log_seatunnel}
 %{np_var_run_seatunnel}

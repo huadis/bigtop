@@ -70,7 +70,7 @@ install --owner dataease --group dataease --directory --mode=0755 %{np_var_log_d
 %postun
 
 %files
-%defattr(644,dataease,dataease,755)
+%defattr(-,dataease,dataease,755)
 %{lib_dataease}
 %{np_var_log_dataease}
 %{np_var_run_dataease}

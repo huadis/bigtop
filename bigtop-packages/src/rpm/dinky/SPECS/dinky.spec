@@ -69,7 +69,7 @@ install --owner dinky --group dinky --directory --mode=0755 %{np_var_log_dinky}
 %postun
 
 %files
-%defattr(644,dinky,dinky,755)
+%defattr(-,dinky,dinky,755)
 %{lib_dinky}
 %{np_var_log_dinky}
 %{np_var_run_dinky}

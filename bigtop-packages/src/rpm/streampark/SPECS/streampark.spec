@@ -91,7 +91,7 @@ install --owner streampark --group streampark --directory --mode=0755 %{np_var_l
 %postun
 
 %files
-%defattr(644,root,root,755)
+%defattr(-,root,root,755)
 %{lib_streampark}
 %{np_var_log_streampark}
 %{np_var_run_streampark}

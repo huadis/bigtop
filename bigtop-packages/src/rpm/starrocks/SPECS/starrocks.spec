@@ -71,7 +71,7 @@ install --owner starrocks --group starrocks --directory --mode=0755 %{np_var_log
 %postun
 
 %files
-%defattr(644,starrocks,starrocks,755)
+%defattr(-,starrocks,starrocks,755)
 %{lib_starrocks}
 %{np_var_log_starrocks}
 %{np_var_run_starrocks}

@@ -74,7 +74,7 @@ install --owner kyuubi --group kyuubi --directory --mode=0755 %{np_var_log_kyuub
 %postun
 
 %files
-%defattr(644,kyuubi,kyuubi,755)
+%defattr(-,kyuubi,kyuubi,755)
 %{lib_kyuubi}
 %{np_var_log_kyuubi}
 %{np_var_run_kyuubi}

@@ -69,7 +69,7 @@ install --owner atlas --group atlas --directory --mode=0755 %{np_var_log_atlas}
 %postun
 
 %files
-%defattr(644,atlas,atlas,755)
+%defattr(-,atlas,atlas,755)
 %{lib_atlas}
 %{np_var_log_atlas}
 %{np_var_run_atlas}

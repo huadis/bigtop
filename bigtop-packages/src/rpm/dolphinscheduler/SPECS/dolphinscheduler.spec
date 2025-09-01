@@ -104,7 +104,7 @@ install --owner %{ds_user} --group %{ds_group} --directory --mode=0755 %{np_var_
 
 # 文件列表 - 主包
 %files
-%defattr(644,dolphinscheduler,dolphinscheduler,755)
+%defattr(-,dolphinscheduler,dolphinscheduler,755)
 %{usr_lib_ds}
 %{np_var_log_ds}
 %{np_var_run_ds}
