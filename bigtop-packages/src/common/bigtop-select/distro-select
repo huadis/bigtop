@@ -82,6 +82,16 @@ leaves = {
            "knox-server": "knox",
            "kyuubi-server": "kyuubi",
            "kyuubi-client": "kyuubi",
+           "dinky-server": "dinky",
+           "dolphinscheduler": "dolphinscheduler",
+           "streampark-server": "streampark",
+           "dataease-server": "dataease",
+           "hue-server": "hue",
+           "kafka-manager": "kafka-manager",
+           "seatunnel-server": "seatunnel",
+           "seatunnel-web": "seatunnel-web",
+           "sqoop-server": "sqoop",
+           "superset-server": "superset"
 }
 
 # Define the aliases and the list of leaves they correspond to
