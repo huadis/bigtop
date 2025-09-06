@@ -21,11 +21,14 @@ set -ex
 
 . /etc/os-release
 
-# 配置 Maven 环境（BigTop 推荐使用指定镜像加速）
-export MAVEN_OPTS="-Xms2g -Xmx4g"  # 增加内存避免 OOM
-MAVEN_SETTINGS=${MAVEN_SETTINGS:-/usr/local/maven-3.9.10/conf/settings.xml}  # 可指定 BigTop 私有仓库
+export MAVEN_OPTS="-Xms2g -Xmx4g"
+MAVEN_SETTINGS=${MAVEN_SETTINGS:-/usr/local/maven-3.9.10/conf/settings.xml}
 
-# 编译源码（跳过测试加速构建，使用 Apache 镜像）
 echo "Starting to build Gravitino ${GRAVITINO_VERSION}..."
-./gradlew build -x test
-# mvn clean package -DskipTests  -Dmaven.repo.local=/usr/local/maven-3.9.10/repo -s ${MAVEN_SETTINGS} -Pdist
+./gradlew build -PpythonVersion=3.9 -x test --gradle-user-home /root/.gradle
+./gradlew compileDistribution
+./gradlew assembleDistribution
+
+rm -rf binary
+mkdir binary
+tar -C binary --strip-components=1 -xzf distribution/gravitino-${GRAVITINO_VERSION}-bin.tar.gz

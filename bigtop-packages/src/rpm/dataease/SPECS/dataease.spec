@@ -36,7 +36,7 @@ Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 Source0:        %{dataease_name}-%{dataease_base_version}.tar.gz
 Source1:        do-component-build
 Source2:        install_dataease.sh
-Requires: bigtop-utils >= 0.7
+Requires: bigtop-utils >= 0.7, jdk-21
 
 %description
 DataEase is an open-source data visualization and analysis tool that helps users quickly analyze data and gain insights into business trends,
