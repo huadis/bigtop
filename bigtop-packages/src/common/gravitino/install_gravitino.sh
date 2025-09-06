@@ -109,7 +109,6 @@ cp -ra $BUILD_DIR/authorizations/* ${PREFIX}/${LIB_DIR}/authorizations
 cp -ra $BUILD_DIR/auxlib/* ${PREFIX}/${LIB_DIR}/auxlib
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin
 cp -ra $BUILD_DIR/catalogs/* ${PREFIX}/${LIB_DIR}/catalogs
-cp -ra $BUILD_DIR/data/* ${PREFIX}/${LIB_DIR}/data
 cp -ra $BUILD_DIR/iceberg-rest-server/* ${PREFIX}/${LIB_DIR}/iceberg-rest-server
 cp -ra $BUILD_DIR/libs/* ${PREFIX}/${LIB_DIR}/libs
 cp -ra $BUILD_DIR/scripts/* ${PREFIX}/${LIB_DIR}/scripts/

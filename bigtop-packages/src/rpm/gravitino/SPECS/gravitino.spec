@@ -56,7 +56,7 @@ bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
   --distro-dir=$RPM_SOURCE_DIR \
   --src-dir=`pwd` \
-  --build-dir=`pwd`/build \
+  --build-dir=`pwd`/binary \
   --lib-dir=%{lib_gravitino}
 
 %pre
