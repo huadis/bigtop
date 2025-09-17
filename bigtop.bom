@@ -643,7 +643,7 @@ bigtop {
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'DataEase'
       version {
-        base = '2.10.12'
+        base = '2.10.13'
         pkg = base
         release = 1
       }
