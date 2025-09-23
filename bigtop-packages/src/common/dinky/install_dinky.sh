@@ -102,6 +102,7 @@ cp -ra $BUILD_DIR/html/* ${PREFIX}/${LIB_DIR}/html/
 cp -ra $BUILD_DIR/jar/* ${PREFIX}/${LIB_DIR}/jar/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/sql/* ${PREFIX}/${LIB_DIR}/sql/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/lib/
 
 ln -s $ETC_DINKY/conf $PREFIX/$LIB_DIR/config
 ln -s /var/log/dinky $PREFIX/$LIB_DIR/logs
