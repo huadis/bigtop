@@ -14,68 +14,105 @@
 # limitations under the License.
 
 # 基础定义
-%define ds_name dolphinscheduler
-%define ds_version %{dolphinscheduler_version}
-%define ds_release %{dolphinscheduler_release}
-%define ds_pkg_name %{ds_name}%{pkg_name_suffix}
-%define etc_ds %{parent_dir}/etc/%{ds_name}
-%define usr_lib_ds %{parent_dir}/%{ds_name}
+%define dolphin_name dolphinscheduler
+%define dolphin_version %{dolphinscheduler_version}
+%define dolphin_release %{dolphinscheduler_release}
+%define dolphin_pkg_name %{dolphin_name}%{pkg_name_suffix}
+%define etc_dolphin %{parent_dir}/etc/%{dolphin_name}
+%define usr_lib_dolphin %{parent_dir}/%{dolphin_name}
 
-%define ds_user %{ds_name}
-%define ds_group %{ds_name}
+%define dolphin_user %{dolphin_name}
+%define dolphin_group %{dolphin_name}
 
-%define np_var_log_ds /var/log/%{ds_name}
-%define np_var_run_ds /var/run/%{ds_name}
-%define np_etc_ds /etc/%{ds_name}
+%define np_var_log_dolphin /var/log/%{dolphin_name}
+%define np_var_run_dolphin /var/run/%{dolphin_name}
+%define np_etc_dolphin /etc/%{dolphin_name}
 
 %define alternatives_cmd alternatives
 
-Name: %{ds_pkg_name}
-Version: %{ds_version}
-Release: %{ds_release}
+Name: %{dolphin_pkg_name}
+Version: %{dolphin_version}
+Release: %{dolphin_release}
 BuildArch: noarch
 Summary: Apache DolphinScheduler is a distributed workflow scheduler
 Group: Applications/System
 License: Apache License 2.0
 URL: https://dolphinscheduler.apache.org/
-Source0: apache-%{ds_name}-%{ds_version}-src.tar.gz
+Source0: apache-%{dolphin_name}-%{dolphin_version}-src.tar.gz
 Source1: do-component-build
-Source2: install_%{ds_name}.sh
+Source2: install_%{dolphin_name}.sh
 
 %description
-Apache DolphinScheduler is a distributed and easy-to-expand visual workflow scheduler system,
-which is dedicated to solving the complex dependencies in data processing,
-making the scheduling system out of the box for data processing.
+Apache DolphinScheduler is the modern data workflow orchestration platform with powerful user interface,
+dedicated to solving complex task dependencies in the data pipeline and providing various types of jobs available `out of the box`
 
-# 子包定义
-%package server
-Summary: Apache DolphinScheduler server components
-Group: Applications/System
-Requires: %{name} = %{version}-%{release}
 
-%description server
-This package contains the core server components of Apache DolphinScheduler,
-including master server and worker server.
+%package        alert-server
+Summary:        dolphinscheduler alert server
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}
 
-%package api
-Summary: Apache DolphinScheduler API service
-Group: Applications/System
-Requires: %{name}-server = %{version}-%{release}
-Requires: tomcat >= 8.5.63
+%description    alert-server
+dolphinscheduler alert server
 
-%description api
-This package contains the API service and web UI of Apache DolphinScheduler.
+%package        api-server
+Summary:        dolphinscheduler api server
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}
 
-%package client
-Summary: Apache DolphinScheduler command line client
-Group: Applications/System
-Requires: %{name} = %{version}-%{release}
+%description    api-server
+dolphinscheduler api server
 
-%description client
-This package provides command line tools for interacting with Apache DolphinScheduler.
+%package        bin
+Summary:        dolphinscheduler original bin
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}
+
+%description    bin
+dolphinscheduler original bin
+
+%package        master-server
+Summary:        dolphinscheduler master server
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}, %{name}-ui = %{version}-%{release}, %{name}-api-server = %{version}-%{release}
+
+%description    master-server
+dolphinscheduler master server
+
+%package        standalone-server
+Summary:        dolphinscheduler standalone server
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}, %{name}-ui = %{version}-%{release}
+
+%description    standalone-server
+dolphinscheduler standalone server
+
+%package        tools
+Summary:        dolphinscheduler tools
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}, %{name}-bin = %{version}-%{release}
+
+%description    tools
+dolphinscheduler tools
+
+%package        ui
+Summary:        dolphinscheduler ui
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}
+
+%description    ui
+dolphinscheduler ui
+
+%package        worker-server
+Summary:        dolphinscheduler worker server
+Group:          Applications/Internet
+Requires:       %{name} = %{version}-%{release}
+
+%description    worker-server
+dolphinscheduler worker server
 
 %prep
-%setup -q -n apache-%{ds_name}-%{ds_version}-src
+%setup -q -n apache-%{dolphin_name}-%{dolphin_version}-src
 
 # 构建阶段
 %build
@@ -87,25 +124,63 @@ rm -rf $RPM_BUILD_ROOT
 bash %{SOURCE2} \
     --prefix=$RPM_BUILD_ROOT \
     --build-dir=`pwd`/build \
-    --lib-dir=%{usr_lib_ds}
+    --etc-dolphin=%{usr_lib_dolphin} \
+    --lib-dir=%{usr_lib_dolphin}
 
 %pre
 # 创建knox用户和组
-getent group %{ds_user} >/dev/null || groupadd -r %{ds_user}
-getent passwd %{ds_user} >/dev/null || useradd -c "DolphinScheduler" -s /sbin/nologin -g %{ds_group} -r -d %{usr_lib_ds} %{ds_name} 2>/dev/null || :
+getent group %{dolphin_user} >/dev/null || groupadd -r %{dolphin_user}
+getent passwd %{dolphin_user} >/dev/null || useradd -c "DolphinScheduler" -s /sbin/nologin -g %{dolphin_group} -r -d %{usr_lib_dolphin} %{dolphin_name} 2>/dev/null || :
 
 
 %post
-install --owner %{ds_user} --group %{ds_group} --directory --mode=0755 %{np_var_log_ds}
+install --owner %{dolphin_user} --group %{dolphin_group} --directory --mode=0755 %{np_var_log_dolphin}
 
 %preun
 
 %postun
 
-# 文件列表 - 主包
+
 %files
-%defattr(-,dolphinscheduler,dolphinscheduler,755)
-%{usr_lib_ds}
-%{np_var_log_ds}
-%{np_var_run_ds}
-%{np_etc_ds}
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}
+%{np_var_log_dolphin}
+%{np_var_run_dolphin}
+
+%files alert-server
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/alert-server
+%{etc_dolphin}/alert-server/conf
+
+%files api-server
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/api-server
+%{etc_dolphin}/api-server/conf
+
+%files bin
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/bin
+
+%files master-server
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/master-server
+%{etc_dolphin}/master-server/conf
+
+%files standalone-server
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/standalone-server
+%{etc_dolphin}/standalone-server/conf
+
+%files tools
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/tools
+%{etc_dolphin}/tools/conf
+
+%files ui
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/ui
+
+%files worker-server
+%defattr(-,dolphinscheduler,dolphinscheduler,-)
+%{usr_lib_dolphin}/worker-server
+%{etc_dolphin}/worker-server/conf

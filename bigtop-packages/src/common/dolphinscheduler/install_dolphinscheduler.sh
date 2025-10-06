@@ -26,7 +26,7 @@ usage: $0 <options>
 
   Optional options:
      --lib-dir=DIR               path to install dolphinscheduler home [/usr/lib/dolphinscheduler]
-     --etc-dolphinscheduler=DIR             path to install dolphinscheduler conf [/etc/dolphinscheduler]
+     --etc-dolphin=DIR             path to install dolphinscheduler conf [/etc/dolphinscheduler]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -37,7 +37,7 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'lib-dir:' \
-  -l 'etc-dolphinscheduler:' \
+  -l 'etc-dolphin:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -56,8 +56,8 @@ while true ; do
         --lib-dir)
         LIB_DIR=$2 ; shift 2
         ;;
-        --etc-dolphinscheduler)
-        ETC_DOLPHINSCHEDULER=$2 ; shift 2
+        --etc-dolphin)
+        ETC_DOLPHIN=$2 ; shift 2
         ;;
         --)
         shift ; break
@@ -78,7 +78,7 @@ for var in PREFIX BUILD_DIR ; do
 done
 
 LIB_DIR=${LIB_DIR:-/dolphinscheduler}
-ETC_DOLPHINSCHEDULER=${ETC_DOLPHINSCHEDULER:-/etc/dolphinscheduler}
+ETC_DOLPHIN=${ETC_DOLPHIN:-/etc/dolphinscheduler}
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/alert-server
@@ -89,8 +89,15 @@ install -d -m 0755 $PREFIX/$LIB_DIR/standalone-server
 install -d -m 0755 $PREFIX/$LIB_DIR/tools
 install -d -m 0755 $PREFIX/$LIB_DIR/ui
 install -d -m 0755 $PREFIX/$LIB_DIR/worker-server
-install -d -m 0755 $PREFIX/$ETC_DOLPHINSCHEDULER
-install -d -m 0755 $PREFIX/$ETC_DOLPHINSCHEDULER/conf
+
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/alert-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/api-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/master-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/worker-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/tools-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/standalone-server
+
 install -d -m 0755 $PREFIX/var/log/dolphinscheduler
 install -d -m 0755 $PREFIX/var/run/dolphinscheduler
 
@@ -103,6 +110,9 @@ cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
 cp -ra $BUILD_DIR/ui/* ${PREFIX}/${LIB_DIR}/ui/
 cp -ra $BUILD_DIR/worker-server/* ${PREFIX}/${LIB_DIR}/worker-server/
 
-ln -s $ETC_DOLPHINSCHEDULER/conf $PREFIX/$LIB_DIR/conf
-ln -s /var/log/dolphinscheduler $PREFIX/$LIB_DIR/logs
-ln -s /var/run/dolphinscheduler $PREFIX/$LIB_DIR/pids
+ln -s -r ${PREFIX}/${LIB_DIR}/alert-server/conf      $PREFIX/$ETC_DOLPHIN/alert-server
+ln -s -r ${PREFIX}/${LIB_DIR}/api-server/conf        $PREFIX/$ETC_DOLPHIN/api-server
+ln -s -r ${PREFIX}/${LIB_DIR}/master-server/conf     $PREFIX/$ETC_DOLPHIN/master-server
+ln -s -r ${PREFIX}/${LIB_DIR}/worker-server/conf     $PREFIX/$ETC_DOLPHIN/worker-server
+ln -s -r ${PREFIX}/${LIB_DIR}/tools/conf             $PREFIX/$ETC_DOLPHIN/tools
+ln -s -r ${PREFIX}/${LIB_DIR}/standalone-server/conf $PREFIX/$ETC_DOLPHIN/standalone-server
