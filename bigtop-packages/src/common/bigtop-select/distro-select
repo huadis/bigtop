@@ -82,14 +82,42 @@ leaves = {
            "knox-server": "knox",
            "kyuubi-server": "kyuubi",
            "kyuubi-client": "kyuubi",
+           "trino": "trino",
+           "trino-cli": "trino-cli",
+           "celeborn": "celeborn",
+           "celeborn-master": "celeborn",
+           "celeborn-worker": "celeborn",
+           "celeborn-client": "celeborn",
+           "kudu": "kudu",
+           "kudu-master": "kudu",
+           "kudu-tserver": "kudu",
+           "doris-fe": "doris-fe",
+           "doris-fe-observer": "doris-fe",
+           "doris-be": "doris-be",
+           "doris-hdfs_broker": "doris-hdfs_broker",
+           "doris-client": "doris-client",
            "dinky-server": "dinky",
+           "impala": "impala",
+           "impala-client": "impala",
+           "impala-shell": "impala-shell",
+           "seatunnel": "seatunnel",
+           "seatunnel-server": "seatunnel",
+           "seatunnel-client": "seatunnel",
+           "seatunnel-web": "seatunnel-web",
+           "dolphin-master": "dolphinscheduler",
+           "dolphin-worker": "dolphinscheduler",
+           "dolphin-alert": "dolphinscheduler",
+           "dolphin-api": "dolphinscheduler",
            "dolphinscheduler": "dolphinscheduler",
+           "cloudbeaver": "cloudbeaver",
+           "nightingale": "nightingale",
+           "categraf": "categraf",
+           "victoriametrics": "victoriametrics",
            "streampark-server": "streampark",
            "dataease-server": "dataease",
            "hue-server": "hue",
            "kafka-manager": "kafka-manager",
-           "seatunnel-server": "seatunnel",
-           "seatunnel-web": "seatunnel-web",
+           "sqoop": "sqoop",
            "sqoop-server": "sqoop",
            "superset-server": "superset"
 }
@@ -104,6 +132,9 @@ aliases = {
               "phoenix-client",
               "zookeeper-client",
               "flink-client",
+              "impala-shell",
+              "doris-client",
+              "seatunnel-client",
               "spark-client",
               "livy-client"],
   "hadoop-hdfs-server": ["hadoop-hdfs-datanode",
@@ -128,9 +159,16 @@ locked_contexts = {
                     ("hadoop-mapreduce-client", "hadoop-mapreduce"),
                     ("hive-client", "hive"),
                     ("tez-client", "tez"),
+                    ("kyuubi-client", "kyuubi"),
+                    ("impala-shell", "impala-shell"),
+                    ("doris-client", "doris"),
+                    ("seatunnel-client", "seatunnel"),
                     ("spark-client", "spark")]
 }
 
+
+
+# Given a package or alias name, get the full list of packages
 command_symlinks = {
   "hadoop" : "hadoop-client/bin/hadoop",
   "hdfs" : "hadoop-hdfs-client/bin/hdfs",
@@ -161,11 +199,25 @@ command_symlinks = {
   "spark-sql" : "spark-client/bin/spark-sql",
   "spark-submit" : "spark-client/bin/spark-submit",
   "pyspark" : "spark-client/bin/pyspark",
-  "alluxio" : "alluxio/bin/alluxio"
+  "alluxio" : "alluxio/bin/alluxio",
+  "sqoop" : "sqoop/bin/sqoop",
+  "sqoop-codegen" : "sqoop/bin/sqoop-codegen",
+  "sqoop-create-hive-table" : "sqoop/bin/sqoop-create-hive-table",
+  "sqoop-eval" : "sqoop/bin/sqoop-eval",
+  "sqoop-export" : "sqoop/bin/sqoop-export",
+  "sqoop-help" : "sqoop/bin/sqoop-help",
+  "sqoop-import" : "sqoop/bin/sqoop-import",
+  "sqoop-import-all-tables" : "sqoop/bin/sqoop-import-all-tables",
+  "sqoop-job" : "sqoop/bin/sqoop-job",
+  "sqoop-list-databases" : "sqoop/bin/sqoop-list-databases",
+  "sqoop-list-tables" : "sqoop/bin/sqoop-list-tables",
+  "sqoop-merge" : "sqoop/bin/sqoop-merge",
+  "sqoop-version" : "sqoop/bin/sqoop-version",
+  "impala-shell" : "impala-shell/bin/impala-shell",
+  "doris" : "doris-client/bin/doris",
+  "seatunnel.sh" : "seatunnel-client/bin/seatunnel.sh",
+  "kudu" : "kudu/bin/kudu",
 }
-
-
-# Given a package or alias name, get the full list of packages
 def getPackages( name ):
   if name == None:
     return leaves.keys()
