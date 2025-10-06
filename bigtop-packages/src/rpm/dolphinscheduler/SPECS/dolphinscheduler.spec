@@ -150,12 +150,10 @@ install --owner %{dolphin_user} --group %{dolphin_group} --directory --mode=0755
 %files alert-server
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/alert-server
-%{etc_dolphin}/alert-server/conf
 
 %files api-server
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/api-server
-%{etc_dolphin}/api-server/conf
 
 %files bin
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
@@ -164,17 +162,14 @@ install --owner %{dolphin_user} --group %{dolphin_group} --directory --mode=0755
 %files master-server
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/master-server
-%{etc_dolphin}/master-server/conf
 
 %files standalone-server
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/standalone-server
-%{etc_dolphin}/standalone-server/conf
 
 %files tools
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/tools
-%{etc_dolphin}/tools/conf
 
 %files ui
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
@@ -183,4 +178,3 @@ install --owner %{dolphin_user} --group %{dolphin_group} --directory --mode=0755
 %files worker-server
 %defattr(-,dolphinscheduler,dolphinscheduler,-)
 %{usr_lib_dolphin}/worker-server
-%{etc_dolphin}/worker-server/conf
