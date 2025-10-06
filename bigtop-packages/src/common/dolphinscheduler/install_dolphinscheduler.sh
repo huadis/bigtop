@@ -109,10 +109,3 @@ cp -ra $BUILD_DIR/standalone-server/* ${PREFIX}/${LIB_DIR}/standalone-server/
 cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
 cp -ra $BUILD_DIR/ui/* ${PREFIX}/${LIB_DIR}/ui/
 cp -ra $BUILD_DIR/worker-server/* ${PREFIX}/${LIB_DIR}/worker-server/
-
-ln -s -r ${PREFIX}/${LIB_DIR}/alert-server/conf      $PREFIX/$ETC_DOLPHIN/alert-server
-ln -s -r ${PREFIX}/${LIB_DIR}/api-server/conf        $PREFIX/$ETC_DOLPHIN/api-server
-ln -s -r ${PREFIX}/${LIB_DIR}/master-server/conf     $PREFIX/$ETC_DOLPHIN/master-server
-ln -s -r ${PREFIX}/${LIB_DIR}/worker-server/conf     $PREFIX/$ETC_DOLPHIN/worker-server
-ln -s -r ${PREFIX}/${LIB_DIR}/tools/conf             $PREFIX/$ETC_DOLPHIN/tools
-ln -s -r ${PREFIX}/${LIB_DIR}/standalone-server/conf $PREFIX/$ETC_DOLPHIN/standalone-server
