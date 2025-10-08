@@ -82,6 +82,7 @@ leaves = {
            "knox-server": "knox",
            "kyuubi-server": "kyuubi",
            "kyuubi-client": "kyuubi",
+           "gravitino-server": "gravitino",
            "trino": "trino",
            "trino-cli": "trino-cli",
            "celeborn": "celeborn",

@@ -32,6 +32,7 @@ Source2:    bigtop-utils.default
 Source3:    bigtop-detect-javalibs
 Source4:    bigtop-detect-classpath
 Source5:    bigtop-monitor-service
+Source6:    find_javahome
 Requires:   bash
 
 # "which" command is needed for a lot of projects.
@@ -54,6 +55,7 @@ install -p -m 644 %{SOURCE2} .
 install -p -m 644 %{SOURCE3} .
 install -p -m 644 %{SOURCE4} .
 install -p -m 644 %{SOURCE5} .
+install -p -m 644 %{Source6} .
 
 %build
 
