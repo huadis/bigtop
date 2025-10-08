@@ -52,7 +52,7 @@ requested_version=""
 if [ $# -gt 0 ]; then
     if echo " $SUPPORTED_VERSIONS " | grep -q " $1 "; then
         requested_version=$1
-        echo "Prioritizing Java version $requested_version..."
+        echo -e "\nPrioritizing Java version JDK_$requested_version"
     else
         echo "Warning: Version $1 is not supported. Using default priority."
         echo "Supported versions: $SUPPORTED_VERSIONS"
@@ -94,7 +94,7 @@ detect_java() {
 }
 
 # Detect each Java version
-echo "Searching for Java installations..."
+echo "Searching for Java installations"
 JAVA8_HOME=$(detect_java 8 "$JAVA8_CANDIDATES")
 JAVA11_HOME=$(detect_java 11 "$JAVA11_CANDIDATES")
 JAVA17_HOME=$(detect_java 17 "$JAVA17_CANDIDATES")
@@ -138,8 +138,6 @@ fi
 if [ -n "$selected_home" ]; then
     export JAVA_HOME="$selected_home"
     echo -e "\nJAVA_HOME set to: $JAVA_HOME"
-    exit 0
 else
     echo -e "\nError: No supported Java versions found." >&2
-    exit 1
 fi
