@@ -102,3 +102,4 @@ ln -s $ETC_STREAMPARK/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/streampark $PREFIX/$LIB_DIR/logs
 ln -s /var/run/streampark $PREFIX/$LIB_DIR/pid
 cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_STREAMPARK/conf/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar $PREFIX/$LIB_DIR/lib
