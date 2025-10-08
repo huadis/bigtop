@@ -80,7 +80,7 @@ while true ; do
     esac
 done
 
-for var in PREFIX BUILD_DIR SRC_DIR; do
+for var in PREFIX BUILD_DIR SRC_DIR DISTRO_DIR; do
   if [ -z "$(eval "echo \$$var")" ]; then
     echo Missing param: $var
     usage

@@ -73,6 +73,7 @@ env SCALA_VERSION="2.12" STREAMPARK_VERSION=%{streampark_base_version} bash %{SO
 rm -rf $RPM_BUILD_ROOT
 bash %{SOURCE2} \
     --prefix=$RPM_BUILD_ROOT \
+    --distro-dir=$RPM_SOURCE_DIR \
     --build-dir=`pwd`/build \
     --lib-dir=%{lib_streampark}
 

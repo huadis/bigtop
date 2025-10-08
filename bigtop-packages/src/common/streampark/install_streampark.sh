@@ -23,6 +23,7 @@ usage: $0 <options>
   Required not-so-options:
      --build-dir=DIR             path to streampark dist.dir
      --prefix=PREFIX             path to install into
+     --distro-dir=DIR            path to distro specific files (debian/RPM)
 
   Optional options:
      --lib-dir=DIR               path to install streampark home [/usr/lib/streampark]
@@ -37,6 +38,7 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'lib-dir:' \
+  -l 'distro-dir:' \
   -l 'etc-streampark:' \
   -l 'build-dir:' -- "$@")
 
@@ -56,6 +58,9 @@ while true ; do
         --lib-dir)
         LIB_DIR=$2 ; shift 2
         ;;
+        --distro-dir)
+        DISTRO_DIR=$2 ; shift 2
+        ;;
         --etc-streampark)
         ETC_STREAMPARK=$2 ; shift 2
         ;;
@@ -70,7 +75,7 @@ while true ; do
     esac
 done
 
-for var in PREFIX BUILD_DIR ; do
+for var in PREFIX BUILD_DIR DISTRO_DIR; do
   if [ -z "$(eval "echo \$$var")" ]; then
     echo Missing param: $var
     usage
@@ -86,6 +91,7 @@ install -d -m 0755 $PREFIX/$LIB_DIR/client
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
 install -d -m 0755 $PREFIX/$LIB_DIR/plugins
 install -d -m 0755 $PREFIX/$LIB_DIR/script
+install -d -m 0755 $PREFIX/$LIB_DIR/tools
 install -d -m 0755 $PREFIX/$LIB_DIR/temp
 install -d -m 0755 $PREFIX/$LIB_DIR/temp/streampark
 install -d -m 0755 $PREFIX/$ETC_STREAMPARK
@@ -97,6 +103,7 @@ cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/client/* ${PREFIX}/${LIB_DIR}/client/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/script/* ${PREFIX}/${LIB_DIR}/script/
+cp -ra $DISTRO_DIR/sql-tools-1.0.jar $PREFIX/$LIB_DIR/tools/
 
 ln -s $ETC_STREAMPARK/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/streampark $PREFIX/$LIB_DIR/logs
