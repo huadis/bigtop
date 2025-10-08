@@ -100,5 +100,5 @@ cp -ra $BUILD_DIR/script/* ${PREFIX}/${LIB_DIR}/script/
 
 ln -s $ETC_STREAMPARK/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/streampark $PREFIX/$LIB_DIR/logs
-
+ln -s /var/run/streampark $PREFIX/$LIB_DIR/pid
 cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_STREAMPARK/conf/

@@ -48,8 +48,6 @@ data sources and sinks.
 Summary: Apache StreamPark server component
 Group: Applications/System
 Requires: %{name} = %{version}-%{release}
-Requires: hadoop-client >= 3.3.4
-Requires: hive-client >= 3.1.3
 
 %description server
 This package contains the core server components of Apache StreamPark, including
@@ -91,7 +89,7 @@ install --owner streampark --group streampark --directory --mode=0755 %{np_var_l
 %postun
 
 %files
-%defattr(-,root,root,755)
+%defattr(-,streampark,streampark,755)
 %{lib_streampark}
 %{np_var_log_streampark}
 %{np_var_run_streampark}
