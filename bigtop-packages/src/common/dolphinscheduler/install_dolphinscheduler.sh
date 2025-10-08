@@ -95,17 +95,24 @@ install -d -m 0755 $PREFIX/$ETC_DOLPHIN/alert-server
 install -d -m 0755 $PREFIX/$ETC_DOLPHIN/api-server
 install -d -m 0755 $PREFIX/$ETC_DOLPHIN/master-server
 install -d -m 0755 $PREFIX/$ETC_DOLPHIN/worker-server
-install -d -m 0755 $PREFIX/$ETC_DOLPHIN/tools-server
+install -d -m 0755 $PREFIX/$ETC_DOLPHIN/tools
 install -d -m 0755 $PREFIX/$ETC_DOLPHIN/standalone-server
 
 install -d -m 0755 $PREFIX/var/log/dolphinscheduler
 install -d -m 0755 $PREFIX/var/run/dolphinscheduler
 
-cp -ra $BUILD_DIR/alert-server/* ${PREFIX}/${LIB_DIR}/alert-server/
-cp -ra $BUILD_DIR/api-server/* ${PREFIX}/${LIB_DIR}/api-server/
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $BUILD_DIR/master-server/* ${PREFIX}/${LIB_DIR}/master-server/
-cp -ra $BUILD_DIR/standalone-server/* ${PREFIX}/${LIB_DIR}/standalone-server/
-cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
 cp -ra $BUILD_DIR/ui/* ${PREFIX}/${LIB_DIR}/ui/
+
+cp -ra $BUILD_DIR/alert-server/* ${PREFIX}/${LIB_DIR}/alert-server/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/alert-server/libs/
+cp -ra $BUILD_DIR/api-server/* ${PREFIX}/${LIB_DIR}/api-server/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/api-server/libs/
+cp -ra $BUILD_DIR/master-server/* ${PREFIX}/${LIB_DIR}/master-server/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/master-server/libs/
+cp -ra $BUILD_DIR/standalone-server/* ${PREFIX}/${LIB_DIR}/standalone-server/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/standalone-server/libs/
+cp -ra $BUILD_DIR/tools/* ${PREFIX}/${LIB_DIR}/tools/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/tools/libs/
 cp -ra $BUILD_DIR/worker-server/* ${PREFIX}/${LIB_DIR}/worker-server/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar ${PREFIX}/${LIB_DIR}/worker-server/libs/
