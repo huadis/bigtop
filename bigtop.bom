@@ -347,7 +347,7 @@ bigtop {
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'Apache Gravitino'
       version {
-        base = '0.9.1'
+        base = '1.0.0'
         pkg = base
         release = 1
       }

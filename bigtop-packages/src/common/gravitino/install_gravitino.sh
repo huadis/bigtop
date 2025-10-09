@@ -114,7 +114,7 @@ cp -ra $BUILD_DIR/libs/* ${PREFIX}/${LIB_DIR}/libs
 cp -ra $BUILD_DIR/scripts/* ${PREFIX}/${LIB_DIR}/scripts/
 cp -ra $BUILD_DIR/web/* ${PREFIX}/${LIB_DIR}/web/
 
-ln -s $ETC_GRAVITINO/conf $PREFIX/$LIB_DIR/config
+ln -s $ETC_GRAVITINO/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/gravitino $PREFIX/$LIB_DIR/logs
 ln -s /var/run/gravitino $PREFIX/$LIB_DIR/pid
 cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_GRAVITINO/conf/
