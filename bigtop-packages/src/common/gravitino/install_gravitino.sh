@@ -112,7 +112,7 @@ cp -ra $BUILD_DIR/catalogs/* ${PREFIX}/${LIB_DIR}/catalogs
 cp -ra $BUILD_DIR/iceberg-rest-server/* ${PREFIX}/${LIB_DIR}/iceberg-rest-server
 cp -ra $BUILD_DIR/libs/* ${PREFIX}/${LIB_DIR}/libs
 cp -ra $BUILD_DIR/scripts/* ${PREFIX}/${LIB_DIR}/scripts/
-cp -ra $BUILD_DIR/web/* ${PREFIX}/${LIB_DIR}/web/
+cp -ra $BUILD_DIR/web/gravitino-web-*.war ${PREFIX}/${LIB_DIR}/web/
 
 ln -s $ETC_GRAVITINO/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/gravitino $PREFIX/$LIB_DIR/logs

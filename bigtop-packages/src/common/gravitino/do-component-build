@@ -24,7 +24,7 @@ set -ex
 export JAVA_HOME=/etc/alternatives/java_sdk_17
 export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8"
 java -version
-export MAVEN_OPTS="-Xms2g -Xmx4g"
+export MAVEN_OPTS="-Xms6g -Xmx6g"
 MAVEN_SETTINGS=${MAVEN_SETTINGS:-/usr/local/maven-3.9.10/conf/settings.xml}
 echo "Starting to build Gravitino ${GRAVITINO_VERSION}..."
 ./gradlew build -PpythonVersion=3.9 -x test --gradle-user-home /root/.gradle
