@@ -73,6 +73,7 @@ install --owner gravitino --group gravitino --directory --mode=0755 %{np_var_log
 %files
 %defattr(644,gravitino,gravitino,755)
 %{lib_gravitino}
+%{lib_gravitino}/bin/*.sh
 %{np_var_log_gravitino}
 %{np_var_run_gravitino}
 %{np_etc_gravitino}
