@@ -100,6 +100,7 @@ install -d -m 0755 $PREFIX/$LIB_DIR/iceberg-rest-server
 install -d -m 0755 $PREFIX/$LIB_DIR/libs
 install -d -m 0755 $PREFIX/$LIB_DIR/scripts
 install -d -m 0755 $PREFIX/$LIB_DIR/web
+install -d -m 0755 $PREFIX/$LIB_DIR/tools
 install -d -m 0755 $PREFIX/$ETC_GRAVITINO
 install -d -m 0755 $PREFIX/$ETC_GRAVITINO/conf
 install -d -m 0755 $PREFIX/var/log/gravitino
@@ -113,8 +114,11 @@ cp -ra $BUILD_DIR/iceberg-rest-server/* ${PREFIX}/${LIB_DIR}/iceberg-rest-server
 cp -ra $BUILD_DIR/libs/* ${PREFIX}/${LIB_DIR}/libs
 cp -ra $BUILD_DIR/scripts/* ${PREFIX}/${LIB_DIR}/scripts/
 cp -ra $BUILD_DIR/web/gravitino-web-*.war ${PREFIX}/${LIB_DIR}/web/
+cp -ra $DISTRO_DIR/sql-tools-1.0.jar $PREFIX/$LIB_DIR/tools/
+
 
 ln -s $ETC_GRAVITINO/conf $PREFIX/$LIB_DIR/conf
 ln -s /var/log/gravitino $PREFIX/$LIB_DIR/logs
 ln -s /var/run/gravitino $PREFIX/$LIB_DIR/pid
 cp -ra $BUILD_DIR/conf/* ${PREFIX}/$ETC_GRAVITINO/conf/
+cp -ra /usr/local/maven-3.9.10/repo/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar $PREFIX/$LIB_DIR/libs
