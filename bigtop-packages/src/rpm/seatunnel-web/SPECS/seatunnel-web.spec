@@ -14,7 +14,7 @@
 # limitations under the License.
 
 %define seatunnel_web_name seatunnel-web
-%define seatunnel_web_pkg_name seatunnel%{pkg_name_suffix}-web
+%define seatunnel_web_pkg_name seatunnel-web%{pkg_name_suffix}
 %define hadoop_pkg_name hadoop%{pkg_name_suffix}
 %define spark_pkg_name spark%{pkg_name_suffix}
 
@@ -71,7 +71,7 @@ install --owner seatunnel --group seatunnel --directory --mode=0755 %{np_var_log
 
 %postun
 
-%files
+%files web
 %defattr(-,seatunnel,seatunnel,755)
 %{lib_seatunnel_web}
 %{np_var_log_seatunnel_web}
