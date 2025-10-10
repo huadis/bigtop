@@ -14,7 +14,7 @@
 # limitations under the License.
 
 %define seatunnel_web_name seatunnel-web
-%define seatunnel_web_pkg_name seatunnel%{pkg_name_suffix}-web
+%define seatunnel_web_pkg_name seatunnel-web%{pkg_name_suffix}
 %define hadoop_pkg_name hadoop%{pkg_name_suffix}
 %define spark_pkg_name spark%{pkg_name_suffix}
 
