@@ -16,12 +16,17 @@
 
 set -ex
 
-#load versions
 . `dirname $0`/bigtop.bom
 
-. /etc/os-release
+mvn clean install -DskipTests -Dmahout.skip.distribution=false \
+  -Phadoop2 \
+  -Dhadoop.version=$HADOOP_VERSION \
+  -Dhbase.version=$HBASE_VERSION   \
+  -Dscala.compat.version=${SCALA_VERSION%.*} \
+  -Dscala.version=${SCALA_VERSION} \
+  -Dspark.version=${SPARK_VERSION} \
+  -Dflink.version=${FLINK_VERSION} \
+  "$@"
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+mkdir build
+tar -C build --strip-components=1 -xzf distribution/target/apache-mahout-distribution-$MAHOUT_VERSION.tar.gz 

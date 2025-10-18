@@ -1,4 +1,3 @@
-#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -ex
+CATALINA_BASE=/var/lib/sqoop/tomcat-deployment
+SQOOP_USER=sqoop
+SQOOP_CONFIG=/etc/sqoop/conf
+SQOOP_LOG=/var/log/sqoop
+SQOOP_TEMP=/var/run/sqoop
+SQOOP_PID=/var/run/sqoop/sqoop-server-sqoop.pid
+CATALINA_BIN=/usr/lib/bigtop-tomcat/bin
+CATALINA_TMPDIR=/var/tmp/sqoop
+CATALINA_OPTS=-Xmx1024m
+CATALINA_OUT=/var/log/sqoop/sqoop-tomcat.log
+#AUX_CLASSPATH=
 
-#load versions
-. `dirname $0`/bigtop.bom
-
-. /etc/os-release
-
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps

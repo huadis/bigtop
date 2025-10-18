@@ -16,12 +16,6 @@
 
 set -ex
 
-#load versions
-. `dirname $0`/bigtop.bom
+rm -f gpdb
 
-. /etc/os-release
-
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+make

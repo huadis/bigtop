@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,14 +15,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -ex
+# Autodetect JAVA_HOME if not defined
+. /usr/lib/bigtop-utils/bigtop-detect-javahome
+. /usr/lib/bigtop-utils/bigtop-detect-classpath
 
-#load versions
-. `dirname $0`/bigtop.bom
+LIB_DIR=${LIB_DIR:-/usr/lib}
 
-. /etc/os-release
+SQOOP_HOME=${LIB_DIR}/sqoop
+TOMCAT_HOME=${LIB_DIR}/bigtop-tomcat
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+. /usr/lib/sqoop/tomcat-deployment.sh
+
+export CATALINA_BIN=${CATALINA_BIN:-${TOMCAT_HOME}/bin}
+export CATALINA_BASE=${CATALINA_BASE:-${DEPLOYMENT_TARGET}}
+export CATALINA_OPTS=${CATALINA_OPTS:--Xmx1024m}
+export CATALINA_OUT=${CATALINE_OUT:-/var/log/sqoop/sqoop-tomcat.log}
+
+env CLASSPATH=$CLASSPATH $SQOOP_HOME/bin/sqoop.sh server $@
+

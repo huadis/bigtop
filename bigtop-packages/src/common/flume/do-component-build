@@ -16,12 +16,21 @@
 
 set -ex
 
-#load versions
 . `dirname $0`/bigtop.bom
 
-. /etc/os-release
+export MAVEN_OPTS="-Xmx1536m -Xms256m"
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+sed -i -e \
+'s#<artifactId>asynchbase</artifactId>#<artifactId>asynchbase</artifactId>\n<exclusions>\n<exclusion>\n<groupId>org.apache.zookeeper</groupId>\n<artifactId>zookeeper</artifactId>\n</exclusion>\n</exclusions>#' flume-ng-sinks/flume-ng-hbase-sink/pom.xml
+
+
+# The following is weird, but true: yes *hadoop*.profile is hbase-98
+# This profile will activate hadoop2.version as the relevant property
+# and will also make us specify hbase version with -hadoop2 prefix
+mvn -DskipTests  \
+  -Dhadoop.version=${HADOOP_VERSION} \
+  -Dhbase.version=${HBASE_VERSION} \
+  -Dhive.version=${HIVE_VERSION} \
+  -Dkafka.version=${KAFKA_VERSION} \
+  -Dzookeeper.version=${ZOOKEEPER_VERSION} \
+  clean install "$@"

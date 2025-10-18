@@ -16,12 +16,15 @@
 
 set -ex
 
-#load versions
-. `dirname $0`/bigtop.bom
+. `dirname ${0}`/bigtop.bom
 
-. /etc/os-release
+# Install the specific version of nodejs defined in Kibana
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+nvm install $(cat .node-version)
+npm install
+npm rebuild node-sass
+npm run build -- --skip-os-packages --release

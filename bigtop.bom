@@ -733,6 +733,186 @@ bigtop {
       }
       maven_parallel_build = true
     }
+    'ycsb' {
+      name    = 'ycsb'
+      relNotes = 'Yahoo! Cloud Serving Benchmark'
+      version {
+        base = '0.17.0'
+        pkg = base
+        release = 2
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // source      = "${version.base}.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'gpdb' {
+      name    = 'gpdb'
+      relNotes = 'GreenPlum'
+      version {
+        base = '5.10.0'
+        pkg = '5.10.0'
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // source      = "${version.base}.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'elasticsearch' {
+      name    = 'elasticsearch'
+      relNotes = 'Search and Analytics engine'
+      version {
+        base = '5.6.14'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+      maven_parallel_build = true
+    }
+    'logstash' {
+      name    = 'logstash'
+      relNotes = 'Data processing pipeline'
+      version {
+        base = '5.4.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // destination = "v${version.base}.zip"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'kibana' {
+      name    = 'kibana'
+      relNotes = 'A browser-based analytics and search dashboard'
+      version {
+        base = '5.4.1'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // source      = "v${version.base}.zip"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'sqoop' {
+      name    = 'sqoop'
+      relNotes = 'Apache Sqoop'
+      version {
+        base = '1.99.4'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "${sqoop.name}-${version.base}.tar.gz"
+        // source      = destination
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'oozie' {
+      name    = 'oozie'
+      relNotes = 'Apache Oozie'
+      version {
+        base = '4.3.0'
+        pkg = base
+        release = 2
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // source      = destination
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'mahout' {
+      name    = 'mahout'
+      relNotes = 'Apache Mahout'
+      version {
+        base = '0.13.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-distribution-${version.base}-src.tar.gz"
+        // source      = destination
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'flume' {
+      name    = 'flume'
+      relNotes = 'Apache Flume'
+      version {
+        base = '1.9.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "apache-$name-${version.base}-src.tar.gz"
+        // source      = destination
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
+    'giraph' {
+      name    = 'giraph'
+      relNotes = 'Apache Giraph'
+      version {
+        base = '1.2.0'
+        pkg = base
+        release = 1
+      }
+      tarball {
+        source      = "$name-${version.base}.tar.gz"
+        // source      = "$name-dist-${version.base}-src.tar.gz"
+        destination = source
+      }
+      url {
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}"
+      }
+    }
   }
 }
 

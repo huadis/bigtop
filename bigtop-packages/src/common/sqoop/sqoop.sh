@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,14 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -ex
+# Autodetect JAVA_HOME if not defined
+. /usr/lib/bigtop-utils/bigtop-detect-javahome
 
-#load versions
-. `dirname $0`/bigtop.bom
+LIB_DIR=/usr/lib/sqoop
+BIN_DIR=${LIB_DIR}/bin
 
-. /etc/os-release
+CLASSPATH=$CLASSPATH:$(echo "$LIB_DIR"/client-lib/*.jar | tr ' ' ':')
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+env CLASSPATH=$CLASSPATH $BIN_DIR/sqoop.sh client $@
+

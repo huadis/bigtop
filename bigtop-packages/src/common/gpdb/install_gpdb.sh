@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -16,12 +16,4 @@
 
 set -ex
 
-#load versions
-. `dirname $0`/bigtop.bom
-
-. /etc/os-release
-
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+make install DESTDIR=$1

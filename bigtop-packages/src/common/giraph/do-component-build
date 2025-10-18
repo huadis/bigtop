@@ -16,12 +16,10 @@
 
 set -ex
 
-#load versions
 . `dirname $0`/bigtop.bom
 
-. /etc/os-release
+BULK_MVN_OPTS="-Phadoop_2 -DskipTests -Dhadoop.version=$HADOOP_VERSION -Dzookeeper.version=$ZOOKEEPER_VERSION -Dhbase.version=$HBASE_VERSION -Dhive.version=$HIVE_VERSION $@"
 
-PYTHON_VER=python3.8
-export PYTHON=$PYTHON_VER
-export PIP=pip3.8
-make apps
+mvn $BULK_MVN_OPTS clean install
+# mvn $BULK_MVN_OPTS -Ddependency.locations.enabled=false site:site
+# mvn $BULK_MVN_OPTS -Ddependency.locations.enabled=false site:stage
