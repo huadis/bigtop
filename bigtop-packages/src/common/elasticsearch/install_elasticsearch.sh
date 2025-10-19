@@ -91,7 +91,7 @@ install -d -m 0755 $PREFIX/var/log/elasticsearch
 install -d -m 0755 $PREFIX/var/run/elasticsearch
 
 
-cp -ra $BUILD_DIR/bin/*.sh ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
 cp -ra $BUILD_DIR/plugins/* ${PREFIX}/${LIB_DIR}/plugins/
