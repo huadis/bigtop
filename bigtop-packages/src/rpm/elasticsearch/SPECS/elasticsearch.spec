@@ -50,7 +50,7 @@ env FULL_VERSION=%{elasticsearch_base_version} bash %{SOURCE1}
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
-sh $RPM_SOURCE_DIR/%{Source2} \
+sh $RPM_SOURCE_DIR/%{SOURCE2} \
           --build-dir=`pwd`/build \
           --prefix=$RPM_BUILD_ROOT \
           --distro-dir=$RPM_SOURCE_DIR \
