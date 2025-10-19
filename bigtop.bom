@@ -792,7 +792,7 @@ bigtop {
       name    = 'elasticsearch'
       relNotes = 'Search and Analytics engine'
       version {
-        base = '9.1.5'
+        base = '7.10.2'
         pkg = base
         release = 1
       }
@@ -810,7 +810,7 @@ bigtop {
       name    = 'logstash'
       relNotes = 'Data processing pipeline'
       version {
-        base = '9.1.5'
+        base = '7.10.2'
         pkg = base
         release = 1
       }
@@ -828,7 +828,7 @@ bigtop {
       name    = 'kibana'
       relNotes = 'A browser-based analytics and search dashboard'
       version {
-        base = '9.1.5'
+        base = '7.10.2'
         pkg = base
         release = 1
       }
