@@ -19,7 +19,9 @@ set -ex
 . `dirname ${0}`/bigtop.bom
 JAVA_HOME=/etc/alternatives/java_sdk_11
 
-./gradlew :distribution:archives:no-jdk-linux-tar:assemble -Doss=true -Dbuild.snapshot=false -Dbuild.release=true -Dbuild.xpack.ml=false -Dlicense.key=licenses/APACHE-LICENSE-2.0.txt --parallel
+# ./gradlew :distribution:archives:no-jdk-linux-tar:assemble -Doss=true -Dbuild.snapshot=false -Dbuild.release=true -Dbuild.xpack.ml=false -Dlicense.key=licenses/APACHE-LICENSE-2.0.txt --parallel
+
+./gradlew assemble -Dbuild.snapshot=false
 
 JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
 
