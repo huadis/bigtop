@@ -94,7 +94,6 @@ install -d -m 0755 $PREFIX/var/run/elasticsearch
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
-cp -ra $BUILD_DIR/plugins/* ${PREFIX}/${LIB_DIR}/plugins/
 cp -a  $BUILD_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
 chmod 755 ${PREFIX}/${LIB_DIR}/bin/*
 
