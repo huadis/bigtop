@@ -78,7 +78,7 @@ for var in PREFIX BUILD_DIR DISTRO_DIR ; do
 done
 
 LIB_DIR=${LIB_DIR:-/usr/lib/elasticsearch}
-ETC_ELASTICSEARCH=${ETC_DINKY:-/etc/elasticsearch}
+ETC_ELASTICSEARCH=${ETC_ELASTICSEARCH:-/etc/elasticsearch}
 VAR_DIR=$PREFIX/var
 
 install -d -m 0755 $PREFIX/$LIB_DIR
@@ -97,8 +97,8 @@ cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
 cp -a  $BUILD_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
 chmod 755 ${PREFIX}/${LIB_DIR}/bin/*
 
-ln -s $ETC_DINKY/config $PREFIX/$LIB_DIR/config
+ln -s $ETC_ELASTICSEARCH/config $PREFIX/$LIB_DIR/config
 ln -s /var/log/elasticsearch $PREFIX/$LIB_DIR/logs
 ln -s /var/run/elasticsearch $PREFIX/$LIB_DIR/pid
 
-cp -ra $BUILD_DIR/config/* ${PREFIX}/$ETC_DINKY/config/
+cp -ra $BUILD_DIR/config/* ${PREFIX}/$ETC_ELASTICSEARCH/config/
