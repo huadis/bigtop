@@ -87,6 +87,8 @@ install -d -m 0755 $PREFIX/$LIB_DIR/lib
 install -d -m 0755 $PREFIX/$LIB_DIR/modules
 install -d -m 0755 $PREFIX/$LIB_DIR/plugins
 install -d -m 0755 $PREFIX/$LIB_DIR/licenses
+install -d -m 0755 $PREFIX/$ETC_ELASTICSEARCH
+install -d -m 0755 $PREFIX/$ETC_ELASTICSEARCH/config
 install -d -m 0755 $PREFIX/var/log/elasticsearch
 install -d -m 0755 $PREFIX/var/run/elasticsearch
 
