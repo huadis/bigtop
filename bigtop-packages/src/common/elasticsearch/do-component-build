@@ -18,7 +18,7 @@ set -ex
 
 . `dirname ${0}`/bigtop.bom
 
-./gradlew assemble -Dbuild.snapshot=false -Doss=true -DskipTests
+/gradlew :distribution:archives:no-jdk-linux-tar:assemble
 
 mkdir build
-tar -C build --strip-components=1 -xzf distribution/tar/build/distributions/elasticsearch-*.tar.gz
+tar -C build --strip-components=1 -xzf distribution/archives/no-jdk-linux-tar/build/distributions/elasticsearch-*.tar.gz
