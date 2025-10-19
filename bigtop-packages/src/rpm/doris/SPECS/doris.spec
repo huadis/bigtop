@@ -33,7 +33,7 @@ URL:            https://www.doris.org.cn
 Group:          Applications/Internet
 License:        Apache License 2.0
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
-Source0:        apache-%{doris_name}-%{doris_base_version}-src.tar.gz
+Source0:        %{doris_name}-%{doris_base_version}.tar.gz
 Source1:        do-component-build
 Source2:        install_doris.sh
 Requires: bigtop-utils >= 0.7

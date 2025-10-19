@@ -738,12 +738,12 @@ bigtop {
       rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
       relNotes = 'doris'
       version {
-        base = '3.1.1'
+        base = '4.0.0'
         pkg = base
         release = 1
       }
       tarball {
-        source      = "apache-$name-${version.base}-src.tar.gz"
+        source      = "$name-${version.base}.tar.gz"
         destination = source
       }
       url {
