@@ -18,7 +18,7 @@
 
 %define lib_elasticsearch %{parent_dir}/%{elasticsearch_name}
 %define etc_elasticsearch %{parent_dir}/%{elasticsearch_name}
-%define config_elasticsearch %{parent_dir}/%{elasticsearch_name}/conf
+%define config_elasticsearch %{parent_dir}/%{elasticsearch_name}/config
 
 %define np_log_elasticsearch /var/log/%{elasticsearch_name}
 %define np_run_elasticsearch /var/run/%{elasticsearch_name}
@@ -30,7 +30,7 @@ Summary: Elasticsearch is a distributed RESTful search engine based on the Lucen
 URL: https://www.elastic.co/
 Group: Application/Internet
 BuildArch: noarch
-Buildroot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 License: ASL 2.0
 Source0: elasticsearch-%{elasticsearch_base_version}.tar.gz
 Source1: do-component-build
