@@ -13,33 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%define pkg_name elasticsearch
-%define lib_elasticsearch /usr/lib/%{pkg_name}
-%define etc_elasticsearch /etc/%{pkg_name}
-%define config_elasticsearch %{etc_elasticsearch}/conf
-%define log_elasticsearch /var/log/%{pkg_name}
-%define bin_elasticsearch /usr/lib/%{pkg_name}/bin
-%define man_elasticsearch /usr/share/man
-%define run_elasticsearch /var/run/%{pkg_name}
+%define elasticsearch_name elasticsearch
+%define elasticsearch_pkg_name elasticsearch%{pkg_name_suffix}
 
-%if  %{?suse_version:1}0
-%define doc_elasticsearch %{_docdir}/elasticsearch-doc
-%define alternatives_cmd update-alternatives
-%define chkconfig_dep    aaa_base
-%define service_dep      aaa_base
-%global initd_dir %{_sysconfdir}/rc.d
-%else
-%define doc_elasticsearch %{_docdir}/elasticsearch
-%define alternatives_cmd alternatives
-%define chkconfig_dep    chkconfig
-%define service_dep      initscripts
-%global initd_dir %{_sysconfdir}/rc.d/init.d
-%endif
+%define lib_elasticsearch %{parent_dir}/%{elasticsearch_name}
+%define etc_elasticsearch %{parent_dir}/%{elasticsearch_name}
+%define config_elasticsearch %{parent_dir}/%{elasticsearch_name}/conf
 
-# disable repacking jars
-%define __os_install_post %{nil}
+%define np_log_elasticsearch /var/log/%{elasticsearch_name}
+%define np_run_elasticsearch /var/run/%{elasticsearch_name}
 
-Name: elasticsearch
+Name: %{elasticsearch_pkg_name}
 Version: %{elasticsearch_version}
 Release: %{elasticsearch_release}
 Summary: Elasticsearch is a distributed RESTful search engine based on the Lucene library.
@@ -49,21 +33,11 @@ BuildArch: noarch
 Buildroot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 License: ASL 2.0
 Source0: elasticsearch-%{elasticsearch_base_version}.tar.gz
-Source1: do-component-build 
+Source1: do-component-build
 Source2: install_%{name}.sh
-Source3: elasticsearch.default
-Source4: elasticsearch.init
 Requires: bigtop-utils >= 0.7
 
-# CentOS 5 does not have any dist macro
-# So I will suppose anything that is not Mageia or a SUSE will be a RHEL/CentOS/Fedora
-%if %{!?suse_version:1}0 && %{!?mgaversion:1}0
-# Required for init scripts
-Requires: /lib/lsb/init-functions
-Requires: initscripts
-%endif
-
-%description 
+%description
 Elasticsearch is a search engine based on the Lucene library.
 It provides a distributed, multitenant-capable full-text search engine with
 an HTTP web interface and schema-free JSON documents.
@@ -76,37 +50,25 @@ env FULL_VERSION=%{elasticsearch_base_version} bash %{SOURCE1}
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
-sh $RPM_SOURCE_DIR/install_elasticsearch.sh \
-          --build-dir=build \
+sh $RPM_SOURCE_DIR/%{Source2} \
+          --build-dir=`pwd`/build \
           --prefix=$RPM_BUILD_ROOT \
           --distro-dir=$RPM_SOURCE_DIR \
-          --initd-dir=%{initd_dir} \
-          --doc-dir=%{doc_elasticsearch}
+          --lib-dir=%{lib_elasticsearch}
 
 %pre
 getent group elasticsearch >/dev/null || groupadd -r elasticsearch
-getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/nologin -g elasticsearch -r -d %{run_elasticsearch} elasticsearch 2> /dev/null || :
+getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/nologin -g elasticsearch -r -d %{np_run_elasticsearch} elasticsearch 2> /dev/null || :
 
 %post
-%{alternatives_cmd} --install %{config_elasticsearch} %{elasticsearch_name}-conf %{config_elasticsearch}.dist 30
-/usr/bin/chown -R root:elasticsearch /etc/elasticsearch
 
 %preun
-if [ "$1" = 0 ]; then
-        %{alternatives_cmd} --remove %{elasticsearch_name}-conf %{config_elasticsearch}.dist || :
-fi
-
 
 #######################
 #### FILES SECTION ####
 #######################
-%files 
-%defattr(-,root,root,755)
-%config(noreplace) %{config_elasticsearch}.dist
-%config(noreplace) /etc/default/elasticsearch 
-%{initd_dir}/elasticsearch
-%{lib_elasticsearch}
+%files
 %defattr(-,elasticsearch,elasticsearch,755)
-/var/lib/elasticsearch
-/var/run/elasticsearch
-/var/log/elasticsearch
+%{lib_elasticsearch}
+%{np_run_elasticsearch}
+%{np_log_elasticsearch}

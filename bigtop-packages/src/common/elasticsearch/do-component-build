@@ -18,7 +18,7 @@ set -ex
 
 . `dirname ${0}`/bigtop.bom
 
-./gradlew :distribution:archives:no-jdk-linux-tar:assemble
+./gradlew :distribution:archives:no-jdk-linux-tar:assemble -Dbuild.snapshot=false -Dbuild.release=true -Dlicense.key=licenses/APACHE-LICENSE-2.0.txt --parallel
 
 mkdir build
 tar -C build --strip-components=1 -xzf distribution/archives/no-jdk-linux-tar/build/distributions/elasticsearch-*.tar.gz
