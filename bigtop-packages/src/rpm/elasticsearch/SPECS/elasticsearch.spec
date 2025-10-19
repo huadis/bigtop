@@ -29,7 +29,7 @@ Release: %{elasticsearch_release}
 Summary: Elasticsearch is a distributed RESTful search engine based on the Lucene library.
 URL: https://www.elastic.co/
 Group: Application/Internet
-BuildArch: aarch64
+BuildArch: noarch
 Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 License: ASL 2.0
 Source0: elasticsearch-%{elasticsearch_base_version}.tar.gz
