@@ -76,5 +76,6 @@ getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/n
 %files
 %defattr(-,elasticsearch,elasticsearch,755)
 %{lib_elasticsearch}
+%{config_elasticsearch}
 %{np_run_elasticsearch}
 %{np_log_elasticsearch}
