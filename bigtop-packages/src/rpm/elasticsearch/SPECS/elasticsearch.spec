@@ -64,6 +64,8 @@ getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/n
 
 %preun
 
+%global debug_package %{nil}
+
 #######################
 #### FILES SECTION ####
 #######################
