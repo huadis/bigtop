@@ -792,7 +792,7 @@ bigtop {
       name    = 'elasticsearch'
       relNotes = 'Search and Analytics engine'
       version {
-        base = '6.8.23'
+        base = '7.10.2'
         pkg = base
         release = 1
       }
