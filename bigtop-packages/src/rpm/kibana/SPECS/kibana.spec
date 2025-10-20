@@ -13,31 +13,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%define pkg_name kibana
-%define lib_kibana /usr/lib/%{pkg_name}
-%define etc_kibana /etc/%{pkg_name}
-%define config_kibana %{etc_kibana}/conf
-%define log_kibana /var/log/%{pkg_name}
-%define man_kibana /usr/share/man
-%define run_kibana /var/run/%{pkg_name}
-%define _unpackaged_files_terminate_build 0
+%define kibana_name kibana
+%define kibana_pkg_name kibana%{pkg_name_suffix}
+
+%define lib_kibana %{parent_dir}/%{kibana_name}
+%define etc_kibana /etc/%{kibana_name}
+
+%define np_log_kibana /var/log/%{kibana_name}
+%define np_run_kibana /var/run/%{kibana_name}
+
 %define debug_package %{nil}
 
 # disable repacking jars
 %define __os_install_post %{nil}
 
-Name: kibana
+Name: %{kibana_pkg_name}
 Version: %{kibana_version}
 Release: %{kibana_release}
 Summary: Kibana is a browser-based analytics and search dashboard.
 URL: https://www.elastic.co/kibana
 Group: Application/Internet
-Buildroot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Buildroot: %{_topdir}/INSTALL/%{name}-%{version}
 License: ASL 2.0
 Source0: kibana-%{kibana_base_version}.tar.gz
 Source1: do-component-build
 Source2: install_%{name}.sh
-#BIGTOP_PATCH_FILES
 Requires: bigtop-utils >= 0.7
 AutoProv: no
 AutoReqProv: no
@@ -64,35 +64,26 @@ env FULL_VERSION=%{kibana_base_version} bash %{SOURCE1}
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
-sh $RPM_SOURCE_DIR/install_kibana.sh \
-          --build-dir=build \
-          --prefix=$RPM_BUILD_ROOT \
-          --distro-dir=$RPM_SOURCE_DIR \
-
-ln -sf %{lib_kibana}/bin/* ${RPM_BUILD_ROOT}%{bin_kibana}
+bash %{SOURCE2} \
+  --build-dir=`pwd` \
+  --prefix=$RPM_BUILD_ROOT \
+  --distro-dir=$RPM_SOURCE_DIR \
+  --lib-dir=%{lib_kibana}
 
 %pre
 getent group kibana >/dev/null || groupadd -r kibana
 getent passwd kibana > /dev/null || useradd -c "Kibana" -s /sbin/nologin -g kibana -r -d %{run_kibana} kibana 2> /dev/null || :
 
 %post
-%{alternatives_cmd} --install %{config_kibana} %{kibana_name}-conf %{config_kibana}.dist 30
-/usr/bin/chown -R root:kibana /etc/kibana
 
 %preun
-if [ "$1" = 0 ]; then
-        %{alternatives_cmd} --remove %{kibana_name}-conf %{config_kibana}.dist || :
-fi
 
 #######################
 #### FILES SECTION ####
 #######################
 %files
-%defattr(-,root,root,755)
-%config(noreplace) %{config_kibana}.dist
-%{lib_kibana}
-
 %defattr(-,kibana,kibana,755)
-/var/lib/kibana
-/var/run/kibana
-/var/log/kibana
+%{lib_kibana}
+%{etc_kibana}
+%{np_run_kibana}
+%{np_log_kibana}

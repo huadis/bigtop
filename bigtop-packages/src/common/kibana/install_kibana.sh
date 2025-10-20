@@ -26,11 +26,7 @@ usage: $0 <options>
      --prefix=PREFIX             path to install into
 
   Optional options:
-     --doc-dir=DIR               path to install docs into [/usr/share/doc/elasticsearch]
      --lib-dir=DIR               path to install bits [/usr/lib/elasticsearch]
-     --installed-lib-dir=DIR     path where lib-dir will end up on target system
-     --bin-dir=DIR               path to install bins [/usr/bin]
-     --examples-dir=DIR          path to install examples [doc-dir/examples]
      ... [ see source for more similar options ]
   "
   exit 1
@@ -41,11 +37,7 @@ OPTS=$(getopt \
   -o '' \
   -l 'prefix:' \
   -l 'distro-dir:' \
-  -l 'doc-dir:' \
   -l 'lib-dir:' \
-  -l 'installed-lib-dir:' \
-  -l 'bin-dir:' \
-  -l 'initd-dir:' \
   -l 'build-dir:' -- "$@")
 
 if [ $? != 0 ] ; then
@@ -63,9 +55,6 @@ while true ; do
         ;;
         --build-dir)
         BUILD_DIR=$2 ; shift 2
-        ;;
-        --doc-dir)
-        DOC_DIR=$2 ; shift 2
         ;;
         --lib-dir)
         LIB_DIR=$2 ; shift 2
@@ -88,38 +77,44 @@ for var in PREFIX BUILD_DIR DISTRO_DIR ; do
   fi
 done
 
-MAN_DIR=${MAN_DIR:-/usr/share/man/man1}
-DOC_DIR=${DOC_DIR:-/usr/share/doc/kibana}
 LIB_DIR=${LIB_DIR:-/usr/lib/kibana}
-BIN_DIR=${BIN_DIR:-/usr/bin}
-ETC_DIR=${ETC_DIR:-/etc/kibana}
-CONF_DIR=${CONF_DIR:-${ETC_DIR}/conf.dist}
-INITD_DIR=${INITD_DIR:-/etc/init.d}
-
+ETC_KIBANA=${ETC_KIBANA:-/etc/kibana}
 VAR_DIR=$PREFIX/var
 
-install -d -m 0755 $PREFIX/$MAN_DIR
-install -d -m 0755 $PREFIX/$DOC_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR
-install -d -m 0755 $PREFIX/$ETC_DIR
-install -d -m 0755 $PREFIX/$CONF_DIR
-install -d -m 0755 $PREFIX/$BIN_DIR
+install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/data
+install -d -m 0755 $PREFIX/$LIB_DIR/node
+install -d -m 0755 $PREFIX/$LIB_DIR/node_modules
+install -d -m 0755 $PREFIX/$LIB_DIR/plugins
+install -d -m 0755 $PREFIX/$LIB_DIR/src
+install -d -m 0755 $PREFIX/$LIB_DIR/x-pack
+install -d -m 0755 $PREFIX/$ETC_KIBANA
+install -d -m 0755 $PREFIX/$ETC_KIBANA/config
+install -d -m 0755 $PREFIX/var/log/kibana
+install -d -m 0755 $PREFIX/var/run/kibana
 
 # Copy to LIB_DIR
 ARCH=$(uname -m)
 if [ "${ARCH}" = "x86_64" ];then
-  cp -ar $BUILD_DIR/kibana-*-linux-x86_64/* $PREFIX/$LIB_DIR/
+  cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+  cp -ra $BUILD_DIR/node/* ${PREFIX}/${LIB_DIR}/node/
+  cp -ra $BUILD_DIR/node_modules/* ${PREFIX}/${LIB_DIR}/node_modules/
+  cp -ra $BUILD_DIR/src/* ${PREFIX}/${LIB_DIR}/src/
+  cp -ra $BUILD_DIR/x-pack/* ${PREFIX}/${LIB_DIR}/x-pack/
 fi
 if [ "${ARCH}" = "aarch64" ];then
-  cp -ar $BUILD_DIR/kibana-*-linux-arm64/* $PREFIX/$LIB_DIR/
+  cp $BUILD_DIR/package.json ${PREFIX}/${LIB_DIR}/
+  cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+  cp -ra $BUILD_DIR/node/* ${PREFIX}/${LIB_DIR}/node/
+  cp -ra $BUILD_DIR/node_modules/* ${PREFIX}/${LIB_DIR}/node_modules/
+  cp -ra $BUILD_DIR/src/* ${PREFIX}/${LIB_DIR}/src/
+  cp -ra $BUILD_DIR/x-pack/* ${PREFIX}/${LIB_DIR}/x-pack/
 fi
 
-chmod 755 $PREFIX/$LIB_DIR/* -R
 
-# Copy configuration files
-cp -a $PREFIX/$LIB_DIR/config/* $PREFIX/$CONF_DIR
-ln -s $ETC_DIR/conf $PREFIX/$CONF_DIR
+ln -s $ETC_KIBANA/config $PREFIX/$LIB_DIR/config
+ln -s /var/log/kibana $PREFIX/$LIB_DIR/logs
+ln -s /var/run/kibana $PREFIX/$LIB_DIR/pid
 
-install -d -m 0755 $VAR_DIR/log/kibana
-install -d -m 0755 $VAR_DIR/run/kibana
-install -d -m 0755 $VAR_DIR/lib/kibana
+cp -ra $BUILD_DIR/config/* ${PREFIX}/kibana/config/
