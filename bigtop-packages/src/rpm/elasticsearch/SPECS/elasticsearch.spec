@@ -12,6 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# 1. 禁用调试信息包生成
+%global debug_package %{nil}
+# 2. 禁用 build-id 链接生成
+%global _build_id_links none
+# 3. 跳过打包后期的 build-id 验证和处理步骤
+%define __spec_install_post %{nil}
 
 %define elasticsearch_name elasticsearch
 %define elasticsearch_pkg_name elasticsearch%{pkg_name_suffix}
@@ -63,8 +69,6 @@ getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/n
 %post
 
 %preun
-
-%global debug_package %{nil}
 
 #######################
 #### FILES SECTION ####

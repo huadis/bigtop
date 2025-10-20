@@ -99,15 +99,6 @@ cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
 cp -a  $BUILD_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
 chmod 755 ${PREFIX}/${LIB_DIR}/bin/*
 
-# 手动为 x-pack-ml 的二进制文件生成 build-id
-ML_BIN_DIR="${PREFIX}/${LIB_DIR}/modules/x-pack-ml/platform/linux-aarch64/bin"
-for file in $ML_BIN_DIR/{data_frame_analyzer,autodetect,normalize,categorize,controller}; do
-  if [ -f "$file" ]; then
-    eu-strip --build-id=sha1 "$file"  # 替换为 sha1 格式，兼容低版本
-    # eu-strip --build-id=both "$file"  # 生成并嵌入 build-id
-  fi
-done
-
 ln -s $ETC_ELASTICSEARCH/config $PREFIX/$LIB_DIR/config
 ln -s /var/log/elasticsearch $PREFIX/$LIB_DIR/logs
 ln -s /var/run/elasticsearch $PREFIX/$LIB_DIR/pid
