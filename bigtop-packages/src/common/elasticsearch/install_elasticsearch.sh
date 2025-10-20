@@ -103,7 +103,8 @@ chmod 755 ${PREFIX}/${LIB_DIR}/bin/*
 ML_BIN_DIR="${PREFIX}/${LIB_DIR}/modules/x-pack-ml/platform/linux-aarch64/bin"
 for file in $ML_BIN_DIR/{data_frame_analyzer,autodetect,normalize,categorize,controller}; do
   if [ -f "$file" ]; then
-    eu-strip --build-id=both "$file"  # 生成并嵌入 build-id
+    eu-strip --build-id=sha1 "$file"  # 替换为 sha1 格式，兼容低版本
+    # eu-strip --build-id=both "$file"  # 生成并嵌入 build-id
   fi
 done
 
