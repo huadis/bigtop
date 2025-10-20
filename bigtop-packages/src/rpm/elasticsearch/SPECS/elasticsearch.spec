@@ -51,7 +51,7 @@ env FULL_VERSION=%{elasticsearch_base_version} bash %{SOURCE1}
 %install
 %__rm -rf $RPM_BUILD_ROOT
 bash %{SOURCE2} \
-  --build-dir=`pwd`/build \
+  --build-dir=`pwd` \
   --prefix=$RPM_BUILD_ROOT \
   --distro-dir=$RPM_SOURCE_DIR \
   --lib-dir=%{lib_elasticsearch}

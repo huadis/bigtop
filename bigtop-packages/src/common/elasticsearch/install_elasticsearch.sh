@@ -94,15 +94,15 @@ install -d -m 0755 $PREFIX/var/log/elasticsearch
 install -d -m 0755 $PREFIX/var/run/elasticsearch
 
 
-cp -ra $DISTRO_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
-cp -ra $DISTRO_DIR/jdk/* ${PREFIX}/${LIB_DIR}/jdk/
-cp -ra $DISTRO_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
-cp -ra $DISTRO_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
-cp -a  $DISTRO_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
+cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/jdk/* ${PREFIX}/${LIB_DIR}/jdk/
+cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
+cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
+cp -a  $BUILD_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
 chmod 755 ${PREFIX}/${LIB_DIR}/bin/*
 
 ln -s $ETC_ELASTICSEARCH/config $PREFIX/$LIB_DIR/config
 ln -s /var/log/elasticsearch $PREFIX/$LIB_DIR/logs
 ln -s /var/run/elasticsearch $PREFIX/$LIB_DIR/pid
 
-cp -ra $DISTRO_DIR/config/* ${PREFIX}/$ETC_ELASTICSEARCH/config/
+cp -ra $BUILD_DIR/config/* ${PREFIX}/$ETC_ELASTICSEARCH/config/
