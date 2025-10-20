@@ -117,4 +117,4 @@ ln -s $ETC_KIBANA/config $PREFIX/$LIB_DIR/config
 ln -s /var/log/kibana $PREFIX/$LIB_DIR/logs
 ln -s /var/run/kibana $PREFIX/$LIB_DIR/pid
 
-cp -ra $BUILD_DIR/config/* ${PREFIX}/kibana/config/
+cp -ra $BUILD_DIR/config/* ${PREFIX}/$ETC_KIBANA/config/
