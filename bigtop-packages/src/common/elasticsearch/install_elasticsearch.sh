@@ -83,6 +83,7 @@ VAR_DIR=$PREFIX/var
 
 install -d -m 0755 $PREFIX/$LIB_DIR
 install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/jdk
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
 install -d -m 0755 $PREFIX/$LIB_DIR/modules
 install -d -m 0755 $PREFIX/$LIB_DIR/plugins
@@ -94,6 +95,7 @@ install -d -m 0755 $PREFIX/var/run/elasticsearch
 
 
 cp -ra $BUILD_DIR/bin/* ${PREFIX}/${LIB_DIR}/bin/
+cp -ra $BUILD_DIR/jdk/* ${PREFIX}/${LIB_DIR}/jdk/
 cp -ra $BUILD_DIR/lib/* ${PREFIX}/${LIB_DIR}/lib/
 cp -ra $BUILD_DIR/modules/* ${PREFIX}/${LIB_DIR}/modules/
 cp -a  $BUILD_DIR/LICENSE.txt ${PREFIX}/${LIB_DIR}/licenses/
