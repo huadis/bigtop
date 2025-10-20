@@ -23,8 +23,8 @@
 %define elasticsearch_pkg_name elasticsearch%{pkg_name_suffix}
 
 %define lib_elasticsearch %{parent_dir}/%{elasticsearch_name}
-%define etc_elasticsearch %{parent_dir}/%{elasticsearch_name}
 %define config_elasticsearch %{parent_dir}/%{elasticsearch_name}/config
+%define etc_elasticsearch /etc/%{elasticsearch_name}
 
 %define np_log_elasticsearch /var/log/%{elasticsearch_name}
 %define np_run_elasticsearch /var/run/%{elasticsearch_name}
@@ -76,6 +76,6 @@ getent passwd elasticsearch > /dev/null || useradd -c "Elasticsearch" -s /sbin/n
 %files
 %defattr(-,elasticsearch,elasticsearch,755)
 %{lib_elasticsearch}
-%{config_elasticsearch}
+%{etc_elasticsearch}
 %{np_run_elasticsearch}
 %{np_log_elasticsearch}
