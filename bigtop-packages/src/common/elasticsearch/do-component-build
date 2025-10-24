@@ -25,5 +25,9 @@ set -ex
 
 # JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
 
+./gradlew distribution:packages:aarch64-rpm:assemble
+
+./gradlew distribution:packages:aarch64-rpm:assemble -Dbuild.snapshot=false -Dlicense.key=licenses/APACHE-LICENSE-2.0.txt --parallel
+
 #mkdir build
 #tar -C build --strip-components=1 -xzf distribution/archives/no-jdk-linux-tar/build/distributions/elasticsearch-*.tar.gz
