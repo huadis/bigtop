@@ -16,7 +16,11 @@
 %define starrocks_name starrocks
 %define starrocks_pkg_name starrocks%{pkg_name_suffix}
 
-%define lib_starrocks %{parent_dir}/%{starrocks_name}
+%define lib_starrocks_be %{parent_dir}/%{starrocks_name}-be
+%define lib_starrocks_fe %{parent_dir}/%{starrocks_name}-fe
+%define lib_starrocks_client %{parent_dir}/%{starrocks_name}-client
+%define lib_starrocks_hdfs_broker %{parent_dir}/%{starrocks_name}-hdfs-broker
+
 %define etc_starrocks %{parent_dir}/%{starrocks_name}
 %define config_starrocks %{parent_dir}/%{starrocks_name}/conf
 
@@ -27,7 +31,7 @@
 Name: %{starrocks_pkg_name}
 Version: %{starrocks_version}
 Release: %{starrocks_release}
-BuildArch:      noarch
+BuildArch:      %{_arch}
 Summary:        The world's fastest open query engine for sub-second analytics both on and off the data lakehouse. With the flexibility to support nearly any scenario, StarRocks provides best-in-class performance for multi-dimensional analytics, real-time analytics, and ad-hoc queries. A Linux Foundation project.
 URL:            https://www.starrocks.org.cn
 Group:          Applications/Internet
@@ -56,7 +60,7 @@ bash %{SOURCE1}
 %__rm -rf $RPM_BUILD_ROOT
 bash -x %{SOURCE2} \
   --prefix=$RPM_BUILD_ROOT \
-  --build-dir=`pwd`/build \
+  --build-dir=`pwd` \
   --lib-dir=%{lib_starrocks}
 
 %pre

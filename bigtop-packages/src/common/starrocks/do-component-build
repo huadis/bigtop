@@ -23,4 +23,5 @@ set -ex
 . /etc/os-release
 
 export MAVEN_OPTS="-Xms2g -Xmx4g"
-./build.sh -j 24
+./build.sh -j 4 --enable-shared-data --fe --be --spark-dpp --hive-udf --clean
+./fs_brokers/apache_hdfs_broker/build.sh

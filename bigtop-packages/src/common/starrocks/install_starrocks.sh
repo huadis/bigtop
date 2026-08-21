@@ -80,8 +80,8 @@ done
 LIB_DIR=${LIB_DIR:-/starrocks}
 ETC_STARROCKS=${ETC_STARROCKS:-/etc/starrocks}
 
-install -d -m 0755 $PREFIX/$LIB_DIR
-install -d -m 0755 $PREFIX/$LIB_DIR/bin
+install -d -m 0755 $PREFIX/$LIB_DIR/be
+install -d -m 0755 $PREFIX/$LIB_DIR/fe
 install -d -m 0755 $PREFIX/$LIB_DIR/connectors
 install -d -m 0755 $PREFIX/$LIB_DIR/lib
 install -d -m 0755 $PREFIX/$LIB_DIR/plugins
